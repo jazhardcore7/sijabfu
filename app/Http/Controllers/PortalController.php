@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\ProgressBerkas;
 
 class PortalController extends Controller
 {
@@ -16,42 +18,59 @@ class PortalController extends Controller
         $steps = [
             [
                 'number' => '01',
-                'title' => 'Pengusulan',
-                'description' => 'ASN mengajukan berkas usulan Jabatan Fungsional kepada unit kerja masing-masing dengan melengkapi seluruh persyaratan administrasi.',
-                'icon' => 'document',
+                'title' => 'Verifikasi',
+                'description' => 'Tim Kerja Pembinaan JF BPS melakukan verifikasi kelengkapan dan keabsahan dokumen usulan yang diajukan oleh pegawai. Pastikan seluruh persyaratan administrasi telah dipenuhi sebelum berkas diteruskan.',
+                'icon' => 'magnifying-glass',
                 'color' => 'blue',
             ],
             [
                 'number' => '02',
-                'title' => 'Verifikasi Dokumen',
-                'description' => 'Tim Kerja Pembinaan JF BPS melakukan verifikasi kelengkapan dan keabsahan dokumen usulan yang masuk.',
-                'icon' => 'check-circle',
+                'title' => 'Akses Surat Usulan Ukom',
+                'description' => 'Setelah berkas dinyatakan lengkap, pegawai diberikan surat usulan untuk mengikuti Uji Kompetensi (Ukom). Surat ini menjadi dokumen resmi yang menerangkan bahwa pegawai telah memenuhi syarat administrasi.',
+                'icon' => 'document-text',
                 'color' => 'indigo',
             ],
             [
                 'number' => '03',
-                'title' => 'Uji Kompetensi',
-                'description' => 'Peserta yang lulus verifikasi dokumen mengikuti uji kompetensi teknis sesuai jenjang jabatan fungsional yang diusulkan.',
-                'icon' => 'academic-cap',
+                'title' => 'Pengelola',
+                'description' => 'Berkas dan surat usulan diproses oleh unit pengelola kepegawaian (Biro SDM / Bagian Kepegawaian) untuk pencatatan resmi, verifikasi internal, dan koordinasi penjadwalan uji kompetensi.',
+                'icon' => 'building-office',
                 'color' => 'orange',
             ],
             [
                 'number' => '04',
-                'title' => 'Penetapan PAK',
-                'description' => 'Pejabat yang berwenang menetapkan Penetapan Angka Kredit (PAK) berdasarkan hasil uji kompetensi dan penilaian dokumen.',
-                'icon' => 'clipboard-document-check',
+                'title' => 'Uji Kompetensi (Ukom)',
+                'description' => 'Pegawai mengikuti Uji Kompetensi teknis dan manajerial sesuai jenjang jabatan fungsional yang diusulkan. Ukom diselenggarakan oleh instansi pembina atau lembaga sertifikasi yang ditunjuk.',
+                'icon' => 'academic-cap',
                 'color' => 'teal',
             ],
             [
                 'number' => '05',
-                'title' => 'SK Pengangkatan',
-                'description' => 'Diterbitkan Surat Keputusan (SK) Pengangkatan dalam Jabatan Fungsional oleh pejabat yang berwenang.',
-                'icon' => 'star',
+                'title' => 'Dibagi ke Instansi Pembina',
+                'description' => 'Hasil Uji Kompetensi beserta seluruh berkas dikirimkan ke Instansi Pembina jabatan fungsional terkait (misal: BKN, Kemenkominfo) untuk ditelaah, divalidasi, dan diproses penetapannya.',
+                'icon' => 'share',
+                'color' => 'purple',
+            ],
+            [
+                'number' => '06',
+                'title' => 'Pengumuman',
+                'description' => 'Hasil akhir proses pengusulan jabatan fungsional diumumkan secara resmi. Pegawai yang dinyatakan lulus akan menerima Surat Keputusan (SK) Pengangkatan dalam Jabatan Fungsional.',
+                'icon' => 'megaphone',
                 'color' => 'green',
             ],
         ];
 
         return view('modules.alur-layanan', compact('steps'));
+    }
+
+    public function progressBerkas()
+    {
+        $user = Auth::user();
+        $berkas = ProgressBerkas::where('user_id', $user->id)->first();
+        $tahapan = ProgressBerkas::tahapan();
+        $persen = $berkas ? $berkas->progressPersen() : 0;
+
+        return view('modules.progress-berkas', compact('berkas', 'tahapan', 'persen'));
     }
 
     public function formUsulan()

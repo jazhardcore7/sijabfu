@@ -485,6 +485,12 @@
                     <div class="nav-icon">👥</div>
                     Tim Kerja
                 </a>
+
+                <div class="sidebar-nav-label" style="margin-top:16px;">Berkas Saya</div>
+                <a href="{{ route('progress-berkas') }}" class="sidebar-nav-item {{ request()->routeIs('progress-berkas') ? 'active' : '' }}" style="background: {{ request()->routeIs('progress-berkas') ? '' : 'rgba(124,58,237,0.08)' }}; border: 1px solid rgba(124,58,237,0.2);">
+                    <div class="nav-icon" style="background: rgba(124,58,237,0.2);">📊</div>
+                    <span>Progress Berkas <span style="font-size:10px; background:#7C3AED; color:white; padding:1px 7px; border-radius:50px; margin-left:2px;">Baru</span></span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">

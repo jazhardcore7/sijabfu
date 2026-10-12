@@ -27,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/uji-kompetensi', [PortalController::class, 'ujiKompetensi'])->name('uji-kompetensi');
     Route::get('/regulasi', [PortalController::class, 'regulasi'])->name('regulasi');
     Route::get('/tim-kerja', [PortalController::class, 'timKerja'])->name('tim-kerja');
+    Route::get('/progress-berkas', [PortalController::class, 'progressBerkas'])->name('progress-berkas');
 });

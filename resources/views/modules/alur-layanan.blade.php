@@ -50,11 +50,12 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .step-bg-blue { background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); }
+    .step-bg-blue   { background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); }
     .step-bg-indigo { background: linear-gradient(135deg, #4F46E5, #7C3AED); }
     .step-bg-orange { background: linear-gradient(135deg, var(--bps-orange), #F59E0B); }
-    .step-bg-teal { background: linear-gradient(135deg, #0D9488, #0891B2); }
-    .step-bg-green { background: linear-gradient(135deg, #16A34A, #059669); }
+    .step-bg-teal   { background: linear-gradient(135deg, #0D9488, #0891B2); }
+    .step-bg-purple { background: linear-gradient(135deg, #7C3AED, #A855F7); }
+    .step-bg-green  { background: linear-gradient(135deg, #16A34A, #059669); }
 
     .step-content {
         flex: 1;
@@ -99,11 +100,12 @@
         letter-spacing: 0.5px;
     }
 
-    .tag-blue { background: rgba(0,59,115,0.08); color: var(--bps-dark); }
+    .tag-blue   { background: rgba(0,59,115,0.08);  color: var(--bps-dark); }
     .tag-indigo { background: rgba(79,70,229,0.08); color: #4F46E5; }
-    .tag-orange { background: rgba(247,127,0,0.1); color: var(--bps-orange); }
-    .tag-teal { background: rgba(13,148,136,0.08); color: #0D9488; }
-    .tag-green { background: rgba(22,163,74,0.08); color: #16A34A; }
+    .tag-orange { background: rgba(247,127,0,0.1);  color: var(--bps-orange); }
+    .tag-teal   { background: rgba(13,148,136,0.08); color: #0D9488; }
+    .tag-purple { background: rgba(124,58,237,0.08); color: #7C3AED; }
+    .tag-green  { background: rgba(22,163,74,0.08); color: #16A34A; }
 
     .step-card-desc {
         font-size: 14.5px;
@@ -149,6 +151,39 @@
         font-size: 18px;
         font-weight: bold;
     }
+
+    /* PROGRESS CTA CARD */
+    .progress-cta-card {
+        background: linear-gradient(135deg, #7C3AED, #4F46E5);
+        border-radius: 20px;
+        padding: 28px 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-top: 40px;
+        max-width: 900px;
+        box-shadow: 0 10px 30px rgba(124,58,237,0.25);
+        transition: transform 0.3s;
+    }
+    .progress-cta-card:hover { transform: translateY(-3px); }
+    .progress-cta-text h3 { font-size: 20px; font-weight: 800; color: white; margin-bottom: 6px; }
+    .progress-cta-text p  { font-size: 14px; color: rgba(255,255,255,0.8); }
+    .progress-cta-btn {
+        background: white;
+        color: #7C3AED;
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 14px;
+        white-space: nowrap;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .progress-cta-btn:hover { background: #EDE9FE; transform: scale(1.03); }
 </style>
 @endpush
 
@@ -164,15 +199,17 @@
 <div class="timeline-summary animate-fade-in animate-delay-1">
     <div class="timeline-summary-title">📌 Ringkasan Alur Proses</div>
     <div class="timeline-flow">
-        <div class="flow-step">📄 Pengusulan</div>
+        <div class="flow-step">🔍 Verifikasi</div>
         <div class="flow-arrow">→</div>
-        <div class="flow-step">✅ Verifikasi</div>
+        <div class="flow-step">📄 Surat Usulan Ukom</div>
         <div class="flow-arrow">→</div>
-        <div class="flow-step">🎓 Uji Kompetensi</div>
+        <div class="flow-step">🏢 Pengelola</div>
         <div class="flow-arrow">→</div>
-        <div class="flow-step">📊 Penetapan PAK</div>
+        <div class="flow-step">🎓 Ukom</div>
         <div class="flow-arrow">→</div>
-        <div class="flow-step">🏅 SK Pengangkatan</div>
+        <div class="flow-step">🏛️ Instansi Pembina</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">📢 Pengumuman</div>
     </div>
 </div>
 
@@ -200,8 +237,20 @@
     @endforeach
 </div>
 
+<!-- PROGRESS MONITORING CTA -->
+<a href="{{ route('progress-berkas') }}" class="progress-cta-card animate-fade-in">
+    <div class="progress-cta-text">
+        <h3>📊 Cek Progress Berkas Anda</h3>
+        <p>Pantau posisi berkas usulan jabatan fungsional Anda secara real-time — lihat sudah sampai tahap mana prosesnya.</p>
+    </div>
+    <div class="progress-cta-btn">
+        <span>Lihat Status</span>
+        <span>→</span>
+    </div>
+</a>
+
 <!-- INFO BOX -->
-<div style="margin-top: 40px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 24px; max-width: 900px;" class="animate-fade-in">
+<div style="margin-top: 24px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 24px; max-width: 900px;" class="animate-fade-in">
     <div style="display: flex; gap: 16px; align-items: flex-start;">
         <span style="font-size: 24px; flex-shrink:0;">ℹ️</span>
         <div>

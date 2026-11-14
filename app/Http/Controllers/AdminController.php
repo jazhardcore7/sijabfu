@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\FormUsulan;
 
 class AdminController extends Controller
 {
@@ -134,10 +135,74 @@ class AdminController extends Controller
 
         // 4. Akses Cepat (Bottom Bar)
         $aksesCepat = [
-            'form_usulan' => 'https://docs.google.com/forms/d/e/1FAIpQLSe-720gJ8ve4Ywhl5z4PURpqgAxtejBiuMieIQrA0PnJt6wfA/viewform',
+            'form_usulan' => route('form-usulan'),
             'response' => 'https://docs.google.com/spreadsheets/d/1dummy-response-sijabfu-bps/edit',
         ];
 
-        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat'));
+        // 5. Data Pengajuan Usulan Pegawai
+        $daftarUsulan = FormUsulan::with('user')->latest()->get();
+        $tahapan = FormUsulan::tahapan();
+
+        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan'));
+    }
+
+    /**
+     * Halaman Admin Panel Khusus Monitoring Progress Usulan
+     */
+    public function monitoring(Request $request)
+    {
+        $query = FormUsulan::with('user');
+
+        // Filter status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter pencarian
+        if ($request->filled('q')) {
+            $keyword = '%' . $request->q . '%';
+            $query->where(function($q) use ($keyword) {
+                $q->where('nama_lengkap', 'like', $keyword)
+                  ->orWhere('nip', 'like', $keyword)
+                  ->orWhere('satuan_kerja', 'like', $keyword)
+                  ->orWhere('jabatan_fungsional', 'like', $keyword)
+                  ->orWhere('nomor_surat', 'like', $keyword);
+            });
+        }
+
+        $daftarUsulan = $query->latest()->paginate(10)->withQueryString();
+        $tahapan = FormUsulan::tahapan();
+
+        // Statistik ringkasan
+        $stats = [
+            'total'   => FormUsulan::count(),
+            'tahap_1' => FormUsulan::where('status', 1)->count(),
+            'tahap_2' => FormUsulan::where('status', 2)->count(),
+            'tahap_3' => FormUsulan::where('status', 3)->count(),
+            'tahap_4' => FormUsulan::where('status', 4)->count(),
+            'tahap_5' => FormUsulan::where('status', 5)->count(),
+        ];
+
+        return view('admin.monitoring', compact('daftarUsulan', 'tahapan', 'stats'));
+    }
+
+    /**
+     * Update Status Usulan oleh Admin
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        $usulan = FormUsulan::findOrFail($id);
+
+        $validated = $request->validate([
+            'status' => 'required|integer|min:1|max:5',
+            'catatan' => 'nullable|string|max:1000',
+        ]);
+
+        $usulan->update([
+            'status' => $validated['status'],
+            'catatan' => $validated['catatan'] ?? null,
+        ]);
+
+        return redirect()->back()->with('success', "Status usulan untuk {$usulan->nama_lengkap} berhasil diperbarui menjadi Tahap {$usulan->status}.");
     }
 }

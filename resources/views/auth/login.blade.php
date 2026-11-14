@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Portal Pembinaan Jabatan Fungsional BPS RI</title>
+    <title>Login - SIGMA JF BPS RI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -333,6 +333,37 @@
             transform: translateY(1px);
         }
 
+        .btn-sso {
+            width: 100%;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            color: #FFFFFF;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-sso:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+        }
+
+        .btn-sso:active {
+            transform: translateY(1px);
+        }
+
         /* DEMO QUICK LOGIN ACCORDION / CHIPS */
         .demo-box {
             margin-top: 22px;
@@ -352,8 +383,14 @@
 
         .demo-buttons-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        @media (max-width: 640px) {
+            .demo-buttons-row {
+                grid-template-columns: 1fr;
+            }
         }
 
         .btn-demo-chip {
@@ -444,7 +481,7 @@
             <img src="{{ asset('images/bps_logo.svg') }}" alt="Badan Pusat Statistik" class="navbar-logo-img">
         </a>
         <div class="navbar-right">
-            <div class="navbar-title">Pembinaan Jabatan Fungsional</div>
+            <div class="navbar-title">SIGMA JF</div>
             <div class="navbar-subtitle">Biro SDM - BPS</div>
         </div>
     </header>
@@ -457,7 +494,7 @@
             </div>
             <h1 class="hero-heading">
                 di Portal Pembinaan<br>
-                <span>Jabatan Fungsional</span>
+                <span>SIGMA JF</span>
             </h1>
             <p class="hero-description">
                 Bersama membina, mengembangkan, dan mewujudkan ASN yang profesional.
@@ -548,6 +585,14 @@
                     <button type="submit" class="btn-login" id="submitBtn">
                         LOGIN
                     </button>
+
+                    <!-- BUTTON LOGIN SSO (WARNA HIJAU) -->
+                    <button type="button" class="btn-sso" id="btnSso" onclick="handleSSO()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                        <span>LOGIN SSO</span>
+                    </button>
                 </form>
 
                 <!-- DEMO ACCOUNT SHORTCUTS -->
@@ -558,12 +603,16 @@
                     </div>
                     <div class="demo-buttons-row">
                         <button type="button" class="btn-demo-chip" onclick="fillCredentials('198501012010011001', 'password')">
-                            <span class="chip-title">🛡️ Admin / PIC</span>
-                            <span class="chip-sub">NIP: 19850101...</span>
+                            <span class="chip-title">🛡️ Admin PIC</span>
+                            <span class="chip-sub">Monitoring & Kelola</span>
                         </button>
                         <button type="button" class="btn-demo-chip" onclick="fillCredentials('199505152020121002', 'password')">
-                            <span class="chip-title">👤 Pegawai BPS</span>
-                            <span class="chip-sub">NIP: 19950515...</span>
+                            <span class="chip-title">👤 Sudah Usul</span>
+                            <span class="chip-sub">Budi (Cek Progres)</span>
+                        </button>
+                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('199808182022032005', 'password')">
+                            <span class="chip-title">📝 Belum Usul</span>
+                            <span class="chip-sub">Siti (Coba Isi Form)</span>
                         </button>
                     </div>
                 </div>
@@ -575,7 +624,7 @@
 
     <!-- 4. FOOTER BAR -->
     <footer class="footer-bar">
-        2026 – Tim Kerja Pembinaan Jabatan Fungsional BPS RI
+        2026 – Tim Pembinaan JF BPS RI
     </footer>
 
     <script>
@@ -586,6 +635,16 @@
             const btn = document.getElementById('submitBtn');
             btn.style.transform = 'scale(1.02)';
             setTimeout(() => { btn.style.transform = 'none'; }, 200);
+        }
+
+        function handleSSO() {
+            const ssoBtn = document.getElementById('btnSso');
+            ssoBtn.innerHTML = '<span>⏳ Mengautentikasi SSO BPS...</span>';
+            ssoBtn.style.opacity = '0.85';
+            setTimeout(() => {
+                fillCredentials('199505152020121002', 'password');
+                document.getElementById('loginForm').submit();
+            }, 350);
         }
 
         function togglePasswordVisibility() {

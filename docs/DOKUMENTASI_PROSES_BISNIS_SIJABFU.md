@@ -1,6 +1,6 @@
-# DOKUMENTASI PROSES BISNIS SISTEM INFORMASI PEMBINAAN JABATAN FUNGSIONAL (SIJABFU)
+﻿# DOKUMENTASI PROSES BISNIS SISTEM INFORMASI PEMBINAAN JABATAN FUNGSIONAL (SIJABFU)
 **Badan Pusat Statistik Republik Indonesia (BPS RI)**  
-*Biro Sumber Daya Manusia — Tim Kerja Pembinaan Jabatan Fungsional*
+*Biro Sumber Daya Manusia — Tim Pembinaan JF*
 
 ---
 
@@ -16,7 +16,7 @@ Sebelum adanya sistem terpusat, proses pembinaan dan pengusulan JF menghadapi be
 4. **Fragmentasi Layanan**: Tim Kerja Pembina di Biro SDM harus mengelola berbagai instrumen terpisah (aplikasi kepegawaian BPS, platform BKN, spreadsheet respons, dan dokumen legal).
 
 ### 1.2 Tujuan Aplikasi SIJABFU
-Aplikasi **SIJABFU** (*Sistem Informasi & Portal Pembinaan Jabatan Fungsional*) dibangun sebagai pintu gerbang terpadu (*single entry portal*) untuk:
+Aplikasi **SIJABFU** (*Sistem Informasi & SIGMA JF*) dibangun sebagai pintu gerbang terpadu (*single entry portal*) untuk:
 - Memberikan transparansi alur pengusulan dan kenaikan jenjang Jabatan Fungsional.
 - Menstandarisasi persyaratan administrasi berkas pengusulan (Checklist 8 Dokumen Wajib).
 - Mengintegrasikan proses pengajuan digital secara cepat, aman, dan tanpa hambatan autentikasi akun kedinasan BPS.
@@ -33,7 +33,7 @@ Aplikasi **SIJABFU** (*Sistem Informasi & Portal Pembinaan Jabatan Fungsional*) 
 | :--- | :--- | :--- |
 | **Pegawai ASN BPS (Pengusul)** | Pegawai Negeri Sipil di lingkungan BPS RI yang ingin diangkat pertama kali, berpindah jalur, inpassing, atau naik jenjang JF. | Mengakses Portal Layanan (`/`), mempelajari Alur Layanan, memeriksa checklist dokumen, mengisi Form Usulan, memantau info Uji Kompetensi, mengunduh Regulasi, serta menghubungi Tim Pembina. |
 | **Pimpinan Satuan Kerja (Satker)** | Kepala BPS Satker / Pejabat Penilai Kinerja yang menerbitkan SKP dan Surat Rekomendasi Pengusulan. | Entitas verifikator tingkat pertama (di luar sistem aplikasi/penerbit dokumen fisik). |
-| **Admin Tim Kerja / PIC (Biro SDM)** | Tim Kerja Pembinaan Jabatan Fungsional Biro SDM BPS RI yang bertugas memverifikasi, menguji kelayakan, dan memproses penetapan. | Mengakses Dashboard Admin (`/admin`), mengakses database respons usulan, mengevaluasi berkas, mengelola link instrumen internal BPS, SIASN BKN, dan template penetapan. |
+| **Admin Tim Kerja / PIC (Biro SDM)** | Tim Pembinaan JF Biro SDM BPS RI yang bertugas memverifikasi, menguji kelayakan, dan memproses penetapan. | Mengakses Dashboard Admin (`/admin`), mengakses database respons usulan, mengevaluasi berkas, mengelola link instrumen internal BPS, SIASN BKN, dan template penetapan. |
 | **Pejabat Pembina Kepegawaian (PPK / PyB)** | Kepala BPS RI atau Pejabat yang Berwenang yang menetapkan PAK dan menandatangani SK Pengangkatan melalui E-TTD. | Penandatangan akhir SK dan PAK (diintegrasikan melalui sistem E-TTD BPS). |
 
 ### 2.2 Matriks Tanggung Jawab (RACI Matrix)

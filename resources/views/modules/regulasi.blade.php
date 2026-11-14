@@ -210,8 +210,8 @@
 @section('content')
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
-    <h1 class="page-header-title">📋 Regulasi Jabatan Fungsional</h1>
-    <p class="page-header-desc">Kumpulan peraturan, regulasi, dan kebijakan terkait Jabatan Fungsional di lingkungan BPS RI</p>
+    <h1 class="page-header-title">📋 Regulasi SIGMA JF</h1>
+    <p class="page-header-desc">Kumpulan peraturan, regulasi, dan kebijakan terkait jabatan fungsional di lingkungan BPS RI</p>
     <div class="page-header-divider"></div>
 </div>
 

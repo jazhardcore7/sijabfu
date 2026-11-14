@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Pembinaan Jabatan Fungsional BPS Republik Indonesia - Pusat. Layanan pengusulan, uji kompetensi, dan pembinaan jabatan fungsional statistisi dan pranata komputer.">
-    <meta name="keywords" content="BPS, Jabatan Fungsional, Statistisi, Pranata Komputer, Portal Layanan">
-    <title>Portal Pembinaan Jabatan Fungsional - BPS RI</title>
+    <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat. Layanan pengusulan, uji kompetensi, dan pembinaan jabatan fungsional.">
+    <meta name="keywords" content="BPS, Jabatan Fungsional, SIGMA JF, Portal Layanan">
+    <title>SIGMA JF - BPS RI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -520,7 +520,7 @@
         <div class="header-brand">
             <div class="header-logo">BPS</div>
             <div>
-                <div class="header-text-main">Portal Pembinaan Jabatan Fungsional</div>
+                <div class="header-text-main">SIGMA JF</div>
                 <div class="header-text-sub">Badan Pusat Statistik Republik Indonesia</div>
             </div>
         </div>
@@ -556,13 +556,13 @@
         </div>
         <h1 class="hero-title animate-fade-in delay-100" style="opacity:0">
             Portal Layanan<br>
-            <span>Jabatan Fungsional</span><br>
+            <span>SIGMA JF</span><br>
             BPS RI Pusat
         </h1>
         <p class="hero-desc animate-fade-in delay-200" style="opacity:0">
-            Selamat datang di Portal Pembinaan Jabatan Fungsional Badan Pusat Statistik Republik Indonesia.
-            Kami hadir untuk memudahkan proses pengusulan, pembinaan, dan pengembangan Jabatan Fungsional
-            Statistisi dan Pranata Komputer di lingkungan BPS RI.
+            Selamat datang di SIGMA JF Badan Pusat Statistik Republik Indonesia.
+            Kami hadir untuk memudahkan proses pengusulan, pembinaan, dan pengembangan
+            Jabatan Fungsional di lingkungan BPS RI.
         </p>
         <div class="hero-stats animate-fade-in delay-300" style="opacity:0">
             <div class="hero-stat">
@@ -571,8 +571,8 @@
             </div>
             <div style="width: 1px; background: rgba(255,255,255,0.2); height: 40px; align-self: center;"></div>
             <div class="hero-stat">
-                <div class="hero-stat-number">2</div>
-                <div class="hero-stat-label">Jenis Jabatan JF</div>
+                <div class="hero-stat-number">33</div>
+                <div class="hero-stat-label">Jabatan Fungsional</div>
             </div>
             <div style="width: 1px; background: rgba(255,255,255,0.2); height: 40px; align-self: center;"></div>
             <div class="hero-stat">
@@ -654,7 +654,7 @@
                 <div class="card-icon-wrapper icon-purple">👥</div>
                 <div class="card-content">
                     <div class="card-title">Tim Kerja</div>
-                    <div class="card-desc">Profil lengkap Tim Kerja Pembinaan Jabatan Fungsional BPS RI Pusat beserta bidang tanggung jawab masing-masing.</div>
+                    <div class="card-desc">Profil lengkap Tim Pembinaan JF BPS RI Pusat beserta bidang tanggung jawab masing-masing.</div>
                 </div>
                 <div class="card-arrow">Lihat Tim <span>→</span></div>
             </a>
@@ -672,7 +672,7 @@
         <div class="footer-divider"></div>
         <div class="footer-copyright">
             Copyright &copy; 2026 Badan Pusat Statistik RI<br>
-            Tim Kerja Pembinaan Jabatan Fungsional
+            Tim Pembinaan JF
         </div>
     </div>
 </footer>

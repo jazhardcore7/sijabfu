@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Portal Pembinaan Jabatan Fungsional BPS Republik Indonesia - Pusat">
+    <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat">
     <title>Portal JF BPS RI - @yield('title', 'Beranda')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -451,7 +451,7 @@
                 <div class="sidebar-logo-wrapper">
                     <div class="sidebar-logo-icon">BPS</div>
                     <div>
-                        <div class="sidebar-title">Portal Jabatan Fungsional</div>
+                        <div class="sidebar-title">SIGMA JF</div>
                         <div class="sidebar-subtitle">BPS Republik Indonesia</div>
                     </div>
                 </div>
@@ -495,7 +495,7 @@
 
             <div class="sidebar-footer">
                 <div class="sidebar-footer-text">
-                    Tim Kerja Pembinaan<br>Jabatan Fungsional BPS RI<br>
+                    Tim Pembinaan JF BPS RI<br>
                     <span style="color: rgba(255,255,255,0.5);">© 2026 BPS RI</span>
                 </div>
             </div>

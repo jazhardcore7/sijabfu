@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ProgressBerkas;
+use App\Models\FormUsulan;
 
 class PortalController extends Controller
 {
@@ -66,18 +67,77 @@ class PortalController extends Controller
     public function progressBerkas()
     {
         $user = Auth::user();
-        $berkas = ProgressBerkas::where('user_id', $user->id)->first();
-        $tahapan = ProgressBerkas::tahapan();
-        $persen = $berkas ? $berkas->progressPersen() : 0;
+        // Gunakan FormUsulan sebagai sumber progress
+        $usulan = FormUsulan::where('user_id', $user->id)->latest()->first();
+        $tahapan = FormUsulan::tahapan();
+        $persen = $usulan ? $usulan->progressPersen() : 0;
 
-        return view('modules.progress-berkas', compact('berkas', 'tahapan', 'persen'));
+        return view('modules.progress-berkas', compact('usulan', 'tahapan', 'persen'));
     }
 
     public function formUsulan()
     {
-        $formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe-720gJ8ve4Ywhl5z4PURpqgAxtejBiuMieIQrA0PnJt6wfA/viewform';
-        $embedUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe-720gJ8ve4Ywhl5z4PURpqgAxtejBiuMieIQrA0PnJt6wfA/viewform?embedded=true';
-        return view('modules.form-usulan', compact('formUrl', 'embedUrl'));
+        $user = Auth::user();
+        // Cek apakah sudah pernah submit
+        $sudahSubmit = FormUsulan::where('user_id', $user->id)->exists();
+        $usulan = $sudahSubmit ? FormUsulan::where('user_id', $user->id)->latest()->first() : null;
+        $jabfungList = FormUsulan::listJabfung();
+        $jenisUsulanList = FormUsulan::listJenisUsulan();
+        $tahapan = FormUsulan::tahapan();
+        $persen = $usulan ? $usulan->progressPersen() : 0;
+
+        return view('modules.form-usulan', compact('sudahSubmit', 'usulan', 'jabfungList', 'jenisUsulanList', 'tahapan', 'persen'));
+    }
+
+    public function formUsulanStore(Request $request)
+    {
+        $user = Auth::user();
+
+        // Cek apakah sudah pernah submit
+        if (FormUsulan::where('user_id', $user->id)->exists()) {
+            return redirect()->route('form-usulan')->with('error', 'Anda sudah mengajukan usulan sebelumnya.');
+        }
+
+        $validated = $request->validate([
+            'email'              => 'required|email|max:255',
+            'jabatan_fungsional' => 'required|string|max:100',
+            'jenis_usulan'       => 'required|string|max:100',
+            'nomor_surat'        => 'required|string|max:200',
+            'hal_surat'          => 'required|string|max:300',
+            'nama_lengkap'       => 'required|string|max:200',
+            'nip'                => 'required|string|max:30',
+            'satuan_kerja'       => 'required|string|max:200',
+            'link_berkas'        => 'required|string|max:500',
+            'link_usulan'        => 'nullable|string|max:500',
+        ], [
+            'email.required'              => 'Email wajib diisi.',
+            'email.email'                 => 'Format email tidak valid.',
+            'jabatan_fungsional.required' => 'Jabatan Fungsional wajib dipilih.',
+            'jenis_usulan.required'       => 'Jenis Usulan wajib dipilih.',
+            'nomor_surat.required'        => 'Nomor Surat wajib diisi.',
+            'hal_surat.required'          => 'Hal Surat wajib diisi.',
+            'nama_lengkap.required'       => 'Nama Lengkap wajib diisi.',
+            'nip.required'                => 'NIP wajib diisi.',
+            'satuan_kerja.required'       => 'Satuan Kerja wajib diisi.',
+            'link_berkas.required'        => 'Link Berkas wajib diisi.',
+        ]);
+
+        FormUsulan::create([
+            'user_id'            => $user->id,
+            'email'              => $validated['email'],
+            'jabatan_fungsional' => $validated['jabatan_fungsional'],
+            'jenis_usulan'       => $validated['jenis_usulan'],
+            'nomor_surat'        => $validated['nomor_surat'],
+            'hal_surat'          => $validated['hal_surat'],
+            'nama_lengkap'       => $validated['nama_lengkap'],
+            'nip'                => $validated['nip'],
+            'satuan_kerja'       => $validated['satuan_kerja'],
+            'link_berkas'        => $validated['link_berkas'],
+            'link_usulan'        => $validated['link_usulan'] ?? null,
+            'status'             => 1, // Tahap 1: Diusulkan
+        ]);
+
+        return redirect()->route('progress-berkas')->with('success', 'Usulan berhasil dikirim! Pantau progress berkas Anda di halaman ini.');
     }
 
     public function ujiKompetensi()
@@ -198,18 +258,18 @@ class PortalController extends Controller
     {
         $tim = [
             [
-                'nama' => 'Dr. Ahmad Fauzi, S.ST., M.Si.',
+                'nama' => 'Eviphanias H. Sinaga, SST, M.Si.',
                 'nip' => '197805152005011003',
-                'jabatan' => 'Ketua Tim Kerja',
-                'bidang' => 'Koordinasi & Kebijakan Pembinaan JF',
-                'avatar' => 'AF',
+                'jabatan' => 'Ketua Tim Pembinaan Jabatan Fungsional',
+                'bidang' => 'Biro SDM',
+                'avatar' => 'EHS',
                 'color' => 'blue',
             ],
             [
                 'nama' => 'Sari Dewi Rahayu, S.ST., M.M.',
                 'nip' => '198203202008012005',
                 'jabatan' => 'Anggota Tim Kerja',
-                'bidang' => 'Pengusulan & Penetapan PAK Statistisi',
+                'bidang' => 'Biro SDM',
                 'avatar' => 'SR',
                 'color' => 'indigo',
             ],
@@ -217,7 +277,7 @@ class PortalController extends Controller
                 'nama' => 'Budi Santoso, S.Kom., M.T.',
                 'nip' => '198509102010011008',
                 'jabatan' => 'Anggota Tim Kerja',
-                'bidang' => 'Pembinaan Jabatan Fungsional Pranata Komputer',
+                'bidang' => 'Biro SDM',
                 'avatar' => 'BS',
                 'color' => 'orange',
             ],

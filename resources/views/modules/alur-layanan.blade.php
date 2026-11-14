@@ -190,8 +190,8 @@
 @section('content')
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
-    <h1 class="page-header-title">🔄 Alur Layanan Jabatan Fungsional</h1>
-    <p class="page-header-desc">Panduan lengkap proses pengusulan Jabatan Fungsional di lingkungan BPS Republik Indonesia</p>
+    <h1 class="page-header-title">🔄 Alur Layanan SIGMA JF</h1>
+    <p class="page-header-desc">Panduan lengkap proses pengusulan jabatan fungsional di lingkungan BPS Republik Indonesia</p>
     <div class="page-header-divider"></div>
 </div>
 
@@ -256,7 +256,7 @@
         <div>
             <div style="font-weight: 700; color: var(--bps-dark); margin-bottom: 8px; font-size: 15px;">Informasi Penting</div>
             <div style="font-size: 14px; color: #374151; line-height: 1.7;">
-                Seluruh proses pengusulan Jabatan Fungsional wajib dilakukan melalui unit kerja masing-masing dan dikoordinasikan dengan 
+                Seluruh proses pengusulan jabatan fungsional wajib dilakukan melalui unit kerja masing-masing dan dikoordinasikan dengan 
                 Tim Kerja Pembinaan JF BPS RI Pusat. Untuk pertanyaan lebih lanjut, silakan hubungi tim kami melalui halaman 
                 <a href="{{ route('tim-kerja') }}" style="color: var(--bps-mid); font-weight: 600;">Tim Kerja</a>.
             </div>

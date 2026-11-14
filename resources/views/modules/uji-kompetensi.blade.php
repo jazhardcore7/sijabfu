@@ -172,7 +172,7 @@
 @section('content')
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
-    <h1 class="page-header-title">🎓 Uji Kompetensi Jabatan Fungsional</h1>
+    <h1 class="page-header-title">🎓 Uji Kompetensi SIGMA JF</h1>
     <p class="page-header-desc">Informasi lengkap mengenai tahapan, syarat, dan portal pelaksanaan Uji Kompetensi JF BPS RI</p>
     <div class="page-header-divider"></div>
 </div>
@@ -238,7 +238,7 @@
             <div class="cta-banner-icon">🌐</div>
             <div class="cta-banner-title">Portal Uji Kompetensi BPS</div>
             <div class="cta-banner-desc">
-                Akses portal resmi Uji Kompetensi Jabatan Fungsional BPS RI untuk mendaftar, memantau status, 
+                Akses portal resmi SIGMA JF BPS RI untuk mendaftar, memantau status, 
                 dan mengikuti ujian secara online.
             </div>
             <a href="https://kompetensi.web.bps.go.id/" target="_blank" rel="noopener noreferrer" class="cta-main-btn">

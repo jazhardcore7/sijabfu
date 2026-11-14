@@ -1,4 +1,4 @@
-# 🏛️ SIJABFU — Portal Pembinaan Jabatan Fungsional BPS RI
+﻿# 🏛️ SIJABFU — SIGMA JF BPS RI
 
 Portal Layanan Terpadu Pembinaan Jabatan Fungsional (Statistisi, Pranata Komputer, dan Fungsional lainnya) di lingkungan **Badan Pusat Statistik Republik Indonesia (BPS RI)**.
 
@@ -100,4 +100,4 @@ sijabfu/
 ---
 
 ## 📄 Lisensi & Hak Cipta
-Hak Cipta © 2026 Tim Kerja Pembinaan Jabatan Fungsional — Biro SDM — Badan Pusat Statistik Republik Indonesia.
+Hak Cipta © 2026 Tim Pembinaan JF — Biro SDM — Badan Pusat Statistik Republik Indonesia.

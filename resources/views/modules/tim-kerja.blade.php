@@ -190,7 +190,7 @@
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
     <h1 class="page-header-title">👥 Tim Kerja Pembinaan JF</h1>
-    <p class="page-header-desc">Profil lengkap Tim Kerja Pembinaan Jabatan Fungsional BPS RI Pusat</p>
+    <p class="page-header-desc">Profil lengkap Tim Pembinaan JF BPS RI Pusat</p>
     <div class="page-header-divider"></div>
 </div>
 
@@ -198,10 +198,10 @@
 <div class="tim-header-card animate-fade-in animate-delay-1">
     <div class="tim-header-icon">👥</div>
     <div class="tim-header-content">
-        <div class="tim-header-title">Tim Kerja Pembinaan Jabatan Fungsional</div>
+        <div class="tim-header-title">Tim Pembinaan JF BPS RI</div>
         <div class="tim-header-desc">
-            Tim Kerja Pembinaan Jabatan Fungsional BPS RI Pusat bertugas untuk melakukan pembinaan, pengawasan, 
-            dan fasilitasi pengusulan serta pengembangan Jabatan Fungsional Statistisi dan Pranata Komputer di 
+            Tim Pembinaan JF BPS RI Pusat bertugas untuk melakukan pembinaan, pengawasan, 
+            dan fasilitasi pengusulan serta pengembangan seluruh Jabatan Fungsional di 
             seluruh satuan kerja BPS.
         </div>
         <div class="tim-stats">

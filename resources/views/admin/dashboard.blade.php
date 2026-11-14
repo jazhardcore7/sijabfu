@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Pembinaan Jabatan Fungsional - BPS RI</title>
+    <title>SIGMA JF - Admin Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -495,6 +495,156 @@
             color: #FFFFFF;
         }
 
+        /* USULAN TABLE STYLES */
+        .usulan-section {
+            max-width: 1360px;
+            margin: 32px auto 40px auto;
+            padding: 0 32px;
+        }
+
+        .usulan-box {
+            background: #FFFFFF;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #E2E8F0;
+            overflow: hidden;
+        }
+
+        .usulan-header {
+            background: linear-gradient(135deg, #1E3A5F 0%, #003B73 100%);
+            color: #FFFFFF;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .usulan-header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .usulan-header-title {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .usulan-header-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .usulan-table-responsive {
+            overflow-x: auto;
+        }
+
+        .usulan-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        .usulan-table th {
+            background: #F8FAFC;
+            color: #475569;
+            font-weight: 700;
+            padding: 14px 18px;
+            border-bottom: 2px solid #E2E8F0;
+            white-space: nowrap;
+        }
+
+        .usulan-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: middle;
+        }
+
+        .usulan-table tr:hover {
+            background: #F8FAFC;
+        }
+
+        .badge-step {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .badge-step-1 { background: #FFEDD5; color: #9A3412; }
+        .badge-step-2 { background: #DBEAFE; color: #1E40AF; }
+        .badge-step-3 { background: #DCFCE7; color: #166534; }
+        .badge-step-4 { background: #E0E7FF; color: #3730A3; }
+        .badge-step-5 { background: #FEF3C7; color: #92400E; }
+
+        .form-update-status {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 220px;
+        }
+
+        .select-status {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1.5px solid #CBD5E1;
+            background: white;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .input-catatan {
+            font-size: 11px;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border: 1px solid #CBD5E1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .btn-save-status {
+            background: #005BAA;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background 0.2s;
+        }
+
+        .btn-save-status:hover {
+            background: #003B73;
+        }
+
+        .alert-admin-success {
+            max-width: 1360px;
+            margin: 16px auto 0 auto;
+            padding: 12px 32px;
+        }
+
+        .alert-success-box {
+            background: #D1FAE5;
+            border: 1px solid #6EE7B7;
+            color: #065F46;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
         /* RESPONSIVE */
         @media (max-width: 1024px) {
             .cards-grid {
@@ -528,7 +678,7 @@
         </a>
         <div class="navbar-right">
             <div class="navbar-titles">
-                <div class="navbar-title">Pembinaan Jabatan Fungsional</div>
+                <div class="navbar-title">SIGMA JF</div>
                 <div class="navbar-subtitle">Biro SDM - BPS</div>
             </div>
 
@@ -536,6 +686,9 @@
             <div class="user-action-pill">
                 <span class="user-badge-role">ADMIN</span>
                 <span class="user-name-text">{{ Auth::user()->name }}</span>
+                <a href="{{ route('admin.monitoring') }}" class="btn-portal-link" style="background: linear-gradient(135deg, #003B73, #005BAA); color: white; border: none;" title="Buka Panel Monitoring">
+                    📊 Panel Monitoring
+                </a>
                 <a href="{{ route('home') }}" class="btn-portal-link" title="Buka Portal Pegawai">
                     🌐 Portal Pegawai ↗
                 </a>
@@ -557,7 +710,7 @@
             </div>
             <h1 class="hero-heading">
                 Admin Pembinaan<br>
-                <span>Jabatan Fungsional</span>
+                <span>SIGMA JF</span>
             </h1>
             <p class="hero-description">
                 Bersama membina, mengembangkan, dan mewujudkan ASN yang profesional.
@@ -690,6 +843,128 @@
 
         </div>
     </main>
+
+    @if(session('success'))
+    <div class="alert-admin-success">
+        <div class="alert-success-box">
+            ✅ {{ session('success') }}
+        </div>
+    </div>
+    @endif
+
+    <!-- 3.5. MANAJEMEN STATUS USULAN PEGAWAI (DISESUAIKAN OLEH ADMIN) -->
+    <section class="usulan-section">
+        <div class="usulan-box">
+            <div class="usulan-header">
+                <div class="usulan-header-left">
+                    <span style="font-size: 20px;">📋</span>
+                    <span class="usulan-header-title">Manajemen Status Usulan Jabatan Fungsional</span>
+                </div>
+                <div class="usulan-header-badge">
+                    Total: {{ $daftarUsulan->count() }} Pengajuan
+                </div>
+            </div>
+
+            <div class="usulan-table-responsive">
+                <table class="usulan-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">No</th>
+                            <th>Pegawai & Satker</th>
+                            <th>Jabatan & Jenis Usulan</th>
+                            <th>Surat & Berkas</th>
+                            <th>Status Alur Saat Ini</th>
+                            <th style="min-width: 250px;">Kelola Status & Catatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($daftarUsulan as $index => $item)
+                        <tr>
+                            <td style="font-weight: 700; color: #64748B;">{{ $index + 1 }}</td>
+                            <td>
+                                <div style="font-weight: 700; color: #1E293B;">{{ $item->nama_lengkap }}</div>
+                                <div style="font-size: 11px; color: #64748B;">NIP: {{ $item->nip }}</div>
+                                <div style="font-size: 11px; color: #0284C7; font-weight: 600;">{{ $item->satuan_kerja }}</div>
+                                <div style="font-size: 11px; color: #64748B;">{{ $item->email }}</div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 700; color: #003B73;">{{ $item->jabatan_fungsional }}</div>
+                                <div style="font-size: 11px; color: #475569; margin-top: 2px;">{{ $item->jenis_usulan }}</div>
+                                <div style="font-size: 10px; color: #94A3B8; margin-top: 4px;">Diajukan: {{ $item->created_at->format('d/m/Y H:i') }}</div>
+                            </td>
+                            <td>
+                                <div style="font-weight: 600; color: #334155; font-size: 12px;">No: {{ $item->nomor_surat }}</div>
+                                <div style="font-size: 11px; color: #64748B; max-width: 180px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="{{ $item->hal_surat }}">
+                                    Hal: {{ $item->hal_surat }}
+                                </div>
+                                <div style="margin-top: 6px;">
+                                    <a href="{{ $item->link_berkas }}" target="_blank" rel="noopener noreferrer" style="color: #0284C7; font-size: 11px; font-weight: 700; text-decoration: underline;">
+                                        🔗 Buka Berkas (Drive/Laci) ↗
+                                    </a>
+                                </div>
+                                @if($item->link_usulan)
+                                <div>
+                                    <a href="{{ $item->link_usulan }}" target="_blank" rel="noopener noreferrer" style="color: #64748B; font-size: 10px; text-decoration: underline;">
+                                        Link Usulan ↗
+                                    </a>
+                                </div>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    $stepClass = match($item->status) {
+                                        1 => 'badge-step-1',
+                                        2 => 'badge-step-2',
+                                        3 => 'badge-step-3',
+                                        4 => 'badge-step-4',
+                                        5 => 'badge-step-5',
+                                        default => 'badge-step-1'
+                                    };
+                                    $currTahap = collect($tahapan)->firstWhere('step', $item->status);
+                                @endphp
+                                <span class="badge-step {{ $stepClass }}">
+                                    Tahap {{ $item->status }}: {{ $currTahap['label'] ?? $item->statusLabel() }}
+                                </span>
+                                <div style="font-size: 11px; color: #64748B; margin-top: 4px;">
+                                    Aktor: <strong>{{ $currTahap['aktor'] ?? '-' }}</strong>
+                                </div>
+                                @if($item->catatan)
+                                <div style="margin-top: 6px; font-size: 11px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 4px 8px; border-radius: 6px; color: #92400E;">
+                                    <strong>Catatan:</strong> {{ $item->catatan }}
+                                </div>
+                                @endif
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.usulan.update-status', $item->id) }}" method="POST" class="form-update-status">
+                                    @csrf
+                                    <select name="status" class="select-status" required>
+                                        @foreach($tahapan as $t)
+                                        <option value="{{ $t['step'] }}" {{ $item->status == $t['step'] ? 'selected' : '' }}>
+                                            Tahap {{ $t['step'] }}: {{ $t['label'] }} ({{ $t['aktor'] }})
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <input type="text" name="catatan" class="input-catatan" placeholder="Catatan untuk pegawai (opsional)..." value="{{ $item->catatan }}">
+                                    <button type="submit" class="btn-save-status">
+                                        💾 Perbarui Status
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: #94A3B8;">
+                                <div style="font-size: 32px; margin-bottom: 8px;">📭</div>
+                                <div style="font-size: 14px; font-weight: 600;">Belum ada berkas usulan dari pegawai</div>
+                                <div style="font-size: 12px; margin-top: 4px;">Usulan yang diajukan melalui portal Form Usulan akan otomatis muncul di sini.</div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 
     <!-- 4. BOTTOM BAR - AKSES CEPAT (ATTACHMENT 1) -->
     <footer class="bottom-bar">

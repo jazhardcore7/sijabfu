@@ -17,6 +17,8 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // 2. Admin Routes (Khusus Role Admin / Tim Kerja / PIC)
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('/monitoring', [AdminController::class, 'monitoring'])->name('admin.monitoring');
+    Route::post('/usulan/{id}/status', [AdminController::class, 'updateStatus'])->name('admin.usulan.update-status');
 });
 
 // 3. Portal Pegawai & Layanan (Membutuhkan Login)
@@ -24,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [PortalController::class, 'index'])->name('home');
     Route::get('/alur-layanan', [PortalController::class, 'alurLayanan'])->name('alur-layanan');
     Route::get('/form-usulan', [PortalController::class, 'formUsulan'])->name('form-usulan');
+    Route::post('/form-usulan', [PortalController::class, 'formUsulanStore'])->name('form-usulan.store');
     Route::get('/uji-kompetensi', [PortalController::class, 'ujiKompetensi'])->name('uji-kompetensi');
     Route::get('/regulasi', [PortalController::class, 'regulasi'])->name('regulasi');
     Route::get('/tim-kerja', [PortalController::class, 'timKerja'])->name('tim-kerja');

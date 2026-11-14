@@ -7,380 +7,379 @@
 <style>
     /* ─── HERO CARD ─── */
     .pb-hero {
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+        background: linear-gradient(135deg, #1e3a5f 0%, #003b73 50%, #005baa 100%);
         border-radius: 24px;
         padding: 36px 40px;
         color: white;
-        margin-bottom: 32px;
+        margin-bottom: 28px;
         position: relative;
         overflow: hidden;
     }
     .pb-hero::before {
         content: '';
-        position: absolute;
-        top: -60px; right: -60px;
+        position: absolute; top: -60px; right: -60px;
         width: 240px; height: 240px;
         border-radius: 50%;
         background: rgba(255,255,255,0.05);
     }
     .pb-hero::after {
         content: '';
-        position: absolute;
-        bottom: -40px; left: 40%;
+        position: absolute; bottom: -40px; left: 40%;
         width: 160px; height: 160px;
         border-radius: 50%;
         background: rgba(255,255,255,0.04);
     }
     .pb-hero-top {
-        display: flex;
-        align-items: flex-start;
+        display: flex; align-items: flex-start;
         justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 16px;
+        flex-wrap: wrap; gap: 16px;
         margin-bottom: 28px;
     }
     .pb-hero-label {
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: rgba(255,255,255,0.6);
-        margin-bottom: 6px;
+        font-size: 11px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 1px;
+        color: rgba(255,255,255,0.6); margin-bottom: 4px;
     }
-    .pb-hero-nomor {
-        font-size: 26px;
-        font-weight: 900;
-        letter-spacing: 0.5px;
-    }
-    .pb-hero-meta {
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-        margin-top: 8px;
-    }
+    .pb-hero-name { font-size: 22px; font-weight: 900; }
+    .pb-hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
     .pb-hero-chip {
         background: rgba(255,255,255,0.12);
         border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 8px;
-        padding: 5px 14px;
-        font-size: 13px;
-        font-weight: 600;
+        border-radius: 20px;
+        padding: 4px 12px;
+        font-size: 12px; font-weight: 600;
     }
-    .pb-badge-status {
-        padding: 8px 18px;
-        border-radius: 50px;
-        font-size: 13px;
-        font-weight: 700;
+    .pb-badge-aktif {
+        background: rgba(52,211,153,0.2);
+        border: 1.5px solid rgba(52,211,153,0.5);
+        color: #6ee7b7;
+        border-radius: 20px;
+        padding: 6px 16px;
+        font-size: 12px; font-weight: 700;
+        white-space: nowrap;
     }
-    .pb-badge-aktif { background: rgba(74,222,128,0.2); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
-
-    /* ─── PROGRESS BAR ─── */
-    .pb-progress-section { }
     .pb-progress-label {
-        display: flex;
-        justify-content: space-between;
-        font-size: 14px;
-        font-weight: 600;
+        display: flex; justify-content: space-between;
+        font-size: 13px; font-weight: 600;
         color: rgba(255,255,255,0.8);
-        margin-bottom: 10px;
+        margin-bottom: 8px;
     }
-    .pb-progress-bar-track {
-        background: rgba(255,255,255,0.12);
-        border-radius: 50px;
-        height: 12px;
-        overflow: hidden;
+    .pb-progress-track {
+        background: rgba(255,255,255,0.15);
+        border-radius: 50px; height: 10px; overflow: hidden;
     }
-    .pb-progress-bar-fill {
+    .pb-progress-fill {
         height: 100%;
+        background: linear-gradient(90deg, #34d399, #10b981);
         border-radius: 50px;
-        background: linear-gradient(90deg, #4ade80, #22d3ee);
         transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         position: relative;
+        overflow: hidden;
     }
-    .pb-progress-bar-fill::after {
+    .pb-progress-fill::after {
         content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0; bottom: 0;
+        position: absolute; top: 0; left: -100%;
+        width: 100%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
         animation: shimmer 2s infinite;
     }
-    @keyframes shimmer {
-        0% { transform: translateX(-100%); }
-        100% { transform: translateX(100%); }
-    }
+    @keyframes shimmer { to { left: 100%; } }
 
-    /* ─── STAGES GRID ─── */
-    .stages-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 16px;
-        margin-bottom: 32px;
-    }
-
-    .stage-card {
+    /* ─── SWIMLANE TIMELINE ─── */
+    .pb-swimlane {
         background: white;
-        border-radius: 16px;
-        padding: 20px 22px;
-        border: 2px solid #e2e8f0;
-        position: relative;
+        border-radius: 20px;
+        border: 1px solid #e2e8f0;
         overflow: hidden;
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        margin-bottom: 24px;
     }
-    .stage-card::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0;
-        width: 4px; height: 100%;
-        border-radius: 0 4px 4px 0;
+    .pb-swimlane-title {
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px 24px;
+        font-size: 14px; font-weight: 700; color: #1e293b;
+        display: flex; align-items: center; gap: 10px;
     }
-    .stage-card.status-done    { border-color: #bbf7d0; }
-    .stage-card.status-done::before    { background: #16a34a; }
-    .stage-card.status-process { border-color: #fed7aa; }
-    .stage-card.status-process::before { background: #f97316; }
-    .stage-card.status-pending { border-color: #e2e8f0; }
-    .stage-card.status-pending::before { background: #cbd5e1; }
-    .stage-card.status-rejected{ border-color: #fecaca; }
-    .stage-card.status-rejected::before { background: #dc2626; }
-
-    .stage-card:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.1); }
-
-    .stage-card-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 12px;
+    .pb-lanes { padding: 24px; display: flex; flex-direction: column; gap: 0; }
+    .pb-lane {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        min-height: 90px;
+        position: relative;
     }
-    .stage-icon {
-        width: 44px; height: 44px;
+    .pb-lane:not(:last-child) {
+        border-bottom: 1px dashed #e2e8f0;
+    }
+    .pb-lane-actor {
+        display: flex; align-items: center;
+        padding: 16px 20px 16px 0;
+        gap: 12px;
+        border-right: 2px solid #f1f5f9;
+        margin-right: 20px;
+    }
+    .pb-lane-actor-badge {
+        width: 40px; height: 40px;
         border-radius: 12px;
         display: flex; align-items: center; justify-content: center;
-        font-size: 20px;
+        font-size: 18px; flex-shrink: 0;
     }
-    .stage-icon.bg-done     { background: #dcfce7; }
-    .stage-icon.bg-process  { background: #ffedd5; }
-    .stage-icon.bg-pending  { background: #f1f5f9; }
-    .stage-icon.bg-rejected { background: #fee2e2; }
-
-    .stage-step-num {
-        font-size: 11px;
-        font-weight: 700;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    .pb-lane-actor-name {
+        font-size: 12.5px; font-weight: 700; color: #374151; line-height: 1.4;
     }
-    .stage-title {
-        font-size: 15px;
-        font-weight: 700;
-        color: #1e293b;
-        margin-bottom: 6px;
+    .pb-lane-step {
+        display: flex; align-items: center;
+        padding: 16px 0;
+        gap: 14px;
     }
-
-    /* ─── STATUS BADGES ─── */
-    .badge-done     { background: #dcfce7; color: #16a34a; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-    .badge-process  { background: #ffedd5; color: #ea580c; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-    .badge-pending  { background: #f1f5f9; color: #64748b; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-    .badge-rejected { background: #fee2e2; color: #dc2626; padding: 4px 12px; border-radius: 50px; font-size: 12px; font-weight: 700; }
-
-    /* ─── TIMELINE MINI ─── */
-    .mini-timeline {
-        display: flex;
-        align-items: center;
-        gap: 0;
-        margin-bottom: 32px;
-        overflow-x: auto;
-        padding-bottom: 8px;
-    }
-    .mini-step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        flex: 1;
-        min-width: 80px;
-        position: relative;
-    }
-    .mini-step:not(:last-child)::after {
-        content: '';
-        position: absolute;
-        top: 18px;
-        left: 50%;
-        width: 100%;
-        height: 3px;
-        background: #e2e8f0;
-        z-index: 0;
-    }
-    .mini-step.done::after   { background: #16a34a; }
-    .mini-step.process::after { background: linear-gradient(90deg, #f97316, #e2e8f0); }
-
-    .mini-dot {
-        width: 36px; height: 36px;
-        border-radius: 50%;
+    .pb-step-num {
+        width: 36px; height: 36px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        font-size: 14px;
+        font-size: 14px; font-weight: 800; flex-shrink: 0;
         position: relative;
         z-index: 1;
-        border: 3px solid #e2e8f0;
-        background: white;
-        transition: all 0.3s;
     }
-    .mini-step.done    .mini-dot { background: #16a34a; border-color: #16a34a; color: white; }
-    .mini-step.process .mini-dot { background: #f97316; border-color: #f97316; color: white; animation: pulse-dot 1.5s infinite; }
-    .mini-step.pending .mini-dot { background: white; border-color: #cbd5e1; color: #94a3b8; }
-    .mini-step.rejected .mini-dot { background: #dc2626; border-color: #dc2626; color: white; }
-
-    @keyframes pulse-dot {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0.4); }
-        50%       { box-shadow: 0 0 0 8px rgba(249,115,22,0); }
+    .pb-step-num.done  { background: #d1fae5; color: #065f46; }
+    .pb-step-num.active { background: #dbeafe; color: #1e40af; box-shadow: 0 0 0 4px rgba(59,130,246,0.15); animation: pulsering 1.8s ease-in-out infinite; }
+    .pb-step-num.pending { background: #f3f4f6; color: #9ca3af; }
+    @keyframes pulsering {
+        0%, 100% { box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
+        50%       { box-shadow: 0 0 0 8px rgba(59,130,246,0.08); }
     }
-
-    .mini-label {
-        font-size: 10px;
-        font-weight: 600;
-        color: #64748b;
-        text-align: center;
-        margin-top: 8px;
-        max-width: 72px;
-        line-height: 1.3;
+    .pb-step-content { flex: 1; }
+    .pb-step-label { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 3px; }
+    .pb-step-desc  { font-size: 12px; color: #6b7280; line-height: 1.5; }
+    .pb-step-badge {
+        font-size: 11.5px; font-weight: 700;
+        padding: 4px 10px; border-radius: 20px;
+        white-space: nowrap; flex-shrink: 0;
     }
-    .mini-step.done    .mini-label { color: #16a34a; }
-    .mini-step.process .mini-label { color: #f97316; }
+    .pb-step-badge.done    { background: #d1fae5; color: #065f46; }
+    .pb-step-badge.active  { background: #dbeafe; color: #1e40af; }
+    .pb-step-badge.pending { background: #f3f4f6; color: #9ca3af; }
 
-    /* ─── CATATAN CARD ─── */
+    /* ─── CATATAN ADMIN ─── */
     .catatan-card {
         background: #fffbeb;
-        border: 1px solid #fde68a;
+        border: 1.5px solid #fcd34d;
         border-radius: 16px;
-        padding: 20px 24px;
+        padding: 18px 22px;
+        display: flex; gap: 14px; align-items: flex-start;
         margin-bottom: 24px;
-        display: flex;
-        gap: 14px;
-        align-items: flex-start;
     }
-    .catatan-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
-    .catatan-title { font-weight: 700; color: #92400e; font-size: 14px; margin-bottom: 4px; }
-    .catatan-text  { font-size: 14px; color: #78350f; line-height: 1.7; }
+    .catatan-icon { font-size: 22px; flex-shrink: 0; }
+    .catatan-title { font-weight: 700; color: #92400e; margin-bottom: 4px; font-size: 13.5px; }
+    .catatan-text  { font-size: 13px; color: #78350f; line-height: 1.6; }
+
+    /* ─── RINGKASAN USULAN ─── */
+    .pb-detail-card {
+        background: white;
+        border-radius: 20px;
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        margin-bottom: 24px;
+    }
+    .pb-detail-header {
+        background: #f8fafc;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 14px 24px;
+        font-size: 14px; font-weight: 700; color: #1e293b;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .pb-detail-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+    }
+    .pb-detail-row {
+        padding: 14px 24px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+    .pb-detail-row:nth-child(odd) { border-right: 1px solid #f1f5f9; }
+    .pb-detail-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: #111827; }
+    .pb-detail-link  { font-size: 13px; color: #005baa; word-break: break-all; }
 
     /* ─── EMPTY STATE ─── */
     .empty-state {
-        text-align: center;
-        padding: 60px 24px;
         background: white;
-        border-radius: 20px;
-        border: 2px dashed #e2e8f0;
+        border-radius: 24px;
+        border: 2px dashed #d1d5db;
+        padding: 60px 32px;
+        text-align: center;
     }
-    .empty-state-icon { font-size: 60px; margin-bottom: 20px; }
-    .empty-state h3 { font-size: 22px; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
-    .empty-state p  { font-size: 15px; color: #64748b; max-width: 420px; margin: 0 auto 24px; line-height: 1.7; }
-    .btn-primary-link {
-        background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid));
-        color: white;
-        padding: 12px 28px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: 700;
-        display: inline-block;
-        transition: all 0.2s;
+    .empty-state-icon { font-size: 56px; margin-bottom: 20px; }
+    .empty-state h3 { font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
+    .empty-state p { color: #6b7280; font-size: 14px; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+    .btn-to-form {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: linear-gradient(135deg, var(--bps-dark), #00509D);
+        color: white; text-decoration: none;
+        padding: 12px 28px; border-radius: 12px;
+        font-weight: 700; font-size: 14px;
+        transition: transform 0.2s, box-shadow 0.2s;
     }
-    .btn-primary-link:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,59,115,0.3); }
+    .btn-to-form:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,59,115,0.3); color: white; }
+
+    /* ─── INFO BANTUAN ─── */
+    .pb-help {
+        background: #eff6ff; border: 1px solid #bfdbfe;
+        border-radius: 16px; padding: 18px 24px;
+        display: flex; gap: 14px; align-items: flex-start;
+    }
+    .pb-help a { color: var(--bps-mid); font-weight: 600; }
+
+    @media (max-width: 640px) {
+        .pb-hero { padding: 24px 20px; }
+        .pb-lane { grid-template-columns: 1fr; }
+        .pb-lane-actor { border-right: none; border-bottom: 1px solid #f1f5f9; margin-right: 0; padding-bottom: 10px; }
+        .pb-detail-grid { grid-template-columns: 1fr; }
+        .pb-detail-row:nth-child(odd) { border-right: none; }
+    }
 </style>
 @endpush
 
 @section('content')
-<!-- PAGE HEADER -->
+{{-- PAGE HEADER --}}
 <div class="page-header animate-fade-in">
     <h1 class="page-header-title">📊 Progress Berkas Saya</h1>
     <p class="page-header-desc">Pantau posisi berkas usulan jabatan fungsional Anda secara real-time</p>
     <div class="page-header-divider"></div>
 </div>
 
-@if($berkas)
+@if(session('success'))
+<div style="background:#d1fae5; border:1.5px solid #6ee7b7; border-radius:12px; padding:14px 18px; color:#065f46; font-weight:600; font-size:13.5px; display:flex; align-items:center; gap:10px; margin-bottom:20px;">
+    <span>✅</span> {{ session('success') }}
+</div>
+@endif
+
+@if($usulan)
 
 {{-- ─── HERO CARD ─── --}}
-<div class="pb-hero animate-fade-in animate-delay-1">
+<div class="pb-hero animate-fade-in">
     <div class="pb-hero-top">
         <div>
-            <div class="pb-hero-label">Nomor Usulan</div>
-            <div class="pb-hero-nomor">{{ $berkas->nomor_usulan }}</div>
+            <div class="pb-hero-label">Nama Pegawai</div>
+            <div class="pb-hero-name">{{ $usulan->nama_lengkap }}</div>
             <div class="pb-hero-meta">
-                <div class="pb-hero-chip">🎓 {{ $berkas->jenis_jabatan }}</div>
-                <div class="pb-hero-chip">📊 {{ $berkas->jenjang }}</div>
-                @if($berkas->tanggal_usulan)
-                <div class="pb-hero-chip">📅 Diajukan: {{ $berkas->tanggal_usulan->format('d M Y') }}</div>
-                @endif
+                <div class="pb-hero-chip">🎓 {{ $usulan->jabatan_fungsional }}</div>
+                <div class="pb-hero-chip">📋 {{ $usulan->jenis_usulan }}</div>
+                <div class="pb-hero-chip">📅 Diajukan: {{ $usulan->created_at->format('d M Y') }}</div>
             </div>
         </div>
-        <div class="pb-badge-status pb-badge-aktif">● Aktif</div>
+        <div class="pb-badge-aktif">● {{ $usulan->statusLabel() }}</div>
     </div>
-
-    {{-- Progress Bar --}}
-    <div class="pb-progress-section">
-        <div class="pb-progress-label">
-            <span>Progres Keseluruhan</span>
-            <span>{{ $persen }}%</span>
-        </div>
-        <div class="pb-progress-bar-track">
-            <div class="pb-progress-bar-fill" style="width: {{ $persen }}%;"></div>
-        </div>
+    <div class="pb-progress-label">
+        <span>Progress Keseluruhan</span>
+        <span>{{ $persen }}%</span>
     </div>
-</div>
-
-{{-- ─── MINI TIMELINE ─── --}}
-<div class="mini-timeline animate-fade-in animate-delay-1" style="background:white; border-radius:16px; padding:20px 24px; margin-bottom:24px; border:1px solid #e2e8f0;">
-    @foreach($tahapan as $i => $t)
-    @php
-        $st = $berkas->{$t['key']};
-        $cls = match($st) { 2 => 'done', 1 => 'process', 3 => 'rejected', default => 'pending' };
-        $icon = match($st) { 2 => '✓', 1 => '●', 3 => '✕', default => ($i+1) };
-    @endphp
-    <div class="mini-step {{ $cls }}">
-        <div class="mini-dot">{{ $icon }}</div>
-        <div class="mini-label">{{ $t['label'] }}</div>
+    <div class="pb-progress-track">
+        <div class="pb-progress-fill" style="width: {{ $persen }}%;"></div>
     </div>
-    @endforeach
 </div>
 
 {{-- ─── CATATAN ADMIN ─── --}}
-@if($berkas->catatan)
-<div class="catatan-card animate-fade-in animate-delay-2">
+@if($usulan->catatan)
+<div class="catatan-card animate-fade-in">
     <div class="catatan-icon">📋</div>
     <div>
-        <div class="catatan-title">Catatan dari Tim Pengelola</div>
-        <div class="catatan-text">{{ $berkas->catatan }}</div>
+        <div class="catatan-title">Catatan dari Tim Pembinaan JF</div>
+        <div class="catatan-text">{{ $usulan->catatan }}</div>
     </div>
 </div>
 @endif
 
-{{-- ─── STAGES GRID ─── --}}
-<div class="stages-grid">
-    @foreach($tahapan as $i => $t)
-    @php
-        $st = $berkas->{$t['key']};
-        $cardCls  = match($st) { 2 => 'status-done', 1 => 'status-process', 3 => 'status-rejected', default => 'status-pending' };
-        $iconBg   = match($st) { 2 => 'bg-done', 1 => 'bg-process', 3 => 'bg-rejected', default => 'bg-pending' };
-        $badgeCls = \App\Models\ProgressBerkas::badgeStatus($st);
-        $label    = \App\Models\ProgressBerkas::labelStatus($st);
-    @endphp
-    <div class="stage-card {{ $cardCls }} animate-fade-in animate-delay-{{ $i + 1 }}">
-        <div class="stage-card-top">
-            <div class="stage-icon {{ $iconBg }}">{{ $t['icon'] }}</div>
-            <span class="stage-step-num">Tahap {{ str_pad($i+1, 2, '0', STR_PAD_LEFT) }}</span>
-        </div>
-        <div class="stage-title">{{ $t['label'] }}</div>
-        <span class="{{ $badgeCls }}">{{ $label }}</span>
+{{-- ─── SWIMLANE PROGRESS ─── --}}
+<div class="pb-swimlane animate-fade-in animate-delay-1">
+    <div class="pb-swimlane-title">
+        🏊 Alur Proses Usulan
     </div>
-    @endforeach
+    <div class="pb-lanes">
+        @foreach($tahapan as $i => $t)
+        @php
+            $step     = $t['step'];
+            $current  = $usulan->status;
+            $state    = $current > $step ? 'done' : ($current === $step ? 'active' : 'pending');
+            $numIcon  = $state === 'done' ? '✓' : ($step);
+            $badgeTxt = $state === 'done' ? 'Selesai' : ($state === 'active' ? 'Sedang Diproses' : 'Belum Mulai');
+        @endphp
+        <div class="pb-lane">
+            <div class="pb-lane-actor">
+                <div class="pb-lane-actor-badge" style="background: {{ $t['color'] }}22; font-size:20px;">{{ $t['icon'] }}</div>
+                <div class="pb-lane-actor-name">{{ $t['aktor'] }}</div>
+            </div>
+            <div class="pb-lane-step">
+                <div class="pb-step-num {{ $state }}">{{ $numIcon }}</div>
+                <div class="pb-step-content">
+                    <div class="pb-step-label">{{ $step }}. {{ $t['label'] }}</div>
+                    <div class="pb-step-desc">{{ $t['desc'] }}</div>
+                </div>
+                <div class="pb-step-badge {{ $state }}">{{ $badgeTxt }}</div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</div>
+
+{{-- ─── RINGKASAN USULAN ─── --}}
+<div class="pb-detail-card animate-fade-in animate-delay-2">
+    <div class="pb-detail-header">📄 Ringkasan Usulan</div>
+    <div class="pb-detail-grid">
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Nama Lengkap</div>
+            <div class="pb-detail-value">{{ $usulan->nama_lengkap }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">NIP</div>
+            <div class="pb-detail-value">{{ $usulan->nip }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Jabatan Fungsional</div>
+            <div class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Jenis Usulan</div>
+            <div class="pb-detail-value">{{ $usulan->jenis_usulan }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Satuan Kerja</div>
+            <div class="pb-detail-value">{{ $usulan->satuan_kerja }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Email</div>
+            <div class="pb-detail-value">{{ $usulan->email }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Nomor Surat</div>
+            <div class="pb-detail-value">{{ $usulan->nomor_surat }}</div>
+        </div>
+        <div class="pb-detail-row">
+            <div class="pb-detail-label">Hal Surat</div>
+            <div class="pb-detail-value">{{ $usulan->hal_surat }}</div>
+        </div>
+        <div class="pb-detail-row" style="grid-column: 1 / -1;">
+            <div class="pb-detail-label">Link Berkas</div>
+            <a href="{{ $usulan->link_berkas }}" target="_blank" class="pb-detail-link">{{ $usulan->link_berkas }}</a>
+        </div>
+        @if($usulan->link_usulan)
+        <div class="pb-detail-row" style="grid-column: 1 / -1;">
+            <div class="pb-detail-label">Link Usulan</div>
+            <a href="{{ $usulan->link_usulan }}" target="_blank" class="pb-detail-link">{{ $usulan->link_usulan }}</a>
+        </div>
+        @endif
+    </div>
 </div>
 
 {{-- ─── INFO BANTUAN ─── --}}
-<div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 16px; padding: 20px 24px; max-width: 100%;" class="animate-fade-in">
-    <div style="display:flex; gap:14px; align-items:flex-start;">
-        <span style="font-size:22px; flex-shrink:0;">💬</span>
-        <div>
-            <div style="font-weight:700; color:var(--bps-dark); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
-            <div style="font-size:13.5px; color:#374151; line-height:1.7;">
-                Jika ada pertanyaan terkait status berkas Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
-                <a href="{{ route('tim-kerja') }}" style="color:var(--bps-mid); font-weight:600;">Tim Kerja</a>.
-                Informasi status diperbarui oleh admin secara berkala.
-            </div>
+<div class="pb-help animate-fade-in">
+    <span style="font-size:22px; flex-shrink:0;">💬</span>
+    <div>
+        <div style="font-weight:700; color:var(--bps-dark); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
+        <div style="font-size:13.5px; color:#374151; line-height:1.7;">
+            Jika ada pertanyaan terkait status berkas Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
+            <a href="{{ route('tim-kerja') }}">Tim Kerja</a>.
+            Informasi status diperbarui oleh admin secara berkala.
         </div>
     </div>
 </div>
@@ -392,11 +391,11 @@
     <div class="empty-state-icon">📭</div>
     <h3>Belum Ada Berkas Usulan</h3>
     <p>
-        Anda belum memiliki berkas usulan jabatan fungsional yang terdaftar.
-        Silakan ajukan usulan terlebih dahulu melalui Formulir Usulan.
+        Anda belum mengajukan usulan jabatan fungsional.
+        Silakan isi formulir usulan terlebih dahulu untuk memulai proses.
     </p>
-    <a href="{{ route('form-usulan') }}" class="btn-primary-link">
-        📝 Buka Formulir Usulan
+    <a href="{{ route('form-usulan') }}" class="btn-to-form">
+        📝 Isi Formulir Usulan
     </a>
 </div>
 

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\ProgressBerkas;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -11,54 +10,70 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         // 1. Akun Admin (Tim Kerja atau PIC)
         User::updateOrCreate(
             ['nip' => '198501012010011001'],
             [
-                'name' => 'Admin Tim Kerja (PIC)',
-                'email' => 'admin.jf@bps.go.id',
-                'password' => \Illuminate\Support\Facades\Hash::make('password'),
-                'role' => 'admin',
-                'jabatan' => 'PIC Pembinaan Jabatan Fungsional',
-                'unit_kerja' => 'Biro SDM - BPS RI',
+                'name'      => 'Admin Tim Kerja (PIC)',
+                'email'     => 'admin.jf@bps.go.id',
+                'password'  => \Illuminate\Support\Facades\Hash::make('password'),
+                'role'      => 'admin',
+                'jabatan'   => 'PIC Pembinaan Jabatan Fungsional',
+                'unit_kerja'=> 'Biro SDM - BPS RI',
             ]
         );
 
-        // 2. Akun Pegawai (Pengusul / Akses Portal)
-        $pegawai = User::updateOrCreate(
+        // 2. Akun Pegawai (Sudah Mengisi Form Usulan)
+        $pegawaiSudah = User::updateOrCreate(
             ['nip' => '199505152020121002'],
             [
-                'name' => 'Budi Pratama, S.Tr.Stat.',
-                'email' => 'pegawai@bps.go.id',
-                'password' => \Illuminate\Support\Facades\Hash::make('password'),
-                'role' => 'pegawai',
-                'jabatan' => 'Statistisi Ahli Pertama',
-                'unit_kerja' => 'BPS RI',
+                'name'      => 'Budi Pratama, S.Tr.Stat.',
+                'email'     => 'budi.pratama@bps.go.id',
+                'password'  => \Illuminate\Support\Facades\Hash::make('password'),
+                'role'      => 'pegawai',
+                'jabatan'   => 'Statistisi Ahli Pertama',
+                'unit_kerja'=> 'BPS RI Pusat',
             ]
         );
 
-        // 3. Seed demo progress berkas untuk pegawai
-        ProgressBerkas::updateOrCreate(
-            ['nomor_usulan' => 'BPS-JF-2026-001234'],
+        // Buat usulan jika belum ada
+        \App\Models\FormUsulan::firstOrCreate(
+            ['user_id' => $pegawaiSudah->id],
             [
-                'user_id' => $pegawai->id,
-                'jenis_jabatan' => 'Statistisi',
-                'jenjang' => 'Ahli Pertama',
-                // Simulasi: tahap 1-3 selesai, tahap 4 sedang diproses
-                'status_verifikasi'      => 2, // Selesai
-                'status_surat_usulan'    => 2, // Selesai
-                'status_pengelola'       => 2, // Selesai
-                'status_ukom'            => 1, // Sedang Diproses
-                'status_instansi_pembina'=> 0, // Belum Mulai
-                'status_pengumuman'      => 0, // Belum Mulai
-                'catatan' => 'Jadwal Uji Kompetensi: 20 Oktober 2026. Harap mempersiapkan dokumen pendukung.',
-                'tanggal_usulan' => now()->subDays(30),
+                'email'              => 'budi.pratama@bps.go.id',
+                'jabatan_fungsional' => 'Statistisi',
+                'jenis_usulan'       => 'Uji Kompetensi Kenaikan Jenjang',
+                'nomor_surat'        => '001/BPS/XI/2026',
+                'hal_surat'          => 'Permohonan Uji Kompetensi Kenaikan Jenjang',
+                'nama_lengkap'       => 'Budi Pratama, S.Tr.Stat.',
+                'nip'                => '199505152020121002',
+                'satuan_kerja'       => 'BPS RI Pusat',
+                'link_berkas'        => 'https://laci.bps.go.id/s/test-berkas-jf-budi',
+                'link_usulan'        => 'https://drive.google.com/test-usulan-budi',
+                'status'             => 2, // Tahap 2: Verifikasi Kelayakan
+                'catatan'            => 'Berkas lengkap. Sedang menunggu verifikasi kelayakan kuota oleh Tim Pembinaan JF.',
             ]
         );
+
+        // 3. Akun Demo Pegawai Baru (BELUM Mengisi Form Usulan)
+        User::updateOrCreate(
+            ['nip' => '199808182022032005'],
+            [
+                'name'      => 'Siti Rahmawati, S.Tr.Stat.',
+                'email'     => 'siti.rahmawati@bps.go.id',
+                'password'  => \Illuminate\Support\Facades\Hash::make('password'),
+                'role'      => 'pegawai',
+                'jabatan'   => 'Statistisi Ahli Pertama',
+                'unit_kerja'=> 'BPS Provinsi DKI Jakarta',
+            ]
+        );
+        // Pastikan akun Siti bersih dari form_usulan
+        $pegawaiBelum = User::where('nip', '199808182022032005')->first();
+        if ($pegawaiBelum) {
+            \App\Models\FormUsulan::where('user_id', $pegawaiBelum->id)->delete();
+        }
     }
 }
+

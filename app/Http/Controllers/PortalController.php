@@ -140,49 +140,6 @@ class PortalController extends Controller
         return redirect()->route('progress-berkas')->with('success', 'Usulan berhasil dikirim! Pantau progress berkas Anda di halaman ini.');
     }
 
-    public function ujiKompetensi()
-    {
-        $tahapan = [
-            [
-                'no' => 1,
-                'tahap' => 'Pendaftaran',
-                'keterangan' => 'Peserta mendaftar melalui portal kompetensi BPS dengan mengisi data diri dan melampirkan dokumen persyaratan.',
-            ],
-            [
-                'no' => 2,
-                'tahap' => 'Seleksi Administrasi',
-                'keterangan' => 'Verifikasi kelengkapan berkas, termasuk SK terakhir, DP3/SKP 2 tahun terakhir, dan sertifikat pelatihan relevan.',
-            ],
-            [
-                'no' => 3,
-                'tahap' => 'Uji Kompetensi Teknis',
-                'keterangan' => 'Ujian tertulis atau praktik sesuai bidang jabatan fungsional yang mencakup kompetensi utama dan penunjang.',
-            ],
-            [
-                'no' => 4,
-                'tahap' => 'Uji Kompetensi Manajerial',
-                'keterangan' => 'Penilaian kemampuan manajerial melalui wawancara, assessment center, atau portofolio kerja.',
-            ],
-            [
-                'no' => 5,
-                'tahap' => 'Pengumuman Hasil',
-                'keterangan' => 'Hasil uji kompetensi diumumkan secara resmi dan dapat diakses melalui portal kompetensi BPS.',
-            ],
-        ];
-
-        $syarat = [
-            'PNS aktif di lingkungan BPS RI',
-            'Memiliki ijazah minimal D-IV atau S1 yang relevan',
-            'Masa kerja minimal 1 (satu) tahun sebagai CPNS',
-            'Nilai SKP 2 (dua) tahun terakhir minimal "Baik"',
-            'Tidak sedang menjalani hukuman disiplin',
-            'Surat rekomendasi dari pimpinan unit kerja',
-            'Telah mengikuti pelatihan dasar jabatan fungsional yang relevan',
-        ];
-
-        return view('modules.uji-kompetensi', compact('tahapan', 'syarat'));
-    }
-
     public function regulasi()
     {
         $regulasi = [

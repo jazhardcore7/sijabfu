@@ -27,8 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/alur-layanan', [PortalController::class, 'alurLayanan'])->name('alur-layanan');
     Route::get('/form-usulan', [PortalController::class, 'formUsulan'])->name('form-usulan');
     Route::post('/form-usulan', [PortalController::class, 'formUsulanStore'])->name('form-usulan.store');
-    Route::get('/uji-kompetensi', [PortalController::class, 'ujiKompetensi'])->name('uji-kompetensi');
+    Route::get('/progress-berkas', [PortalController::class, 'progressBerkas'])->name('progress-berkas');
     Route::get('/regulasi', [PortalController::class, 'regulasi'])->name('regulasi');
     Route::get('/tim-kerja', [PortalController::class, 'timKerja'])->name('tim-kerja');
-    Route::get('/progress-berkas', [PortalController::class, 'progressBerkas'])->name('progress-berkas');
+    Route::redirect('/uji-kompetensi', '/progress-berkas');
 });

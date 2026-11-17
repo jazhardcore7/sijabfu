@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat. Layanan pengusulan, uji kompetensi, dan pembinaan jabatan fungsional.">
+    <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat. Layanan pengusulan, monitoring progres berkas, dan pembinaan jabatan fungsional.">
     <meta name="keywords" content="BPS, Jabatan Fungsional, SIGMA JF, Portal Layanan">
     <title>SIGMA JF - BPS RI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -626,14 +626,14 @@
                 <div class="card-arrow">Isi Formulir <span>→</span></div>
             </a>
 
-            <a href="{{ route('uji-kompetensi') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
+            <a href="{{ route('progress-berkas') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
                 <div class="card-number">03</div>
-                <div class="card-icon-wrapper icon-orange">🎓</div>
+                <div class="card-icon-wrapper icon-orange">📊</div>
                 <div class="card-content">
-                    <div class="card-title">Uji Kompetensi</div>
-                    <div class="card-desc">Informasi tahapan, syarat, dan jadwal Uji Kompetensi Jabatan Fungsional BPS untuk kenaikan jenjang.</div>
+                    <div class="card-title">Progress Berkas</div>
+                    <div class="card-desc">Pantau posisi berkas usulan jabatan fungsional Anda secara real-time dari tahap pengusulan hingga selesai.</div>
                 </div>
-                <div class="card-arrow">Selengkapnya <span>→</span></div>
+                <div class="card-arrow">Pantau Berkas <span>→</span></div>
             </a>
         </div>
 

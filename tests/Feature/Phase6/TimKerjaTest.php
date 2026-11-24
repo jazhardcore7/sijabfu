@@ -32,7 +32,7 @@ class TimKerjaTest extends TestCase
         $response = $this->actingAs($this->pegawai)->get('/tim-kerja')->assertOk();
 
         $response->assertSee('Anggota Satu')->assertSee('NIP. 111')->assertSee('Bidang Uji');
-        $response->assertSee('href="' . route('tim-kerja.show', $a) . '"', false);
+        $response->assertSee('href="'.route('tim-kerja.show', $a).'"', false);
         $response->assertDontSee('Anggota Nonaktif')->assertDontSee('Super Admin Saja')->assertDontSee('Pegawai Biasa');
         $response->assertSee('data-jumlah-anggota="1"', false);
     }

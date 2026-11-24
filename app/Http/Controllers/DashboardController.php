@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Auth;
  */
 class DashboardController extends Controller
 {
-    public function __construct(private DashboardStats $stats)
-    {
-    }
+    public function __construct(private DashboardStats $stats) {}
 
     public function index()
     {

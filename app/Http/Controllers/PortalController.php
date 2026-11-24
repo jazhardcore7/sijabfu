@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\FormUsulan;
-
 class PortalController extends Controller
 {
     public function index()

@@ -6,6 +6,7 @@ use App\Exceptions\InvalidStatusTransition;
 use App\Models\FormUsulan;
 use App\Models\User;
 use App\Models\UsulanBerkas;
+use App\Services\SimpegSyncService;
 use App\Services\UsulanStateMachine;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,9 +21,7 @@ use Illuminate\Validation\Rule;
  */
 class PengajuanController extends Controller
 {
-    public function __construct(private UsulanStateMachine $stateMachine)
-    {
-    }
+    public function __construct(private UsulanStateMachine $stateMachine) {}
 
     public function index()
     {
@@ -52,7 +51,7 @@ class PengajuanController extends Controller
         $usulan = $this->activeUsulan($user);
 
         // FR-PU-5 / FR-PU-6: hanya draf atau perbaikan yang boleh diubah
-        if ($usulan && !$usulan->isEditableByPegawai()) {
+        if ($usulan && ! $usulan->isEditableByPegawai()) {
             return redirect()->route('pengajuan')->with('error', 'Usulan Anda sedang diproses dan tidak dapat diubah.');
         }
 
@@ -67,7 +66,7 @@ class PengajuanController extends Controller
             'hal_surat' => ['required', 'string', 'max:300'],
             'satuan_kerja' => ['required', 'string', 'max:200'],
             'berkas' => ['nullable', 'array'],
-            'berkas.*' => ['nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:' . $maxKb],
+            'berkas.*' => ['nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:'.$maxKb],
         ], [
             'jabatan_fungsional.required' => 'Jabatan Fungsional wajib dipilih.',
             'jenis_usulan.required' => 'Jenis Usulan wajib dipilih.',
@@ -76,7 +75,7 @@ class PengajuanController extends Controller
             'satuan_kerja.required' => 'Satuan Kerja wajib diisi.',
             'berkas.*.mimes' => 'Berkas harus berformat PDF.',
             'berkas.*.mimetypes' => 'Berkas harus berformat PDF.',
-            'berkas.*.max' => 'Ukuran berkas maksimal ' . ($maxKb / 1024) . ' MB.',
+            'berkas.*.max' => 'Ukuran berkas maksimal '.($maxKb / 1024).' MB.',
             'berkas.*.file' => 'Berkas gagal diunggah.',
         ]);
 
@@ -108,7 +107,7 @@ class PengajuanController extends Controller
             }
 
             foreach ($uploads as $jenis => $file) {
-                $path = Storage::disk(config('sijabfu.disk'))->putFile('usulan/' . $usulan->id, $file);
+                $path = Storage::disk(config('sijabfu.disk'))->putFile('usulan/'.$usulan->id, $file);
 
                 $existing = $usulan->berkas()->where('jenis_persyaratan', $jenis)->first();
                 if ($existing) {
@@ -146,11 +145,11 @@ class PengajuanController extends Controller
     /**
      * FR-PU-1: Sinkron data dengan SIMPEG/SIASN. Gagal -> peringatan, form tetap dapat dipakai.
      */
-    public function sinkron(\App\Services\SimpegSyncService $simpeg): RedirectResponse
+    public function sinkron(SimpegSyncService $simpeg): RedirectResponse
     {
         $result = $simpeg->syncUser(Auth::user());
 
-        if (!$result['ok']) {
+        if (! $result['ok']) {
             return redirect()->route('pengajuan')->with('warning', $result['message']);
         }
 
@@ -168,7 +167,7 @@ class PengajuanController extends Controller
         $user = Auth::user();
         $usulan = $this->activeUsulan($user);
 
-        if (!$usulan || $usulan->status_key !== FormUsulan::STATUS_PERBAIKAN) {
+        if (! $usulan || $usulan->status_key !== FormUsulan::STATUS_PERBAIKAN) {
             return redirect()->route('pengajuan')->with('error', 'Kirim ulang hanya dapat dilakukan saat status Perbaikan.');
         }
 
@@ -190,7 +189,7 @@ class PengajuanController extends Controller
      */
     private function kirim(FormUsulan $usulan, User $user): RedirectResponse
     {
-        if (!$usulan->isDraft()) {
+        if (! $usulan->isDraft()) {
             return redirect()->route('pengajuan')->with('error', 'Gunakan tombol "Kirim ulang" untuk mengirim perbaikan.');
         }
 
@@ -212,7 +211,7 @@ class PengajuanController extends Controller
         $labels = array_map(fn ($key) => config('sijabfu.berkas_persyaratan')[$key], $missing);
 
         return redirect()->route('pengajuan')
-            ->with('error', 'Usulan belum dapat dikirim. Berkas yang belum diunggah: ' . implode(', ', $labels) . '.');
+            ->with('error', 'Usulan belum dapat dikirim. Berkas yang belum diunggah: '.implode(', ', $labels).'.');
     }
 
     private function latestUsulan(User $user): ?FormUsulan

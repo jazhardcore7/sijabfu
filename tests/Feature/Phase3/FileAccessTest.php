@@ -17,6 +17,7 @@ class FileAccessTest extends TestCase
     use UsulanFixtures;
 
     private User $owner;
+
     private FormUsulan $usulan;
 
     protected function setUp(): void
@@ -47,7 +48,7 @@ class FileAccessTest extends TestCase
     public function test_owner_gets_200_with_inline_preview_and_attachment_download(): void
     {
         foreach ($this->urls() as $type => $url) {
-            $preview = $this->actingAs($this->owner)->get($url . '?mode=preview')->assertOk();
+            $preview = $this->actingAs($this->owner)->get($url.'?mode=preview')->assertOk();
             $this->assertStringStartsWith('inline', $preview->headers->get('Content-Disposition'), $type);
 
             $download = $this->actingAs($this->owner)->get($url)->assertOk();
@@ -64,7 +65,7 @@ class FileAccessTest extends TestCase
 
         foreach ($this->urls() as $url) {
             $this->actingAs($other)->get($url)->assertForbidden();
-            $this->actingAs($other)->get($url . '?mode=preview')->assertForbidden();
+            $this->actingAs($other)->get($url.'?mode=preview')->assertForbidden();
         }
     }
 

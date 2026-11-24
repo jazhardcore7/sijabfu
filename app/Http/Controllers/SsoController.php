@@ -38,7 +38,7 @@ class SsoController extends Controller
         $expected = $request->session()->pull(self::STATE_KEY);
         $given = (string) $request->query('state', '');
 
-        if (!$expected || !hash_equals($expected, $given)) {
+        if (! $expected || ! hash_equals($expected, $given)) {
             return $this->fail('Sesi login SSO tidak valid atau kedaluwarsa. Silakan coba lagi.');
         }
 
@@ -48,21 +48,21 @@ class SsoController extends Controller
             return $this->fail($e->getMessage());
         }
 
-        if (!$identity || $identity->nip === '') {
+        if (! $identity || $identity->nip === '') {
             return $this->fail('Login SSO gagal: identitas tidak diterima.');
         }
 
         $user = User::where('nip', $identity->nip)->first();
 
-        if (!$user) {
-            return $this->fail('NIP ' . $identity->nip . ' belum terdaftar di SIJABFU. Hubungi Super Admin.');
+        if (! $user) {
+            return $this->fail('NIP '.$identity->nip.' belum terdaftar di SIJABFU. Hubungi Super Admin.');
         }
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return $this->fail('Akun Anda dinonaktifkan. Hubungi Super Admin.');
         }
 
-        if (!$user->sso_id && $identity->ssoId && !User::where('sso_id', $identity->ssoId)->exists()) {
+        if (! $user->sso_id && $identity->ssoId && ! User::where('sso_id', $identity->ssoId)->exists()) {
             $user->forceFill(['sso_id' => $identity->ssoId])->save();
         }
 
@@ -70,12 +70,12 @@ class SsoController extends Controller
         $request->session()->regenerate();
 
         return redirect()->intended(route('dashboard'))
-            ->with('success', 'Selamat datang di SIGMA JF, ' . $user->name);
+            ->with('success', 'Selamat datang di SIGMA JF, '.$user->name);
     }
 
     private function fail(string $message): RedirectResponse
     {
-        Log::info('SSO login ditolak: ' . $message);
+        Log::info('SSO login ditolak: '.$message);
 
         return redirect()->route('login')->withErrors(['nip' => $message]);
     }

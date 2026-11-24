@@ -16,127 +16,7 @@
             --text-muted: var(--c-text-muted);
         }
 
-
-
-
-
         /* 1. TOP NAVBAR */
-        .top-navbar {
-            background: var(--c-surface);
-            border-bottom: 1px solid var(--c-border);
-            padding: 12px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            text-decoration: none;
-        }
-
-        .navbar-logo-img {
-            height: 38px;
-            width: auto;
-        }
-
-        .navbar-titles {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .navbar-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--bps-dark);
-            line-height: 1.1;
-        }
-
-        .navbar-subtitle {
-            font-size: 11px;
-            color: var(--bps-mid);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .navbar-nav {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .nav-link-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 12.5px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.2s;
-            color: var(--c-text-2);
-            background: var(--c-surface-3);
-        }
-
-        .nav-link-btn:hover {
-            background: var(--c-border);
-            color: var(--bps-dark);
-        }
-
-        .nav-link-btn.active {
-            background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid));
-            color: #FFFFFF;
-        }
-
-        .user-action-pill {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--c-surface-2);
-            border: 1px solid var(--c-border);
-            padding: 5px 12px 5px 6px;
-            border-radius: 50px;
-        }
-
-        .user-badge-role {
-            background: #EF4444;
-            color: #FFFFFF;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 50px;
-            letter-spacing: 0.5px;
-        }
-
-        .user-name-text {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--c-text);
-        }
-
-        .btn-logout {
-            background: #FEE2E2;
-            color: #991B1B;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 8px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .btn-logout:hover {
-            background: #FCA5A5;
-        }
 
         /* 2. PAGE HEADER */
         .page-header-container {
@@ -690,9 +570,6 @@
         @media (max-width: 640px) {
             .stats-grid {
                 grid-template-columns: 1fr 1fr;
-            }
-            .top-navbar {
-                padding: 12px 16px;
             }
             .page-header-container, .main-container {
                 padding: 0 16px;

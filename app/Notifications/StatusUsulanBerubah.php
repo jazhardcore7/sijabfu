@@ -11,9 +11,7 @@ use Illuminate\Notifications\Notification;
  */
 class StatusUsulanBerubah extends Notification
 {
-    public function __construct(private FormUsulan $usulan, private string $event, private ?string $catatan)
-    {
-    }
+    public function __construct(private FormUsulan $usulan, private string $event, private ?string $catatan) {}
 
     public function via(object $notifiable): array
     {
@@ -47,7 +45,7 @@ class StatusUsulanBerubah extends Notification
             ],
             default => [
                 'Status usulan diubah',
-                'Status usulan Anda dikembalikan ke ' . $this->usulan->statusKeyLabel() . '.',
+                'Status usulan Anda dikembalikan ke '.$this->usulan->statusKeyLabel().'.',
                 route('pelacakan-status'),
             ],
         };
@@ -58,7 +56,7 @@ class StatusUsulanBerubah extends Notification
             'form_usulan_id' => $this->usulan->id,
             'status_key' => $status,
             'judul' => $judul,
-            'pesan' => $pesan . ($this->catatan ? ' Catatan: ' . $this->catatan : ''),
+            'pesan' => $pesan.($this->catatan ? ' Catatan: '.$this->catatan : ''),
             'url' => $url,
         ];
     }

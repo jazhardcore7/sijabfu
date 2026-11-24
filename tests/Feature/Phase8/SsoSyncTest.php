@@ -94,7 +94,8 @@ class SsoSyncTest extends TestCase
 
     public function test_unreadable_directory_writes_error_log(): void
     {
-        $this->app->bind(SsoProvider::class, fn () => new class implements SsoProvider {
+        $this->app->bind(SsoProvider::class, fn () => new class implements SsoProvider
+        {
             public function redirect(Request $request, string $state): Response
             {
                 throw new RuntimeException('x');
@@ -128,7 +129,7 @@ class SsoSyncTest extends TestCase
             ->assertSee('data-log="', false);
 
         $this->actingAs($this->superAdmin)->get('/dashboard')
-            ->assertSee('action="' . route('admin.sso-sync.run') . '"', false)
+            ->assertSee('action="'.route('admin.sso-sync.run').'"', false)
             ->assertSee('data-sso="created">5<', false);
     }
 

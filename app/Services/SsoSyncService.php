@@ -40,7 +40,7 @@ class SsoSyncService
                 }
             }
         } catch (Throwable $e) {
-            $errors[] = 'Direktori SSO tidak dapat dibaca: ' . $e->getMessage();
+            $errors[] = 'Direktori SSO tidak dapat dibaca: '.$e->getMessage();
         }
 
         $log->update([
@@ -73,7 +73,7 @@ class SsoSyncService
             'email' => ['required', 'email', 'max:255'],
         ]);
         if ($validator->fails()) {
-            throw new \RuntimeException('Data NIP ' . ($nip ?: '(kosong)') . ' tidak valid: ' . implode(', ', $validator->errors()->all()));
+            throw new \RuntimeException('Data NIP '.($nip ?: '(kosong)').' tidak valid: '.implode(', ', $validator->errors()->all()));
         }
 
         return DB::transaction(function () use ($nip, $data, $row) {
@@ -86,14 +86,14 @@ class SsoSyncService
 
             $ssoId = $row['sso_id'] ?? null;
 
-            if (!$user) {
+            if (! $user) {
                 $attrs = $data + [
                     'nip' => $nip,
                     'role' => User::ROLE_PEGAWAI,
                     'is_active' => true,
                     'password' => Hash::make(Str::random(48)),
                 ];
-                if ($ssoId && !User::where('sso_id', $ssoId)->exists()) {
+                if ($ssoId && ! User::where('sso_id', $ssoId)->exists()) {
                     $attrs['sso_id'] = $ssoId;
                 }
                 User::forceCreate($attrs);
@@ -103,11 +103,11 @@ class SsoSyncService
 
             // Role tidak pernah diubah oleh sinkronisasi
             $user->fill($data);
-            if (!$user->sso_id && $ssoId && !User::where('sso_id', $ssoId)->exists()) {
+            if (! $user->sso_id && $ssoId && ! User::where('sso_id', $ssoId)->exists()) {
                 $user->sso_id = $ssoId;
             }
 
-            if (!$user->isDirty()) {
+            if (! $user->isDirty()) {
                 return 'unchanged';
             }
 

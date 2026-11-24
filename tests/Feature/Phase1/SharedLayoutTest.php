@@ -18,24 +18,24 @@ class SharedLayoutTest extends TestCase
     public static function pages(): array
     {
         return [
-            'pegawai beranda'       => [User::ROLE_PEGAWAI, '/dashboard', 'Pegawai'],
-            'pegawai pengajuan'     => [User::ROLE_PEGAWAI, '/pengajuan', 'Pegawai'],
-            'pegawai pelacakan'     => [User::ROLE_PEGAWAI, '/pelacakan-status', 'Pegawai'],
-            'pegawai regulasi'      => [User::ROLE_PEGAWAI, '/regulasi', 'Pegawai'],
-            'pegawai tim kerja'     => [User::ROLE_PEGAWAI, '/tim-kerja', 'Pegawai'],
-            'pegawai alur layanan'  => [User::ROLE_PEGAWAI, '/alur-layanan', 'Pegawai'],
-            'pegawai chat box'      => [User::ROLE_PEGAWAI, '/chat', 'Pegawai'],
-            'tim jf messenger'      => [User::ROLE_TIM_JF, '/messenger', 'Tim Pembinaan JF'],
+            'pegawai beranda' => [User::ROLE_PEGAWAI, '/dashboard', 'Pegawai'],
+            'pegawai pengajuan' => [User::ROLE_PEGAWAI, '/pengajuan', 'Pegawai'],
+            'pegawai pelacakan' => [User::ROLE_PEGAWAI, '/pelacakan-status', 'Pegawai'],
+            'pegawai regulasi' => [User::ROLE_PEGAWAI, '/regulasi', 'Pegawai'],
+            'pegawai tim kerja' => [User::ROLE_PEGAWAI, '/tim-kerja', 'Pegawai'],
+            'pegawai alur layanan' => [User::ROLE_PEGAWAI, '/alur-layanan', 'Pegawai'],
+            'pegawai chat box' => [User::ROLE_PEGAWAI, '/chat', 'Pegawai'],
+            'tim jf messenger' => [User::ROLE_TIM_JF, '/messenger', 'Tim Pembinaan JF'],
             'super admin messenger' => [User::ROLE_SUPER_ADMIN, '/messenger', 'Super Admin'],
-            'tim jf dashboard'      => [User::ROLE_TIM_JF, '/dashboard', 'Tim Pembinaan JF'],
-            'tim jf monitoring'     => [User::ROLE_TIM_JF, '/monitoring', 'Tim Pembinaan JF'],
-            'tim jf verifikasi'     => [User::ROLE_TIM_JF, '/verifikasi', 'Tim Pembinaan JF'],
-            'tim jf regulasi'       => [User::ROLE_TIM_JF, '/regulasi', 'Tim Pembinaan JF'],
-            'tim jf kelola regulasi'=> [User::ROLE_TIM_JF, '/admin/regulasi', 'Tim Pembinaan JF'],
-            'tim jf tim kerja'      => [User::ROLE_TIM_JF, '/tim-kerja', 'Tim Pembinaan JF'],
+            'tim jf dashboard' => [User::ROLE_TIM_JF, '/dashboard', 'Tim Pembinaan JF'],
+            'tim jf monitoring' => [User::ROLE_TIM_JF, '/monitoring', 'Tim Pembinaan JF'],
+            'tim jf verifikasi' => [User::ROLE_TIM_JF, '/verifikasi', 'Tim Pembinaan JF'],
+            'tim jf regulasi' => [User::ROLE_TIM_JF, '/regulasi', 'Tim Pembinaan JF'],
+            'tim jf kelola regulasi' => [User::ROLE_TIM_JF, '/admin/regulasi', 'Tim Pembinaan JF'],
+            'tim jf tim kerja' => [User::ROLE_TIM_JF, '/tim-kerja', 'Tim Pembinaan JF'],
             'super admin dashboard' => [User::ROLE_SUPER_ADMIN, '/dashboard', 'Super Admin'],
-            'super admin monitoring'=> [User::ROLE_SUPER_ADMIN, '/monitoring', 'Super Admin'],
-            'super admin regulasi'  => [User::ROLE_SUPER_ADMIN, '/regulasi', 'Super Admin'],
+            'super admin monitoring' => [User::ROLE_SUPER_ADMIN, '/monitoring', 'Super Admin'],
+            'super admin regulasi' => [User::ROLE_SUPER_ADMIN, '/regulasi', 'Super Admin'],
         ];
     }
 
@@ -47,10 +47,10 @@ class SharedLayoutTest extends TestCase
         $response = $this->actingAs($user)->get($uri)->assertOk();
 
         foreach (['navbar', 'notification-bell', 'profile-menu', 'logout', 'theme-toggle'] as $element) {
-            $response->assertSee('data-layout="' . $element . '"', false);
+            $response->assertSee('data-layout="'.$element.'"', false);
         }
 
-        $response->assertSee('<span class="level-badge" data-level="' . $role . '">' . $level . '</span>', false);
+        $response->assertSee('<span class="level-badge" data-level="'.$role.'">'.$level.'</span>', false);
         $response->assertSee(route('logout'), false);
         $this->assertSame(1, substr_count($response->getContent(), 'data-layout="navbar"'));
     }

@@ -28,8 +28,8 @@ class DashboardTest extends TestCase
 
     private function chartJson(string $html, string $id): array
     {
-        $this->assertMatchesRegularExpression('/data-chart-json="' . preg_quote($id, '/') . '">(.*?)<\/script>/s', $html);
-        preg_match('/data-chart-json="' . preg_quote($id, '/') . '">(.*?)<\/script>/s', $html, $m);
+        $this->assertMatchesRegularExpression('/data-chart-json="'.preg_quote($id, '/').'">(.*?)<\/script>/s', $html);
+        preg_match('/data-chart-json="'.preg_quote($id, '/').'">(.*?)<\/script>/s', $html, $m);
 
         return json_decode($m[1], true);
     }
@@ -39,10 +39,10 @@ class DashboardTest extends TestCase
         // [status_key, label, persen, stage aktif, state]
         return [
             'verifikasi' => ['verifikasi', 'Verifikasi', 0, 'verifikasi', 'active'],
-            'perbaikan'  => ['perbaikan', 'Perbaikan', 0, 'verifikasi', 'perbaikan'],
-            'disetujui'  => ['disetujui', 'Disetujui (MS)', 25, 'disetujui', 'active'],
+            'perbaikan' => ['perbaikan', 'Perbaikan', 0, 'verifikasi', 'perbaikan'],
+            'disetujui' => ['disetujui', 'Disetujui (MS)', 25, 'disetujui', 'active'],
             'ditetapkan' => ['ditetapkan', 'Ditetapkan', 50, 'ditetapkan', 'active'],
-            'selesai'    => ['selesai', 'Selesai', 100, 'selesai', 'done'],
+            'selesai' => ['selesai', 'Selesai', 100, 'selesai', 'done'],
         ];
     }
 
@@ -55,7 +55,7 @@ class DashboardTest extends TestCase
 
         $html = $this->actingAs($pegawai)->get('/dashboard')->assertOk()
             ->assertSee('data-section="dashboard-pegawai"', false)
-            ->assertSee('data-status-key="' . $status . '">' . $label . '<', false)
+            ->assertSee('data-status-key="'.$status.'">'.$label.'<', false)
             ->assertSee('Catatan terbaru')
             ->getContent();
 
@@ -63,7 +63,7 @@ class DashboardTest extends TestCase
         $this->assertSame($status, $progres['status_key']);
         $this->assertSame($persen, $progres['persen']);
         $this->assertSame(4, count($progres['tahapan']));
-        $this->assertStringContainsString('data-stage="' . $stage . '" data-state="' . $state . '"', $html);
+        $this->assertStringContainsString('data-stage="'.$stage.'" data-state="'.$state.'"', $html);
 
         // konten landing tetap ada (kartu modul)
         $this->assertStringContainsString('cards-section', $html);
@@ -164,8 +164,8 @@ class DashboardTest extends TestCase
     public function test_login_sends_every_role_to_dashboard(): void
     {
         foreach (['pegawai', 'timJf', 'superAdmin'] as $i => $state) {
-            User::factory()->{$state}()->create(['nip' => '90000000000000000' . $i]);
-            $this->post('/login', ['nip' => '90000000000000000' . $i, 'password' => 'password'])->assertRedirect(route('dashboard'));
+            User::factory()->{$state}()->create(['nip' => '90000000000000000'.$i]);
+            $this->post('/login', ['nip' => '90000000000000000'.$i, 'password' => 'password'])->assertRedirect(route('dashboard'));
             $this->post('/logout');
         }
     }

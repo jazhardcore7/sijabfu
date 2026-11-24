@@ -18,19 +18,19 @@ class SimpegSyncService
      */
     public function syncUser(User $user): array
     {
-        if (!$user->nip) {
+        if (! $user->nip) {
             return ['ok' => false, 'message' => 'NIP akun Anda belum terisi, sinkron SIMPEG/SIASN tidak dapat dilakukan.'];
         }
 
         try {
             $identity = app(SimpegDirectory::class)->findByNip($user->nip);
         } catch (Throwable $e) {
-            Log::warning('Sinkron SIMPEG gagal: ' . $e->getMessage());
+            Log::warning('Sinkron SIMPEG gagal: '.$e->getMessage());
 
             return ['ok' => false, 'message' => 'Sinkron SIMPEG/SIASN gagal. Data dari akun Anda tetap dapat dipakai.'];
         }
 
-        if (!$identity) {
+        if (! $identity) {
             return ['ok' => false, 'message' => 'Data NIP Anda tidak ditemukan di SIMPEG/SIASN. Data dari akun Anda tetap dapat dipakai.'];
         }
 

@@ -19,7 +19,9 @@ class RegulasiTest extends TestCase
     use RefreshDatabase;
 
     private User $pegawai;
+
     private User $timJf;
+
     private User $superAdmin;
 
     protected function setUp(): void
@@ -97,8 +99,8 @@ class RegulasiTest extends TestCase
         $reg = $this->withFile();
 
         $this->actingAs($this->{$who})->get('/regulasi')
-            ->assertSee('href="' . route('regulasi.preview', $reg) . '"', false)
-            ->assertSee('href="' . route('regulasi.download', $reg) . '"', false);
+            ->assertSee('href="'.route('regulasi.preview', $reg).'"', false)
+            ->assertSee('href="'.route('regulasi.download', $reg).'"', false);
 
         $preview = $this->actingAs($this->{$who})->get("/regulasi/{$reg->id}/preview")->assertOk();
         $this->assertStringStartsWith('inline', $preview->headers->get('Content-Disposition'));

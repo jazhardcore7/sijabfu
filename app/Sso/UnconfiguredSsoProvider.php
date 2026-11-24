@@ -11,11 +11,9 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Dipakai bila SSO_DRIVER / SIMPEG_DRIVER bukan "fake": driver asli belum dibuat (PRD 11.1).
  */
-class UnconfiguredSsoProvider implements SsoProvider, SimpegDirectory
+class UnconfiguredSsoProvider implements SimpegDirectory, SsoProvider
 {
-    public function __construct(private string $driver)
-    {
-    }
+    public function __construct(private string $driver) {}
 
     public function redirect(Request $request, string $state): Response
     {

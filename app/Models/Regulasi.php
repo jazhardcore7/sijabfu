@@ -16,7 +16,9 @@ class Regulasi extends Model
     protected $table = 'regulasi';
 
     public const KATEGORI_PERKA_BPS = 'Peraturan Kepala BPS';
+
     public const KATEGORI_MENPAN_RB = 'Peraturan MenPAN-RB';
+
     public const KATEGORI_BKN = 'Peraturan BKN';
 
     /** urutan tampil kategori */
@@ -41,7 +43,7 @@ class Regulasi extends Model
 
     public function hasFile(): bool
     {
-        return !empty($this->file_path);
+        return ! empty($this->file_path);
     }
 
     /**
@@ -50,7 +52,7 @@ class Regulasi extends Model
     public function scopeSearch($query, ?string $keyword)
     {
         if ($keyword !== null && trim($keyword) !== '') {
-            $like = '%' . trim($keyword) . '%';
+            $like = '%'.trim($keyword).'%';
             $query->where(fn ($q) => $q->where('judul', 'like', $like)->orWhere('nomor', 'like', $like));
         }
 
@@ -64,6 +66,6 @@ class Regulasi extends Model
     {
         $slug = trim(preg_replace('/[^A-Za-z0-9]+/', '-', $this->nomor), '-');
 
-        return ($slug !== '' ? $slug : 'regulasi-' . $this->id) . '.pdf';
+        return ($slug !== '' ? $slug : 'regulasi-'.$this->id).'.pdf';
     }
 }

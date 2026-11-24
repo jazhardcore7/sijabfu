@@ -4,6 +4,7 @@ namespace Tests\Feature\Phase1;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 /**
@@ -96,10 +97,10 @@ class SidebarMenuTest extends TestCase
         // Sejak Fase 8 semua menu PDF punya route; tidak ada item yang disembunyikan.
         foreach (self::MENUS as $menu) {
             foreach (array_keys($menu) as $routeName) {
-                $this->assertTrue(\Illuminate\Support\Facades\Route::has($routeName), $routeName);
+                $this->assertTrue(Route::has($routeName), $routeName);
             }
         }
-        $this->assertTrue(\Illuminate\Support\Facades\Route::has('chat.index'));
+        $this->assertTrue(Route::has('chat.index'));
 
         // Super Admin tidak melihat menu milik role lain
         $this->actingAs(User::factory()->superAdmin()->create())->get('/dashboard')

@@ -17,9 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MonitoringController extends Controller
 {
-    public function __construct(private UsulanStateMachine $stateMachine)
-    {
-    }
+    public function __construct(private UsulanStateMachine $stateMachine) {}
 
     /**
      * FR-MON-1: progres per pegawai, jumlah per status (filter), cari, 15 per halaman.
@@ -37,7 +35,7 @@ class MonitoringController extends Controller
         abort_if($usulan->isDraft(), 404);
 
         $maxKb = config('sijabfu.berkas_max_kb');
-        $pdfRule = ['nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:' . $maxKb];
+        $pdfRule = ['nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:'.$maxKb];
 
         $validated = $request->validate([
             'aksi' => ['required', Rule::in(['tetapkan', 'selesaikan', 'rollback'])],
@@ -50,10 +48,10 @@ class MonitoringController extends Controller
         ], [
             'surat.mimes' => 'Surat usulan harus berformat PDF.',
             'surat.mimetypes' => 'Surat usulan harus berformat PDF.',
-            'surat.max' => 'Ukuran surat usulan maksimal ' . ($maxKb / 1024) . ' MB.',
+            'surat.max' => 'Ukuran surat usulan maksimal '.($maxKb / 1024).' MB.',
             'sertifikat.mimes' => 'Sertifikat UKOM harus berformat PDF.',
             'sertifikat.mimetypes' => 'Sertifikat UKOM harus berformat PDF.',
-            'sertifikat.max' => 'Ukuran sertifikat UKOM maksimal ' . ($maxKb / 1024) . ' MB.',
+            'sertifikat.max' => 'Ukuran sertifikat UKOM maksimal '.($maxKb / 1024).' MB.',
         ]);
 
         $actor = Auth::user();
@@ -66,7 +64,7 @@ class MonitoringController extends Controller
                 case 'tetapkan':
                     $this->assertStatus($usulan, FormUsulan::STATUS_DISETUJUI, FormUsulan::STATUS_DITETAPKAN);
                     $oldPath = $usulan->surat_usulan_path;
-                    $newPath = $request->hasFile('surat') ? $disk->putFile('usulan/' . $usulan->id, $request->file('surat')) : null;
+                    $newPath = $request->hasFile('surat') ? $disk->putFile('usulan/'.$usulan->id, $request->file('surat')) : null;
                     $this->stateMachine->issueSurat($usulan, $actor, $newPath, $validated['catatan'] ?? null);
                     $message = 'Surat usulan diterbitkan. Status: Ditetapkan.';
                     break;
@@ -74,14 +72,14 @@ class MonitoringController extends Controller
                 case 'selesaikan':
                     $this->assertStatus($usulan, FormUsulan::STATUS_DITETAPKAN, FormUsulan::STATUS_SELESAI);
                     $oldPath = $usulan->sertifikat_path;
-                    $newPath = $request->hasFile('sertifikat') ? $disk->putFile('usulan/' . $usulan->id, $request->file('sertifikat')) : null;
+                    $newPath = $request->hasFile('sertifikat') ? $disk->putFile('usulan/'.$usulan->id, $request->file('sertifikat')) : null;
                     $this->stateMachine->complete($usulan, $actor, $newPath, $validated['hasil_ukom'] ?? null, $validated['catatan'] ?? null);
                     $message = 'Sertifikat UKOM diunggah. Status: Selesai.';
                     break;
 
                 default: // rollback (AuthorizationException untuk non Super Admin -> 403)
                     $this->stateMachine->rollback($usulan, $actor, (string) ($validated['ke_status'] ?? ''), $validated['alasan'] ?? null);
-                    $message = 'Status dikembalikan ke ' . $usulan->statusKeyLabel() . '.';
+                    $message = 'Status dikembalikan ke '.$usulan->statusKeyLabel().'.';
                     break;
             }
         } catch (InvalidStatusTransition $e) {

@@ -70,7 +70,7 @@ class ThemeTest extends TestCase
         $text = '/(?<![\w-])color\s*:\s*#(?:1e293b|0f172a|111827|334155|374151|475569|64748b|6b7280|94a3b8|9ca3af)\b/i';
 
         foreach (self::APP_VIEWS as $view) {
-            $content = File::get(resource_path('views/' . $view));
+            $content = File::get(resource_path('views/'.$view));
 
             $this->assertDoesNotMatchRegularExpression($background, $content, "Latar netral hardcoded di {$view}");
             $this->assertDoesNotMatchRegularExpression($text, $content, "Warna teks netral hardcoded di {$view}");

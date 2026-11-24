@@ -29,7 +29,7 @@ class PelacakanController extends Controller
         $usulan = FormUsulan::where('user_id', $user->id)->submitted()->orderByDesc('id')->first();
         $hasDraft = FormUsulan::where('user_id', $user->id)->whereNull('status_key')->exists();
 
-        if (!$usulan) {
+        if (! $usulan) {
             return view('modules.progress-berkas', ['usulan' => null, 'hasDraft' => $hasDraft]);
         }
 

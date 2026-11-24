@@ -3,8 +3,8 @@
 namespace Tests\Feature\Phase2;
 
 use App\Models\FormUsulan;
-use App\Models\UsulanStatusLog;
 use App\Models\User;
+use App\Models\UsulanStatusLog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -25,7 +25,7 @@ class PengajuanSubmitLogTest extends TestCase
 
         $files = [];
         foreach (array_keys(config('sijabfu.berkas_persyaratan')) as $key) {
-            $files[$key] = UploadedFile::fake()->create($key . '.pdf', 100, 'application/pdf');
+            $files[$key] = UploadedFile::fake()->create($key.'.pdf', 100, 'application/pdf');
         }
 
         $this->actingAs($user)->post('/pengajuan', [

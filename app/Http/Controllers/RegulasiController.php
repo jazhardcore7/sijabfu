@@ -48,7 +48,7 @@ class RegulasiController extends Controller
         Gate::authorize('view', $regulasi);
 
         $disk = Storage::disk(config('sijabfu.disk'));
-        abort_if(!$regulasi->hasFile() || !$disk->exists($regulasi->file_path), 404, 'File belum tersedia.');
+        abort_if(! $regulasi->hasFile() || ! $disk->exists($regulasi->file_path), 404, 'File belum tersedia.');
 
         $headers = ['Content-Type' => 'application/pdf', 'X-Content-Type-Options' => 'nosniff'];
 

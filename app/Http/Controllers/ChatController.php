@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ChatController extends Controller
 {
-    public function __construct(private ChatService $chat)
-    {
-    }
+    public function __construct(private ChatService $chat) {}
 
     /**
      * HTML untuk halaman, JSON untuk polling (?after={id}).
@@ -73,14 +71,14 @@ class ChatController extends Controller
 
     private function rules(): array
     {
-        return ['body' => ['required', 'string', 'max:' . ChatMessage::MAX_LENGTH]];
+        return ['body' => ['required', 'string', 'max:'.ChatMessage::MAX_LENGTH]];
     }
 
     private function messages(): array
     {
         return [
             'body.required' => 'Pesan tidak boleh kosong.',
-            'body.max' => 'Pesan maksimal ' . ChatMessage::MAX_LENGTH . ' karakter.',
+            'body.max' => 'Pesan maksimal '.ChatMessage::MAX_LENGTH.' karakter.',
         ];
     }
 }

@@ -25,7 +25,7 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         // FR-AUTH-3: login lokal hanya bila AUTH_LOCAL_ENABLED=true
-        if (!config('sijabfu.auth_local_enabled')) {
+        if (! config('sijabfu.auth_local_enabled')) {
             return redirect()->route('login')->withErrors([
                 'nip' => 'Login dengan NIP dan password dinonaktifkan. Silakan gunakan LOGIN SSO.',
             ]);
@@ -45,7 +45,7 @@ class AuthController extends Controller
             $user = Auth::user();
 
             // User nonaktif tidak boleh masuk (FR-USR-1)
-            if (!$user->is_active) {
+            if (! $user->is_active) {
                 Auth::logout();
 
                 return back()->withErrors([
@@ -57,11 +57,11 @@ class AuthController extends Controller
 
             if ($user->isAdmin()) {
                 return redirect()->intended(route('dashboard'))
-                    ->with('success', 'Selamat datang di Dashboard Admin Pembinaan JF, ' . $user->name);
+                    ->with('success', 'Selamat datang di Dashboard Admin Pembinaan JF, '.$user->name);
             }
 
             return redirect()->intended(route('dashboard'))
-                ->with('success', 'Selamat datang di Portal Pembinaan JF BPS RI, ' . $user->name);
+                ->with('success', 'Selamat datang di Portal Pembinaan JF BPS RI, '.$user->name);
         }
 
         return back()->withErrors([

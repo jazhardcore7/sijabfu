@@ -10,9 +10,7 @@ use Illuminate\Notifications\Notification;
  */
 class UsulanDikirim extends Notification
 {
-    public function __construct(private FormUsulan $usulan, private bool $ulang)
-    {
-    }
+    public function __construct(private FormUsulan $usulan, private bool $ulang) {}
 
     public function via(object $notifiable): array
     {
@@ -26,8 +24,8 @@ class UsulanDikirim extends Notification
             'event' => $this->ulang ? 'resubmit' : 'submit',
             'form_usulan_id' => $this->usulan->id,
             'judul' => $this->ulang ? 'Usulan dikirim ulang' : 'Usulan baru masuk',
-            'pesan' => $this->usulan->nama_lengkap . ' (' . $this->usulan->jabatan_fungsional . ') '
-                . ($this->ulang ? 'mengirim ulang usulan setelah perbaikan.' : 'mengirim usulan baru.'),
+            'pesan' => $this->usulan->nama_lengkap.' ('.$this->usulan->jabatan_fungsional.') '
+                .($this->ulang ? 'mengirim ulang usulan setelah perbaikan.' : 'mengirim usulan baru.'),
             'url' => route('verifikasi.show', $this->usulan->id),
         ];
     }

@@ -4,9 +4,9 @@ namespace Tests\Feature\Phase2;
 
 use App\Exceptions\InvalidStatusTransition;
 use App\Models\FormUsulan;
+use App\Models\User;
 use App\Models\UsulanBerkas;
 use App\Models\UsulanStatusLog;
-use App\Models\User;
 use App\Services\UsulanStateMachine;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,15 +22,18 @@ class UsulanStateMachineTest extends TestCase
     use RefreshDatabase;
 
     private UsulanStateMachine $sm;
+
     private User $pegawai;
+
     private User $timJf;
+
     private User $superAdmin;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->sm = new UsulanStateMachine();
+        $this->sm = new UsulanStateMachine;
         $this->pegawai = User::factory()->pegawai()->create();
         $this->timJf = User::factory()->timJf()->create();
         $this->superAdmin = User::factory()->superAdmin()->create();
@@ -207,16 +210,16 @@ class UsulanStateMachineTest extends TestCase
         // [status sekarang, aksi]
         return [
             'submit ulang usulan yang sudah ada' => ['verifikasi', 'submit'],
-            'keputusan saat perbaikan'          => ['perbaikan', 'decide'],
-            'keputusan saat disetujui'          => ['disetujui', 'decide'],
-            'keputusan saat ditetapkan'         => ['ditetapkan', 'decide'],
-            'keputusan saat selesai'            => ['selesai', 'decide'],
-            'kirim ulang saat verifikasi'       => ['verifikasi', 'resubmit'],
-            'kirim ulang saat disetujui'        => ['disetujui', 'resubmit'],
-            'surat saat verifikasi'             => ['verifikasi', 'issueSurat'],
-            'surat saat selesai'                => ['selesai', 'issueSurat'],
-            'sertifikat saat disetujui'         => ['disetujui', 'complete'],
-            'sertifikat saat verifikasi'        => ['verifikasi', 'complete'],
+            'keputusan saat perbaikan' => ['perbaikan', 'decide'],
+            'keputusan saat disetujui' => ['disetujui', 'decide'],
+            'keputusan saat ditetapkan' => ['ditetapkan', 'decide'],
+            'keputusan saat selesai' => ['selesai', 'decide'],
+            'kirim ulang saat verifikasi' => ['verifikasi', 'resubmit'],
+            'kirim ulang saat disetujui' => ['disetujui', 'resubmit'],
+            'surat saat verifikasi' => ['verifikasi', 'issueSurat'],
+            'surat saat selesai' => ['selesai', 'issueSurat'],
+            'sertifikat saat disetujui' => ['disetujui', 'complete'],
+            'sertifikat saat verifikasi' => ['verifikasi', 'complete'],
         ];
     }
 

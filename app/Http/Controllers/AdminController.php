@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use App\Models\FormUsulan;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -145,15 +143,13 @@ class AdminController extends Controller
 
         // 4. Akses Cepat (Bottom Bar)
         $aksesCepat = [
-            'form_usulan' => route('form-usulan'),
             'response' => 'https://docs.google.com/spreadsheets/d/1dummy-response-sijabfu-bps/edit',
         ];
 
         // 5. Data Pengajuan Usulan Pegawai
         $daftarUsulan = FormUsulan::submitted()->with('user')->latest()->get();
-        $tahapan = FormUsulan::tahapan();
 
-        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan') + $extra);
+        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan') + $extra);
     }
 
     /**

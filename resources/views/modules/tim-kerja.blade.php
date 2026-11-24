@@ -65,9 +65,9 @@
     }
 
     .tim-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         overflow: hidden;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -129,7 +129,7 @@
 
     .tim-nip {
         font-size: 11px;
-        color: #94a3b8;
+        color: var(--c-text-faint);
         font-weight: 500;
         letter-spacing: 0.5px;
         margin-bottom: 12px;
@@ -165,13 +165,13 @@
 
     .tim-bidang {
         font-size: 12.5px;
-        color: #64748b;
+        color: var(--c-text-muted);
         line-height: 1.5;
-        background: #f8fafc;
+        background: var(--c-surface-2);
         border-radius: 10px;
         padding: 10px 14px;
         width: 100%;
-        border: 1px solid #f1f5f9;
+        border: 1px solid var(--c-border-soft);
     }
 
     @media (max-width: 1024px) {
@@ -249,35 +249,35 @@
 </div>
 
 <!-- CONTACT SECTION -->
-<div style="margin-top: 40px; background: white; border-radius: 16px; padding: 28px; border: 1px solid #e2e8f0; max-width: 700px;" class="animate-fade-in">
+<div style="margin-top: 40px; background: var(--c-surface); border-radius: 16px; padding: 28px; border: 1px solid var(--c-border); max-width: 700px;" class="animate-fade-in">
     <div style="font-size: 16px; font-weight: 700; color: var(--bps-dark); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">✉️</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">jabatanfungsional@bps.go.id</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">jabatanfungsional@bps.go.id</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">📞</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">(021) 3841195 ext. 3xxxx</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">(021) 3841195 ext. 3xxxx</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">🏢</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">Gedung 3 Lt. 2, BPS RI, Jakarta</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Gedung 3 Lt. 2, BPS RI, Jakarta</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">⏰</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jam Operasional</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">Senin–Jumat, 08.00–16.00 WIB</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jam Operasional</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Senin–Jumat, 08.00–16.00 WIB</div>
             </div>
         </div>
     </div>

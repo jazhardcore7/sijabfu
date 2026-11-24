@@ -79,17 +79,17 @@
 
     /* ─── ALUR SWIMLANE (ATTACHMENT 1) ─── */
     .pb-swimlane {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .pb-swimlane-title {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; justify-content: space-between;
     }
     .pb-lanes { padding: 20px 24px; display: flex; flex-direction: column; gap: 0; }
@@ -100,13 +100,13 @@
         position: relative;
     }
     .pb-lane:not(:last-child) {
-        border-bottom: 1px dashed #e2e8f0;
+        border-bottom: 1px dashed var(--c-border);
     }
     .pb-lane-actor {
         display: flex; align-items: center;
         padding: 14px 18px 14px 0;
         gap: 12px;
-        border-right: 2px solid #f1f5f9;
+        border-right: 2px solid var(--c-border-soft);
         margin-right: 18px;
     }
     .pb-lane-actor-badge {
@@ -116,7 +116,7 @@
         font-size: 18px; flex-shrink: 0;
     }
     .pb-lane-actor-name {
-        font-size: 12px; font-weight: 700; color: #374151; line-height: 1.4;
+        font-size: 12px; font-weight: 700; color: var(--c-text-2); line-height: 1.4;
     }
     .pb-lane-step {
         display: flex; align-items: center;
@@ -130,11 +130,11 @@
     }
     .pb-step-num.done  { background: #d1fae5; color: #065f46; }
     .pb-step-num.active { background: #dbeafe; color: #1e40af; box-shadow: 0 0 0 4px rgba(59,130,246,0.18); font-weight: 900; }
-    .pb-step-num.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-num.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     .pb-step-content { flex: 1; }
-    .pb-step-label { font-size: 13.5px; font-weight: 700; color: #111827; margin-bottom: 2px; }
-    .pb-step-desc  { font-size: 12px; color: #6b7280; line-height: 1.45; }
+    .pb-step-label { font-size: 13.5px; font-weight: 700; color: var(--c-text); margin-bottom: 2px; }
+    .pb-step-desc  { font-size: 12px; color: var(--c-text-muted); line-height: 1.45; }
     .pb-step-badge {
         font-size: 11px; font-weight: 700;
         padding: 4px 10px; border-radius: 20px;
@@ -142,7 +142,7 @@
     }
     .pb-step-badge.done    { background: #d1fae5; color: #065f46; }
     .pb-step-badge.active  { background: #dbeafe; color: #1e40af; }
-    .pb-step-badge.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-badge.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     /* ─── CATATAN ADMIN ─── */
     .catatan-card {
@@ -158,17 +158,17 @@
 
     /* ─── DETAIL USULAN ─── */
     .pb-detail-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .pb-detail-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 14px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; justify-content: space-between;
     }
     .pb-detail-grid {
@@ -178,11 +178,11 @@
     }
     .pb-detail-row {
         padding: 12px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--c-border-soft);
     }
-    .pb-detail-row:nth-child(odd) { border-right: 1px solid #f1f5f9; }
-    .pb-detail-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: #111827; }
+    .pb-detail-row:nth-child(odd) { border-right: 1px solid var(--c-border-soft); }
+    .pb-detail-label { font-size: 11px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: var(--c-text); }
     .pb-detail-link  { font-size: 13px; color: #005baa; word-break: break-all; }
 
     /* ─── INFO BANNER UNTUK FORM BARU ─── */
@@ -207,15 +207,15 @@
 
     /* ─── FORM CARD ─── */
     .fu-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .fu-card-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
         display: flex;
         align-items: center;
@@ -228,7 +228,7 @@
         font-size: 16px;
     }
     .fu-card-header-title { font-size: 14.5px; font-weight: 700; color: var(--bps-dark); }
-    .fu-card-header-subtitle { font-size: 12px; color: #6b7280; }
+    .fu-card-header-subtitle { font-size: 12px; color: var(--c-text-muted); }
     .fu-card-body { padding: 24px; }
 
     .fu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -236,17 +236,17 @@
 
     .fu-field { display: flex; flex-direction: column; gap: 5px; }
     .fu-label {
-        font-size: 13px; font-weight: 600; color: #374151;
+        font-size: 13px; font-weight: 600; color: var(--c-text-2);
         display: flex; align-items: center; gap: 4px;
     }
     .fu-label .req { color: #ef4444; }
     .fu-input, .fu-select {
-        border: 1.5px solid #d1d5db;
+        border: 1.5px solid var(--c-border-strong);
         border-radius: 10px;
         padding: 10px 14px;
         font-size: 14px;
-        color: #111827;
-        background: white;
+        color: var(--c-text);
+        background: var(--c-surface);
         transition: border-color 0.2s, box-shadow 0.2s;
         font-family: inherit;
         width: 100%;
@@ -259,7 +259,7 @@
     }
     .fu-input.is-invalid, .fu-select.is-invalid { border-color: #ef4444; }
     .fu-select { cursor: pointer; }
-    .fu-hint { font-size: 11.5px; color: #6b7280; line-height: 1.45; margin-top: 2px; }
+    .fu-hint { font-size: 11.5px; color: var(--c-text-muted); line-height: 1.45; margin-top: 2px; }
     .fu-error { font-size: 12px; color: #ef4444; margin-top: 2px; }
 
     .fu-link-info {
@@ -280,7 +280,7 @@
         gap: 16px;
         justify-content: flex-end;
         padding-top: 16px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--c-border-soft);
         margin-top: 8px;
     }
     .fu-btn-submit {
@@ -308,7 +308,7 @@
     @media (max-width: 640px) {
         .fu-grid { grid-template-columns: 1fr; }
         .pb-lane { grid-template-columns: 1fr; }
-        .pb-lane-actor { border-right: none; border-bottom: 1px solid #f1f5f9; margin-right: 0; padding-bottom: 8px; }
+        .pb-lane-actor { border-right: none; border-bottom: 1px solid var(--c-border-soft); margin-right: 0; padding-bottom: 8px; }
         .pb-detail-grid { grid-template-columns: 1fr; }
         .pb-detail-row:nth-child(odd) { border-right: none; }
     }
@@ -386,7 +386,7 @@
     <div class="pb-swimlane animate-fade-in">
         <div class="pb-swimlane-title">
             <span>🏊 Alur & Status Tahapan Usulan</span>
-            <span style="font-size:12px; font-weight:600; color:#64748b;">Disesuaikan oleh Tim Pembinaan JF</span>
+            <span style="font-size:12px; font-weight:600; color:var(--c-text-muted);">Disesuaikan oleh Tim Pembinaan JF</span>
         </div>
         <div class="pb-lanes">
             @foreach($tahapan as $i => $t)
@@ -419,7 +419,7 @@
     <div class="pb-detail-card animate-fade-in">
         <div class="pb-detail-header">
             <span>📄 Data Dokumen Usulan yang Diajukan</span>
-            <span style="font-size:12px; color:#64748b;">No. Surat: {{ $usulan->nomor_surat }}</span>
+            <span style="font-size:12px; color:var(--c-text-muted);">No. Surat: {{ $usulan->nomor_surat }}</span>
         </div>
         <div class="pb-detail-grid">
             <div class="pb-detail-row">
@@ -622,7 +622,7 @@
                         @error('link_berkas')<div class="fu-error">{{ $message }}</div>@enderror
                     </div>
                     <div class="fu-field fu-grid-full">
-                        <label class="fu-label">Link Usulan <span style="color:#9ca3af; font-weight:400;">(Opsional)</span></label>
+                        <label class="fu-label">Link Usulan <span style="color:var(--c-text-faint); font-weight:400;">(Opsional)</span></label>
                         <input type="text" name="link_usulan" class="fu-input"
                             placeholder="Tautan usulan pelengkap bila ada"
                             value="{{ old('link_usulan') }}">

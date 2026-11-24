@@ -87,18 +87,18 @@
 
     /* ─── SWIMLANE TIMELINE ─── */
     .pb-swimlane {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         margin-bottom: 24px;
     }
     .pb-swimlane-title {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; gap: 10px;
     }
     .pb-lanes { padding: 24px; display: flex; flex-direction: column; gap: 0; }
@@ -109,13 +109,13 @@
         position: relative;
     }
     .pb-lane:not(:last-child) {
-        border-bottom: 1px dashed #e2e8f0;
+        border-bottom: 1px dashed var(--c-border);
     }
     .pb-lane-actor {
         display: flex; align-items: center;
         padding: 16px 20px 16px 0;
         gap: 12px;
-        border-right: 2px solid #f1f5f9;
+        border-right: 2px solid var(--c-border-soft);
         margin-right: 20px;
     }
     .pb-lane-actor-badge {
@@ -125,7 +125,7 @@
         font-size: 18px; flex-shrink: 0;
     }
     .pb-lane-actor-name {
-        font-size: 12.5px; font-weight: 700; color: #374151; line-height: 1.4;
+        font-size: 12.5px; font-weight: 700; color: var(--c-text-2); line-height: 1.4;
     }
     .pb-lane-step {
         display: flex; align-items: center;
@@ -141,14 +141,14 @@
     }
     .pb-step-num.done  { background: #d1fae5; color: #065f46; }
     .pb-step-num.active { background: #dbeafe; color: #1e40af; box-shadow: 0 0 0 4px rgba(59,130,246,0.15); animation: pulsering 1.8s ease-in-out infinite; }
-    .pb-step-num.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-num.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
     @keyframes pulsering {
         0%, 100% { box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
         50%       { box-shadow: 0 0 0 8px rgba(59,130,246,0.08); }
     }
     .pb-step-content { flex: 1; }
-    .pb-step-label { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 3px; }
-    .pb-step-desc  { font-size: 12px; color: #6b7280; line-height: 1.5; }
+    .pb-step-label { font-size: 14px; font-weight: 700; color: var(--c-text); margin-bottom: 3px; }
+    .pb-step-desc  { font-size: 12px; color: var(--c-text-muted); line-height: 1.5; }
     .pb-step-badge {
         font-size: 11.5px; font-weight: 700;
         padding: 4px 10px; border-radius: 20px;
@@ -156,7 +156,7 @@
     }
     .pb-step-badge.done    { background: #d1fae5; color: #065f46; }
     .pb-step-badge.active  { background: #dbeafe; color: #1e40af; }
-    .pb-step-badge.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-badge.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     /* ─── CATATAN ADMIN ─── */
     .catatan-card {
@@ -173,18 +173,18 @@
 
     /* ─── RINGKASAN USULAN ─── */
     .pb-detail-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         margin-bottom: 24px;
     }
     .pb-detail-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 14px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; gap: 10px;
     }
     .pb-detail-grid {
@@ -194,24 +194,24 @@
     }
     .pb-detail-row {
         padding: 14px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--c-border-soft);
     }
-    .pb-detail-row:nth-child(odd) { border-right: 1px solid #f1f5f9; }
-    .pb-detail-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: #111827; }
+    .pb-detail-row:nth-child(odd) { border-right: 1px solid var(--c-border-soft); }
+    .pb-detail-label { font-size: 11px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: var(--c-text); }
     .pb-detail-link  { font-size: 13px; color: #005baa; word-break: break-all; }
 
     /* ─── EMPTY STATE ─── */
     .empty-state {
-        background: white;
+        background: var(--c-surface);
         border-radius: 24px;
-        border: 2px dashed #d1d5db;
+        border: 2px dashed var(--c-border-strong);
         padding: 60px 32px;
         text-align: center;
     }
     .empty-state-icon { font-size: 56px; margin-bottom: 20px; }
-    .empty-state h3 { font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
-    .empty-state p { color: #6b7280; font-size: 14px; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+    .empty-state h3 { font-size: 20px; font-weight: 800; color: var(--c-text); margin-bottom: 10px; }
+    .empty-state p { color: var(--c-text-muted); font-size: 14px; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
     .btn-to-form {
         display: inline-flex; align-items: center; gap: 8px;
         background: linear-gradient(135deg, var(--bps-dark), #00509D);
@@ -233,7 +233,7 @@
     @media (max-width: 640px) {
         .pb-hero { padding: 24px 20px; }
         .pb-lane { grid-template-columns: 1fr; }
-        .pb-lane-actor { border-right: none; border-bottom: 1px solid #f1f5f9; margin-right: 0; padding-bottom: 10px; }
+        .pb-lane-actor { border-right: none; border-bottom: 1px solid var(--c-border-soft); margin-right: 0; padding-bottom: 10px; }
         .pb-detail-grid { grid-template-columns: 1fr; }
         .pb-detail-row:nth-child(odd) { border-right: none; }
     }
@@ -376,7 +376,7 @@
     <span style="font-size:22px; flex-shrink:0;">💬</span>
     <div>
         <div style="font-weight:700; color:var(--bps-dark); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
-        <div style="font-size:13.5px; color:#374151; line-height:1.7;">
+        <div style="font-size:13.5px; color:var(--c-text-2); line-height:1.7;">
             Jika ada pertanyaan terkait status berkas Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
             <a href="{{ route('tim-kerja') }}">Tim Kerja</a>.
             Informasi status diperbarui oleh admin secara berkala.

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\FormUsulan;
 
 class AdminController extends Controller
@@ -192,6 +193,8 @@ class AdminController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $usulan = FormUsulan::findOrFail($id);
+
+        Gate::authorize('updateStatus', $usulan);
 
         $validated = $request->validate([
             'status' => 'required|integer|min:1|max:5',

@@ -20,6 +20,11 @@ use Illuminate\Support\Facades\DB;
  */
 class UsulanStateMachine
 {
+    public function __construct(private ?NotificationDispatcher $notifications = null)
+    {
+        $this->notifications ??= app(NotificationDispatcher::class);
+    }
+
     /** urutan maju, dipakai untuk menentukan rollback (mundur) */
     private const RANK = [
         FormUsulan::STATUS_VERIFIKASI => 1,
@@ -38,7 +43,7 @@ class UsulanStateMachine
 
         return $this->transition($usulan, $actor, null, FormUsulan::STATUS_VERIFIKASI, null, [
             'submitted_at' => now(),
-        ]);
+        ], 'submit');
     }
 
     /**
@@ -70,7 +75,7 @@ class UsulanStateMachine
             $changes['catatan'] = $catatan;
         }
 
-        return $this->transition($usulan, $actor, FormUsulan::STATUS_VERIFIKASI, $to, $catatan, $changes);
+        return $this->transition($usulan, $actor, FormUsulan::STATUS_VERIFIKASI, $to, $catatan, $changes, 'decide');
     }
 
     /**
@@ -82,7 +87,7 @@ class UsulanStateMachine
 
         return $this->transition($usulan, $actor, FormUsulan::STATUS_PERBAIKAN, FormUsulan::STATUS_VERIFIKASI, null, [
             'submitted_at' => now(),
-        ]);
+        ], 'resubmit');
     }
 
     /**
@@ -98,7 +103,7 @@ class UsulanStateMachine
 
         return $this->transition($usulan, $actor, FormUsulan::STATUS_DISETUJUI, FormUsulan::STATUS_DITETAPKAN, $this->clean($catatan), [
             'surat_usulan_path' => $suratPath,
-        ]);
+        ], 'issueSurat');
     }
 
     /**
@@ -115,7 +120,7 @@ class UsulanStateMachine
         return $this->transition($usulan, $actor, FormUsulan::STATUS_DITETAPKAN, FormUsulan::STATUS_SELESAI, $this->clean($catatan), [
             'sertifikat_path' => $sertifikatPath,
             'hasil_ukom' => $this->clean($hasilUkom),
-        ]);
+        ], 'complete');
     }
 
     /**
@@ -138,15 +143,15 @@ class UsulanStateMachine
             throw InvalidStatusTransition::from($from, $to, 'Rollback hanya boleh ke status sebelumnya.');
         }
 
-        return $this->transition($usulan, $actor, $from, $to, $reason, []);
+        return $this->transition($usulan, $actor, $from, $to, $reason, [], 'rollback');
     }
 
     /**
      * Terapkan perpindahan secara atomik setelah memastikan status saat ini sesuai.
      */
-    private function transition(FormUsulan $usulan, User $actor, ?string $expectedFrom, string $to, ?string $catatan, array $changes): FormUsulan
+    private function transition(FormUsulan $usulan, User $actor, ?string $expectedFrom, string $to, ?string $catatan, array $changes, string $event): FormUsulan
     {
-        return DB::transaction(function () use ($usulan, $actor, $expectedFrom, $to, $catatan, $changes) {
+        $usulan = DB::transaction(function () use ($usulan, $actor, $expectedFrom, $to, $catatan, $changes) {
             $current = FormUsulan::whereKey($usulan->getKey())->lockForUpdate()->value('status_key');
 
             if ($current !== $expectedFrom) {
@@ -165,6 +170,11 @@ class UsulanStateMachine
 
             return $usulan;
         });
+
+        // FR-NOT-1: notifikasi hanya dikirim setelah perubahan status tersimpan
+        $this->notifications->usulanTransition($event, $usulan, $catatan);
+
+        return $usulan;
     }
 
     private function assertStaff(User $actor): void

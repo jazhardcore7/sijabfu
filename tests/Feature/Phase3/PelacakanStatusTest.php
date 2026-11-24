@@ -163,7 +163,7 @@ class PelacakanStatusTest extends TestCase
         $pages = [
             [$this->pegawai, '/pelacakan-status'],
             [$this->pegawai, '/pengajuan'],
-            [$timJf, '/admin'],
+            [$timJf, '/dashboard'],
             [$timJf, '/monitoring'],
         ];
 

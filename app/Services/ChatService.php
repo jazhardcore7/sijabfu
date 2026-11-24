@@ -23,7 +23,7 @@ class ChatService
 
     public function send(User $sender, ?ChatThread $thread, string $body): ChatMessage
     {
-        return DB::transaction(function () use ($sender, $thread, $body) {
+        $message = DB::transaction(function () use ($sender, $thread, $body) {
             $thread ??= ChatThread::firstOrCreate(['pegawai_id' => $sender->id]);
 
             $message = ChatMessage::create([
@@ -36,6 +36,11 @@ class ChatService
 
             return $message;
         });
+
+        // FR-NOT-1: pesan chat baru untuk pihak penerima
+        app(NotificationDispatcher::class)->chatMessage($message);
+
+        return $message;
     }
 
     /**

@@ -234,7 +234,7 @@ class PengajuanTest extends TestCase
         $this->actingAs($this->pegawai)->post('/pengajuan', $this->dataUsulan(['nomor_surat' => 'DRAF-RAHASIA']));
         $timJf = User::factory()->timJf()->create();
 
-        $this->actingAs($timJf)->get('/admin')->assertOk()->assertDontSee('DRAF-RAHASIA');
+        $this->actingAs($timJf)->get('/dashboard')->assertOk()->assertDontSee('DRAF-RAHASIA');
         $this->actingAs($timJf)->get('/monitoring')->assertOk()->assertDontSee('DRAF-RAHASIA');
     }
 

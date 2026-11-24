@@ -676,6 +676,9 @@
         </div>
     </section>
 
+    <!-- GRAFIK DASHBOARD (FR-DASH-4, FR-DASH-5) -->
+    @include('dashboard._staf-panel')
+
     <!-- 3. MAIN CARDS CONTAINER (3 COLUMNS: INTERNAL, EKSTERNAL, LAINNYA) -->
     <main class="cards-container">
         <div class="cards-grid">

@@ -260,6 +260,6 @@ class MonitoringTest extends TestCase
         $this->assertNull($fresh->catatan);
 
         $this->actingAs($this->timJf)->get('/admin/monitoring?status=selesai')->assertRedirect('/monitoring?status=selesai');
-        $this->actingAs($this->timJf)->get('/admin')->assertDontSee('name="status" class="select-status"', false);
+        $this->actingAs($this->timJf)->get('/dashboard')->assertOk()->assertDontSee('name="status" class="select-status"', false);
     }
 }

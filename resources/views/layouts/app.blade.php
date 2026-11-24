@@ -467,6 +467,15 @@
             padding: 12px; font-size: 13px; color: var(--c-text);
         }
         .notif-empty { color: var(--c-text-muted); text-align: center; padding: 12px 4px; }
+        .notif-panel { width: 340px; max-height: 420px; overflow-y: auto; padding: 0; }
+        .notif-panel-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--c-border); position: sticky; top: 0; background: var(--c-surface); }
+        .notif-read-all { background: none; border: none; color: var(--bps-mid); font-size: 12px; font-weight: 700; cursor: pointer; }
+        .notif-item { display: block; padding: 10px 14px; border-bottom: 1px solid var(--c-border-soft); text-decoration: none; color: var(--c-text); }
+        .notif-item.is-unread { background: var(--c-surface-3); }
+        .notif-item.is-unread .notif-item-title::before { content: '● '; color: #ef4444; }
+        .notif-item-title { font-size: 13px; font-weight: 700; }
+        .notif-item-body { font-size: 12px; color: var(--c-text-2); margin-top: 2px; }
+        .notif-item-time { font-size: 11px; color: var(--c-text-faint); margin-top: 3px; }
         .profile-btn {
             display: inline-flex; align-items: center; gap: 8px;
             background: var(--c-surface-2); border: 1px solid var(--c-border);
@@ -548,17 +557,8 @@
                         <span id="headerDatetime">--</span>
                     </div>
 
-                    <!-- Notifikasi (isi notifikasi ditambahkan pada fase notifikasi) -->
-                    <details class="nav-dropdown" data-layout="notification-bell">
-                        <summary class="notif-bell-btn" title="Notifikasi" aria-label="Notifikasi">
-                            🔔
-                            <span class="notif-count" data-count="0">0</span>
-                        </summary>
-                        <div class="nav-dropdown-panel">
-                            <div style="font-weight: 700; margin-bottom: 6px;">Notifikasi</div>
-                            <div class="notif-empty">Belum ada notifikasi</div>
-                        </div>
-                    </details>
+                    <!-- Notifikasi -->
+                    @include('partials.notifications')
 
                     <!-- Tema dark/light -->
                     <button type="button" class="theme-toggle" onclick="toggleTheme()" data-layout="theme-toggle" title="Ganti tema" aria-label="Ganti tema dark/light">

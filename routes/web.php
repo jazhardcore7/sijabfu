@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\TimKerjaController;
@@ -78,6 +80,13 @@ Route::middleware(['auth', 'role:pegawai'])->group(function () {
 // 4. Halaman untuk semua role yang sudah login
 Route::middleware('auth')->group(function () {
     Route::get('/', [PortalController::class, 'index'])->name('home');
+
+    // Dashboard per role (FR-DASH-3, FR-DASH-4, FR-DASH-5)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Notifikasi (FR-NOT-1)
+    Route::get('/notifikasi/{id}', [NotifikasiController::class, 'open'])->name('notifikasi.open');
+    Route::post('/notifikasi/baca-semua', [NotifikasiController::class, 'readAll'])->name('notifikasi.baca-semua');
     Route::get('/alur-layanan', [PortalController::class, 'alurLayanan'])->name('alur-layanan');
     // Regulasi: daftar, preview, unduh (semua role) - FR-REG-1
     Route::get('/regulasi', [RegulasiController::class, 'index'])->name('regulasi');

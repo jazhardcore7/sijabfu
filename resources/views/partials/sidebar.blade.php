@@ -5,7 +5,7 @@
     // Item yang route-nya belum ada (fitur fase berikutnya) disembunyikan otomatis.
     $menus = [
         'pegawai' => [
-            ['label' => 'Dashboard', 'route' => 'home', 'icon' => '🏠'],
+            ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => '🏠'],
             ['label' => 'Pengajuan Usulan', 'route' => 'pengajuan', 'icon' => '📝'],
             ['label' => 'Pelacakan Status', 'route' => 'pelacakan-status', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => '📋'],
@@ -13,14 +13,14 @@
             ['label' => 'Chat Box', 'route' => 'chat.index', 'icon' => '💬'],
         ],
         'tim_jf' => [
-            ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => '🏠'],
+            ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => '🏠'],
             ['label' => 'Verifikasi Berkas Usulan Pegawai', 'route' => 'verifikasi.index', 'icon' => '🔍'],
             ['label' => 'Monitoring Progress UKOM', 'route' => 'monitoring.index', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'admin.regulasi.index', 'icon' => '📋'],
             ['label' => 'Chat Box (Messenger)', 'route' => 'messenger.index', 'icon' => '💬'],
         ],
         'super_admin' => [
-            ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => '🏠'],
+            ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => '🏠'],
             ['label' => 'Sinkronisasi Data SSO', 'route' => 'admin.sso-sync', 'icon' => '🔄'],
             ['label' => 'Monitoring Progress UKOM', 'route' => 'monitoring.index', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'admin.regulasi.index', 'icon' => '📋'],

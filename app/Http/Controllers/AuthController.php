@@ -13,10 +13,7 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            }
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
         return view('auth.login');
@@ -43,11 +40,11 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if ($user->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'))
+                return redirect()->intended(route('dashboard'))
                     ->with('success', 'Selamat datang di Dashboard Admin Pembinaan JF, ' . $user->name);
             }
 
-            return redirect()->intended(route('home'))
+            return redirect()->intended(route('dashboard'))
                 ->with('success', 'Selamat datang di Portal Pembinaan JF BPS RI, ' . $user->name);
         }
 

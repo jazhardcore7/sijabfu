@@ -34,6 +34,10 @@ class ThemeTest extends TestCase
         'modules/progress-berkas.blade.php',
         'modules/regulasi.blade.php',
         'modules/tim-kerja.blade.php',
+        'modules/tim-kerja-profile.blade.php',
+        'modules/chat.blade.php',
+        'chat/_conversation.blade.php',
+        'messenger/index.blade.php',
     ];
 
     public function test_authenticated_page_has_theme_script_tokens_and_toggle(): void

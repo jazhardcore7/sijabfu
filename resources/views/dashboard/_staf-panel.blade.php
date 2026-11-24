@@ -10,7 +10,7 @@
 
     @if($isSuperAdmin ?? false)
     <div class="dash-grid" style="margin-top: 16px;">
-        {{-- Kartu Sinkronisasi Data SSO (proses sinkronisasi tersedia di Fase 8) --}}
+        {{-- Kartu Sinkronisasi Data SSO (FR-DASH-5, FR-USR-2) --}}
         <div class="dash-card" data-section="sso-sync-card">
             <div class="dash-card-title">🔄 Sinkronisasi Data SSO</div>
             @if($ssoLog)
@@ -27,8 +27,11 @@
             @else
             <div class="dash-muted" data-sso="empty">Belum pernah sinkronisasi.</div>
             @endif
-            <button type="button" class="dash-btn-disabled" disabled title="Tersedia setelah modul SSO aktif" data-action="sinkronkan">🔄 Sinkronkan</button>
-            <div class="dash-muted" style="margin-top:6px; text-align:center;">Tersedia setelah modul SSO aktif</div>
+            <form action="{{ route('admin.sso-sync.run') }}" method="POST" onsubmit="return confirm('Jalankan sinkronisasi data SSO sekarang?');">
+                @csrf
+                <button type="submit" class="dash-btn-sync" data-action="sinkronkan">🔄 Sinkronkan</button>
+            </form>
+            <a href="{{ route('admin.sso-sync') }}" class="dash-muted" style="display:block; margin-top:6px; text-align:center;">Lihat riwayat sinkronisasi →</a>
         </div>
 
         @include('dashboard._bar-chart', ['chartId' => 'user-per-role', 'title' => 'User per Role', 'data' => $usersPerRole, 'color' => '#7C3AED'])

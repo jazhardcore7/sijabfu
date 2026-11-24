@@ -23,6 +23,7 @@
         margin-top: 12px; width: 100%; padding: 10px; border-radius: 10px; border: none;
         background: var(--c-surface-3); color: var(--c-text-faint); font-weight: 700; cursor: not-allowed;
     }
+    .dash-btn-sync { margin-top: 12px; width: 100%; padding: 10px; border-radius: 10px; border: none; cursor: pointer; background: linear-gradient(135deg, #10B981, #059669); color: #FFFFFF; font-weight: 700; }
     .dash-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0; }
     .dash-step { text-align: center; padding: 12px 8px; border-radius: 12px; background: var(--c-surface-3); color: var(--c-text-muted); font-size: 12px; font-weight: 700; }
     .dash-step.done { background: #D1FAE5; color: #065F46; }

@@ -16,7 +16,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return view('auth.login');
+        return view('auth.login', ['localEnabled' => config('sijabfu.auth_local_enabled')]);
     }
 
     /**
@@ -24,6 +24,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        // FR-AUTH-3: login lokal hanya bila AUTH_LOCAL_ENABLED=true
+        if (!config('sijabfu.auth_local_enabled')) {
+            return redirect()->route('login')->withErrors([
+                'nip' => 'Login dengan NIP dan password dinonaktifkan. Silakan gunakan LOGIN SSO.',
+            ]);
+        }
+
         $credentials = $request->validate([
             'nip' => ['required', 'string'],
             'password' => ['required', 'string'],
@@ -35,9 +42,18 @@ class AuthController extends Controller
         $remember = $request->boolean('remember');
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
             $user = Auth::user();
+
+            // User nonaktif tidak boleh masuk (FR-USR-1)
+            if (!$user->is_active) {
+                Auth::logout();
+
+                return back()->withErrors([
+                    'nip' => 'Akun Anda dinonaktifkan. Hubungi Super Admin.',
+                ])->onlyInput('nip');
+            }
+
+            $request->session()->regenerate();
 
             if ($user->isAdmin()) {
                 return redirect()->intended(route('dashboard'))

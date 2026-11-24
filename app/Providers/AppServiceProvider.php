@@ -18,7 +18,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Adapter SSO dan SIMPEG/SIASN dipilih dari config (FR-USR-3)
+        $this->app->bind(\App\Contracts\SsoProvider::class, function () {
+            $driver = (string) config('sijabfu.sso.driver');
+
+            return $driver === 'fake'
+                ? new \App\Sso\FakeSsoProvider()
+                : new \App\Sso\UnconfiguredSsoProvider($driver);
+        });
+
+        $this->app->bind(\App\Contracts\SimpegDirectory::class, function () {
+            $driver = (string) config('sijabfu.simpeg.driver');
+
+            return $driver === 'fake'
+                ? new \App\Simpeg\FakeSimpegDirectory()
+                : new \App\Sso\UnconfiguredSsoProvider($driver);
+        });
     }
 
     /**

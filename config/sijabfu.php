@@ -36,4 +36,24 @@ return [
     */
     'disk' => 'local',
 
+    /*
+    |--------------------------------------------------------------------------
+    | SSO dan SIMPEG/SIASN (FR-AUTH-1, FR-PU-1, FR-USR-2, FR-USR-3)
+    |--------------------------------------------------------------------------
+    | [ASSUMPTION PRD 11.1] Protokol dan endpoint asli belum diketahui; hanya
+    | driver "fake" yang tersedia. Driver fake ditolak saat APP_ENV=production.
+    */
+    'sso' => [
+        'driver' => env('SSO_DRIVER', 'fake'),
+    ],
+
+    'simpeg' => [
+        'driver' => env('SIMPEG_DRIVER', 'fake'),
+    ],
+
+    /*
+    | FR-AUTH-3: login lokal NIP/password. Default aktif kecuali di production.
+    */
+    'auth_local_enabled' => (bool) env('AUTH_LOCAL_ENABLED', env('APP_ENV', 'production') !== 'production'),
+
 ];

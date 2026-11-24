@@ -349,7 +349,7 @@
         padding: 14px 18px; color: #991b1b; font-size: 13.5px; font-weight: 600;
         display: flex; align-items: center; gap: 10px;
     }
-    .readonly-identity { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 18px; }
+    .readonly-identity { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 18px; }
     .readonly-identity .fu-input { background: var(--c-surface-2); color: var(--c-text-2); }
     @media (max-width: 640px) {
         .readonly-identity { grid-template-columns: 1fr; }
@@ -375,6 +375,10 @@
 
     @if(session('success'))
     <div class="alert-success-bar"><span>✅</span> {{ session('success') }}</div>
+    @endif
+
+    @if(session('warning'))
+    <div class="catatan-card" data-section="sinkron-warning"><div class="catatan-icon">⚠️</div><div class="catatan-text">{{ session('warning') }}</div></div>
     @endif
 
     @if(session('error'))
@@ -459,6 +463,21 @@
     </div>
 
     @else
+    {{-- ─── SINKRON DATA SIMPEG/SIASN (FR-PU-1) ─── --}}
+    <form action="{{ route('pengajuan.sinkron') }}" method="POST" class="fu-card animate-fade-in" style="margin-bottom:16px;" data-form="sinkron-simpeg">
+        @csrf
+        <div class="fu-card-header" style="justify-content: space-between;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="fu-card-header-icon" style="background:#f0fdf4;">🔄</div>
+                <div>
+                    <div class="fu-card-header-title">Sinkron Data dengan SIMPEG/SIASN</div>
+                    <div class="fu-card-header-subtitle">Perbarui nama, jabatan, dan unit kerja dari SIMPEG/SIASN</div>
+                </div>
+            </div>
+            <button type="submit" class="fu-btn-secondary" data-action="sinkron-simpeg">🔄 Sinkron Data</button>
+        </div>
+    </form>
+
     {{-- ─── FORM ENTRI DATA + UPLOAD BERKAS ─── --}}
     <form action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data" id="formPengajuan">
         @csrf
@@ -485,6 +504,10 @@
                     <div class="fu-field">
                         <label class="fu-label">Email</label>
                         <input type="text" class="fu-input" value="{{ $authUser->email }}" readonly>
+                    </div>
+                    <div class="fu-field">
+                        <label class="fu-label">Jabatan</label>
+                        <input type="text" class="fu-input" value="{{ $authUser->jabatan }}" readonly data-field="jabatan">
                     </div>
                 </div>
 

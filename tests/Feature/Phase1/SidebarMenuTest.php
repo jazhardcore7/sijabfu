@@ -34,8 +34,10 @@ class SidebarMenuTest extends TestCase
         ],
         User::ROLE_SUPER_ADMIN => [
             'dashboard' => 'Dashboard',
+            'admin.sso-sync' => 'Sinkronisasi Data SSO',
             'monitoring.index' => 'Monitoring Progress UKOM',
             'admin.regulasi.index' => 'Regulasi',
+            'admin.users' => 'Daftar User',
         ],
     ];
 
@@ -89,13 +91,19 @@ class SidebarMenuTest extends TestCase
         }
     }
 
-    public function test_menu_items_without_route_are_hidden(): void
+    public function test_every_pdf_menu_item_now_has_a_route(): void
     {
-        $response = $this->actingAs(User::factory()->superAdmin()->create())->get('/dashboard');
+        // Sejak Fase 8 semua menu PDF punya route; tidak ada item yang disembunyikan.
+        foreach (self::MENUS as $menu) {
+            foreach (array_keys($menu) as $routeName) {
+                $this->assertTrue(\Illuminate\Support\Facades\Route::has($routeName), $routeName);
+            }
+        }
+        $this->assertTrue(\Illuminate\Support\Facades\Route::has('chat.index'));
 
-        // menu fase berikutnya belum muncul di sidebar (kartu SSO di dashboard bukan menu)
-        $response->assertDontSee('data-menu-route="admin.sso-sync"', false);
-        $response->assertDontSee('data-menu-route="admin.users"', false);
-        $response->assertDontSee('data-menu-route="chat.index"', false);
+        // Super Admin tidak melihat menu milik role lain
+        $this->actingAs(User::factory()->superAdmin()->create())->get('/dashboard')
+            ->assertDontSee('data-menu-route="chat.index"', false)
+            ->assertDontSee('data-menu-route="verifikasi.index"', false);
     }
 }

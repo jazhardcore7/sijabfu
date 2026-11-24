@@ -18,15 +18,12 @@ class PengajuanRoleTest extends TestCase
     private function payload(): array
     {
         return [
-            'email' => 'uji@bps.go.id',
+            'aksi' => 'simpan',
             'jabatan_fungsional' => 'Statistisi',
             'jenis_usulan' => 'Inpassing',
             'nomor_surat' => '001/TEST',
             'hal_surat' => 'Uji',
-            'nama_lengkap' => 'Pegawai Uji',
-            'nip' => '199001012020011001',
             'satuan_kerja' => 'BPS RI',
-            'link_berkas' => 'https://example.test/berkas',
         ];
     }
 
@@ -43,17 +40,19 @@ class PengajuanRoleTest extends TestCase
     {
         $user = User::factory()->create(['role' => $role]);
 
+        $this->actingAs($user)->post('/pengajuan', $this->payload())->assertForbidden();
         $this->actingAs($user)->post('/form-usulan', $this->payload())->assertForbidden();
+        $this->actingAs($user)->post('/pengajuan/kirim-ulang')->assertForbidden();
 
         $this->assertSame(0, FormUsulan::count());
     }
 
-    public function test_pegawai_can_still_submit(): void
+    public function test_pegawai_can_still_save_usulan(): void
     {
         $user = User::factory()->pegawai()->create();
 
-        $this->actingAs($user)->post('/form-usulan', $this->payload())
-            ->assertRedirect(route('progress-berkas'));
+        $this->actingAs($user)->post('/pengajuan', $this->payload())
+            ->assertRedirect(route('pengajuan'));
 
         $this->assertSame(1, FormUsulan::where('user_id', $user->id)->count());
     }

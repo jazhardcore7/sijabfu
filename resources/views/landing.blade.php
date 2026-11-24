@@ -573,7 +573,7 @@
                 <div class="card-arrow">Lihat Alur <span>→</span></div>
             </a>
 
-            <a href="{{ route('form-usulan') }}" class="service-card card-indigo animate-fade-in delay-200" style="opacity:0">
+            <a href="{{ route('pengajuan') }}" class="service-card card-indigo animate-fade-in delay-200" style="opacity:0">
                 <div class="card-number">02</div>
                 <div class="card-icon-wrapper icon-indigo">📝</div>
                 <div class="card-content">
@@ -583,7 +583,7 @@
                 <div class="card-arrow">Isi Formulir <span>→</span></div>
             </a>
 
-            <a href="{{ route('progress-berkas') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
+            <a href="{{ route('pelacakan-status') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
                 <div class="card-number">03</div>
                 <div class="card-icon-wrapper icon-orange">📊</div>
                 <div class="card-content">

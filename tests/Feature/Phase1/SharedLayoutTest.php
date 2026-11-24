@@ -19,8 +19,8 @@ class SharedLayoutTest extends TestCase
     {
         return [
             'pegawai beranda'       => [User::ROLE_PEGAWAI, '/', 'Pegawai'],
-            'pegawai pengajuan'     => [User::ROLE_PEGAWAI, '/form-usulan', 'Pegawai'],
-            'pegawai pelacakan'     => [User::ROLE_PEGAWAI, '/progress-berkas', 'Pegawai'],
+            'pegawai pengajuan'     => [User::ROLE_PEGAWAI, '/pengajuan', 'Pegawai'],
+            'pegawai pelacakan'     => [User::ROLE_PEGAWAI, '/pelacakan-status', 'Pegawai'],
             'pegawai regulasi'      => [User::ROLE_PEGAWAI, '/regulasi', 'Pegawai'],
             'pegawai tim kerja'     => [User::ROLE_PEGAWAI, '/tim-kerja', 'Pegawai'],
             'pegawai alur layanan'  => [User::ROLE_PEGAWAI, '/alur-layanan', 'Pegawai'],

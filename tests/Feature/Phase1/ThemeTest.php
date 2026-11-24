@@ -25,6 +25,7 @@ class ThemeTest extends TestCase
         'auth/login.blade.php',
         'admin/dashboard.blade.php',
         'admin/monitoring.blade.php',
+        'admin/regulasi.blade.php',
         'verifikasi/index.blade.php',
         'verifikasi/show.blade.php',
         'verifikasi/_styles.blade.php',

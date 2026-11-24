@@ -27,6 +27,11 @@ return [
     'berkas_max_kb' => 5120,
 
     /*
+    | [ASSUMPTION PRD 11.8] File regulasi: PDF saja, maksimal 10 MB (dalam kilobyte).
+    */
+    'regulasi_max_kb' => 10240,
+
+    /*
     | Disk privat untuk semua file usulan (root storage/app/private, tidak di-link ke public).
     */
     'disk' => 'local',

@@ -66,6 +66,8 @@ class DatabaseSeeder extends Seeder
                 'link_berkas'        => 'https://laci.bps.go.id/s/test-berkas-jf-budi',
                 'link_usulan'        => 'https://drive.google.com/test-usulan-budi',
                 'status'             => 2, // Tahap 2: Verifikasi Kelayakan
+                'status_key'         => \App\Models\FormUsulan::STATUS_VERIFIKASI, // pemetaan status lama 2
+                'submitted_at'       => now(),
                 'catatan'            => 'Berkas lengkap. Sedang menunggu verifikasi kelayakan kuota oleh Tim Pembinaan JF.',
             ]
         );

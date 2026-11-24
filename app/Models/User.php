@@ -26,6 +26,11 @@ class User extends Authenticatable
         'role',
         'jabatan',
         'unit_kerja',
+        'is_active',
+        'sso_id',
+        'bidang',
+        'foto_path',
+        'kontak',
     ];
 
     public const ROLE_PEGAWAI = 'pegawai';
@@ -102,6 +107,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 }

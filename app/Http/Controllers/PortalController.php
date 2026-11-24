@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\ProgressBerkas;
 use App\Models\FormUsulan;
+use App\Services\UsulanStateMachine;
+use Illuminate\Support\Facades\DB;
 
 class PortalController extends Controller
 {
@@ -95,7 +97,7 @@ class PortalController extends Controller
         return view('modules.form-usulan', compact('sudahSubmit', 'usulan', 'jabfungList', 'jenisUsulanList', 'tahapan', 'persen'));
     }
 
-    public function formUsulanStore(Request $request)
+    public function formUsulanStore(Request $request, UsulanStateMachine $stateMachine)
     {
         $user = Auth::user();
 
@@ -130,20 +132,25 @@ class PortalController extends Controller
             'link_berkas.required'        => 'Link Berkas wajib diisi.',
         ]);
 
-        FormUsulan::create([
-            'user_id'            => $user->id,
-            'email'              => $validated['email'],
-            'jabatan_fungsional' => $validated['jabatan_fungsional'],
-            'jenis_usulan'       => $validated['jenis_usulan'],
-            'nomor_surat'        => $validated['nomor_surat'],
-            'hal_surat'          => $validated['hal_surat'],
-            'nama_lengkap'       => $validated['nama_lengkap'],
-            'nip'                => $validated['nip'],
-            'satuan_kerja'       => $validated['satuan_kerja'],
-            'link_berkas'        => $validated['link_berkas'],
-            'link_usulan'        => $validated['link_usulan'] ?? null,
-            'status'             => 1, // Tahap 1: Diusulkan
-        ]);
+        DB::transaction(function () use ($user, $validated, $stateMachine) {
+            $usulan = FormUsulan::create([
+                'user_id'            => $user->id,
+                'email'              => $validated['email'],
+                'jabatan_fungsional' => $validated['jabatan_fungsional'],
+                'jenis_usulan'       => $validated['jenis_usulan'],
+                'nomor_surat'        => $validated['nomor_surat'],
+                'hal_surat'          => $validated['hal_surat'],
+                'nama_lengkap'       => $validated['nama_lengkap'],
+                'nip'                => $validated['nip'],
+                'satuan_kerja'       => $validated['satuan_kerja'],
+                'link_berkas'        => $validated['link_berkas'],
+                'link_usulan'        => $validated['link_usulan'] ?? null,
+                'status'             => 1, // Tahap 1: Diusulkan (kolom lama, tetap diisi)
+            ]);
+
+            // Siklus hidup baru: usulan baru -> verifikasi, ditambah satu baris log status
+            $stateMachine->submit($usulan, $user);
+        });
 
         return redirect()->route('progress-berkas')->with('success', 'Usulan berhasil dikirim! Pantau progress berkas Anda di halaman ini.');
     }

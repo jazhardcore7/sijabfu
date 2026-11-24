@@ -8,16 +8,58 @@ class FormUsulan extends Model
 {
     protected $table = 'form_usulan';
 
+    /**
+     * Status siklus hidup (PRD Revisi bagian 4), disimpan di kolom status_key.
+     */
+    public const STATUS_VERIFIKASI = 'verifikasi';
+    public const STATUS_PERBAIKAN = 'perbaikan';
+    public const STATUS_DISETUJUI = 'disetujui';
+    public const STATUS_DITETAPKAN = 'ditetapkan';
+    public const STATUS_SELESAI = 'selesai';
+
+    public const STATUS_LABELS = [
+        self::STATUS_VERIFIKASI => 'Verifikasi',
+        self::STATUS_PERBAIKAN => 'Perbaikan',
+        self::STATUS_DISETUJUI => 'Disetujui (MS)',
+        self::STATUS_DITETAPKAN => 'Ditetapkan',
+        self::STATUS_SELESAI => 'Selesai',
+    ];
+
+    public const HASIL_MS = 'ms';
+    public const HASIL_TMS = 'tms';
+
     protected $fillable = [
         'user_id', 'email', 'jabatan_fungsional', 'jenis_usulan',
         'nomor_surat', 'hal_surat', 'nama_lengkap', 'nip',
         'satuan_kerja', 'link_berkas', 'link_usulan',
         'status', 'catatan',
+        'status_key', 'hasil_verifikasi', 'verified_by', 'verified_at',
+        'surat_usulan_path', 'sertifikat_path', 'hasil_ukom', 'submitted_at',
+    ];
+
+    protected $casts = [
+        'verified_at' => 'datetime',
+        'submitted_at' => 'datetime',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function berkas()
+    {
+        return $this->hasMany(UsulanBerkas::class, 'form_usulan_id');
+    }
+
+    public function statusLogs()
+    {
+        return $this->hasMany(UsulanStatusLog::class, 'form_usulan_id')->orderBy('id');
+    }
+
+    public function statusKeyLabel(): string
+    {
+        return self::STATUS_LABELS[$this->status_key] ?? '-';
     }
 
     /**

@@ -23,12 +23,14 @@ class SidebarMenuTest extends TestCase
             'pelacakan-status' => 'Pelacakan Status',
             'regulasi' => 'Regulasi',
             'tim-kerja' => 'Tim Kerja',
+            'chat.index' => 'Chat Box',
         ],
         User::ROLE_TIM_JF => [
             'admin.dashboard' => 'Dashboard',
             'verifikasi.index' => 'Verifikasi Berkas Usulan Pegawai',
             'monitoring.index' => 'Monitoring Progress UKOM',
             'admin.regulasi.index' => 'Regulasi',
+            'messenger.index' => 'Chat Box (Messenger)',
         ],
         User::ROLE_SUPER_ADMIN => [
             'admin.dashboard' => 'Dashboard',

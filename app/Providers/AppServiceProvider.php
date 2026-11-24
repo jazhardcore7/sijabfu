@@ -29,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(FormUsulan::class, FormUsulanPolicy::class);
         Gate::policy(\App\Models\UsulanBerkas::class, \App\Policies\UsulanBerkasPolicy::class);
         Gate::policy(\App\Models\Regulasi::class, \App\Policies\RegulasiPolicy::class);
+        Gate::policy(\App\Models\ChatThread::class, \App\Policies\ChatThreadPolicy::class);
+
+        // FR-CHAT-4: maksimal 30 pesan per menit per user.
+        RateLimiter::for('chat', function (Request $request) {
+            return Limit::perMinute(30)->by('chat|' . ($request->user()?->id ?? $request->ip()));
+        });
 
         // FR-AUTH-4: maksimal 5 percobaan login per menit per NIP dan IP.
         RateLimiter::for('login', function (Request $request) {

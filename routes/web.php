@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessengerController;
+use App\Http\Controllers\TimKerjaController;
 use App\Http\Controllers\RegulasiController;
 use App\Http\Controllers\Admin\RegulasiController as AdminRegulasiController;
 use App\Http\Controllers\MonitoringController;
@@ -35,6 +38,11 @@ Route::middleware(['auth', 'role:tim_jf,super_admin'])->group(function () {
     Route::put('/admin/regulasi/{regulasi}', [AdminRegulasiController::class, 'update'])->whereNumber('regulasi')->middleware('throttle:uploads')->name('admin.regulasi.update');
     Route::delete('/admin/regulasi/{regulasi}', [AdminRegulasiController::class, 'destroy'])->whereNumber('regulasi')->name('admin.regulasi.destroy');
 
+    // Messenger: inbox bersama (FR-CHAT-2, FR-CHAT-3); JSON untuk polling
+    Route::get('/messenger', [MessengerController::class, 'index'])->name('messenger.index');
+    Route::get('/messenger/{thread}', [MessengerController::class, 'show'])->whereNumber('thread')->name('messenger.show');
+    Route::post('/messenger/{thread}', [MessengerController::class, 'reply'])->whereNumber('thread')->middleware('throttle:chat')->name('messenger.reply');
+
     Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
     Route::get('/verifikasi/{usulan}', [VerifikasiController::class, 'show'])->whereNumber('usulan')->name('verifikasi.show');
     Route::post('/verifikasi/{usulan}', [VerifikasiController::class, 'update'])->whereNumber('usulan')->name('verifikasi.update');
@@ -52,6 +60,10 @@ Route::middleware(['auth', 'role:pegawai'])->group(function () {
     Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store')->middleware('throttle:uploads');
     Route::post('/pengajuan/kirim-ulang', [PengajuanController::class, 'kirimUlang'])->name('pengajuan.kirim-ulang');
+
+    // Chat Box (FR-CHAT-1); JSON untuk polling
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [ChatController::class, 'store'])->middleware('throttle:chat')->name('chat.store');
 
     // Pelacakan Status
     Route::get('/pelacakan-status', [PelacakanController::class, 'index'])->name('pelacakan-status');
@@ -71,7 +83,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/regulasi', [RegulasiController::class, 'index'])->name('regulasi');
     Route::get('/regulasi/{regulasi}/preview', [RegulasiController::class, 'preview'])->whereNumber('regulasi')->name('regulasi.preview');
     Route::get('/regulasi/{regulasi}/download', [RegulasiController::class, 'download'])->whereNumber('regulasi')->name('regulasi.download');
-    Route::get('/tim-kerja', [PortalController::class, 'timKerja'])->name('tim-kerja');
+    // Tim Kerja (FR-TK-1)
+    Route::get('/tim-kerja', [TimKerjaController::class, 'index'])->name('tim-kerja');
+    Route::get('/tim-kerja/{user}', [TimKerjaController::class, 'show'])->whereNumber('user')->name('tim-kerja.show');
 
     // File usulan (pemilik, Tim Pembinaan JF, Super Admin) - FR-PS-6
     Route::get('/files/{type}/{id}', [FileController::class, 'show'])

@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
                 'password'  => \Illuminate\Support\Facades\Hash::make('password'),
                 'role'      => User::ROLE_TIM_JF,
                 'jabatan'   => 'PIC Pembinaan Jabatan Fungsional',
+                'bidang'    => 'Biro SDM - Pembinaan Jabatan Fungsional',
+                'kontak'    => 'jabatanfungsional@bps.go.id',
                 'unit_kerja'=> 'Biro SDM - BPS RI',
             ]
         );

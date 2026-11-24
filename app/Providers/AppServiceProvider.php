@@ -34,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
 
             return Limit::perMinute(5)->by($nip . '|' . $request->ip());
         });
+
+        // PRD bagian 8: throttle unggahan berkas usulan per user.
+        RateLimiter::for('uploads', function (Request $request) {
+            return Limit::perMinute(20)->by('uploads|' . ($request->user()?->id ?? $request->ip()));
+        });
     }
 }

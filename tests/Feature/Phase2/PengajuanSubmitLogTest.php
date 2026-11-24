@@ -6,11 +6,13 @@ use App\Models\FormUsulan;
 use App\Models\UsulanStatusLog;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 /**
- * FR-PU-4 (sebagian, Fase 2): kirim usulan membuat status verifikasi dan satu baris log.
- * Syarat semua slot berkas terisi dan notifikasi Tim JF ada di Fase 3 dan Fase 7.
+ * FR-PU-4: kirim usulan membuat status verifikasi dan satu baris log.
+ * (Notifikasi ke Tim JF ada di Fase 7.)
  */
 class PengajuanSubmitLogTest extends TestCase
 {
@@ -18,19 +20,23 @@ class PengajuanSubmitLogTest extends TestCase
 
     public function test_submission_creates_verifikasi_status_and_log(): void
     {
+        Storage::fake('local');
         $user = User::factory()->pegawai()->create();
 
-        $this->actingAs($user)->post('/form-usulan', [
-            'email' => $user->email,
+        $files = [];
+        foreach (array_keys(config('sijabfu.berkas_persyaratan')) as $key) {
+            $files[$key] = UploadedFile::fake()->create($key . '.pdf', 100, 'application/pdf');
+        }
+
+        $this->actingAs($user)->post('/pengajuan', [
+            'aksi' => 'kirim',
             'jabatan_fungsional' => 'Statistisi',
             'jenis_usulan' => 'Inpassing',
             'nomor_surat' => '001/TEST',
             'hal_surat' => 'Uji',
-            'nama_lengkap' => $user->name,
-            'nip' => $user->nip,
             'satuan_kerja' => 'BPS RI',
-            'link_berkas' => 'https://example.test/berkas',
-        ])->assertRedirect(route('progress-berkas'));
+            'berkas' => $files,
+        ])->assertRedirect(route('pelacakan-status'));
 
         $usulan = FormUsulan::where('user_id', $user->id)->sole();
         $this->assertSame('verifikasi', $usulan->status_key);

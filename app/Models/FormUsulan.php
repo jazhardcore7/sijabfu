@@ -59,7 +59,57 @@ class FormUsulan extends Model
 
     public function statusKeyLabel(): string
     {
-        return self::STATUS_LABELS[$this->status_key] ?? '-';
+        return self::STATUS_LABELS[$this->status_key] ?? 'Draf';
+    }
+
+    /**
+     * Draf: data/berkas sudah disimpan tetapi belum dikirim (status_key null).
+     */
+    public function isDraft(): bool
+    {
+        return $this->status_key === null;
+    }
+
+    /**
+     * Pegawai hanya boleh mengubah data dan berkas saat draf atau perbaikan (FR-PU-5).
+     */
+    public function isEditableByPegawai(): bool
+    {
+        return $this->isDraft() || $this->status_key === self::STATUS_PERBAIKAN;
+    }
+
+    /**
+     * Usulan yang sudah dikirim (bukan draf); dipakai pada daftar staf.
+     */
+    public function scopeSubmitted($query)
+    {
+        return $query->whereNotNull('status_key');
+    }
+
+    /**
+     * Tautan lama hanya ditampilkan bila skemanya http atau https (FR-PU-7).
+     */
+    public static function safeUrl(?string $url): ?string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return null;
+        }
+
+        $scheme = strtolower((string) parse_url($url, PHP_URL_SCHEME));
+
+        return in_array($scheme, ['http', 'https'], true) ? $url : null;
+    }
+
+    /**
+     * Jenis persyaratan yang belum punya file.
+     */
+    public function missingBerkas(): array
+    {
+        $required = array_keys(config('sijabfu.berkas_persyaratan'));
+        $uploaded = $this->berkas()->pluck('jenis_persyaratan')->all();
+
+        return array_values(array_diff($required, $uploaded));
     }
 
     /**

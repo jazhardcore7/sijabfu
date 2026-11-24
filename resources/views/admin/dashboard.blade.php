@@ -852,14 +852,20 @@
                                 <div style="font-size: 11px; color: var(--c-text-muted); max-width: 180px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="{{ $item->hal_surat }}">
                                     Hal: {{ $item->hal_surat }}
                                 </div>
+                                @php
+                                    $safeBerkas = \App\Models\FormUsulan::safeUrl($item->link_berkas);
+                                    $safeUsulan = \App\Models\FormUsulan::safeUrl($item->link_usulan);
+                                @endphp
+                                @if($safeBerkas)
                                 <div style="margin-top: 6px;">
-                                    <a href="{{ $item->link_berkas }}" target="_blank" rel="noopener noreferrer" style="color: #0284C7; font-size: 11px; font-weight: 700; text-decoration: underline;">
+                                    <a href="{{ $safeBerkas }}" target="_blank" rel="noopener noreferrer" style="color: #0284C7; font-size: 11px; font-weight: 700; text-decoration: underline;">
                                         🔗 Buka Berkas (Drive/Laci) ↗
                                     </a>
                                 </div>
-                                @if($item->link_usulan)
+                                @endif
+                                @if($safeUsulan)
                                 <div>
-                                    <a href="{{ $item->link_usulan }}" target="_blank" rel="noopener noreferrer" style="color: var(--c-text-muted); font-size: 10px; text-decoration: underline;">
+                                    <a href="{{ $safeUsulan }}" target="_blank" rel="noopener noreferrer" style="color: var(--c-text-muted); font-size: 10px; text-decoration: underline;">
                                         Link Usulan ↗
                                     </a>
                                 </div>

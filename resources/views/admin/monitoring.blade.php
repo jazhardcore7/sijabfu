@@ -854,9 +854,11 @@
                         <span class="status-badge-pill {{ $stepClass }}">
                             ● Tahap {{ $item->status }}: {{ $currTahap['label'] ?? $item->statusLabel() }} ({{ $persen }}%)
                         </span>
-                        <a href="{{ $item->link_berkas }}" target="_blank" rel="noopener noreferrer" class="link-drive-btn">
+                        @if($safeBerkas = \App\Models\FormUsulan::safeUrl($item->link_berkas))
+                        <a href="{{ $safeBerkas }}" target="_blank" rel="noopener noreferrer" class="link-drive-btn">
                             📁 Berkas Laci/Drive ↗
                         </a>
+                        @endif
                     </div>
                 </div>
 

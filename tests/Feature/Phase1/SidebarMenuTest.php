@@ -19,8 +19,8 @@ class SidebarMenuTest extends TestCase
     private const MENUS = [
         User::ROLE_PEGAWAI => [
             'home' => 'Dashboard',
-            'form-usulan' => 'Pengajuan Usulan',
-            'progress-berkas' => 'Pelacakan Status',
+            'pengajuan' => 'Pengajuan Usulan',
+            'pelacakan-status' => 'Pelacakan Status',
             'regulasi' => 'Regulasi',
             'tim-kerja' => 'Tim Kerja',
         ],

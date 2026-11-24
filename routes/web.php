@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\PelacakanController;
+use App\Http\Controllers\PengajuanController;
 
 // 1. Auth Routes (Guest)
 Route::middleware('guest')->group(function () {
@@ -23,10 +26,19 @@ Route::middleware(['auth', 'role:tim_jf,super_admin'])->prefix('admin')->group(f
 
 // 3. Menu khusus Pegawai
 Route::middleware(['auth', 'role:pegawai'])->group(function () {
-    Route::get('/form-usulan', [PortalController::class, 'formUsulan'])->name('form-usulan');
-    Route::post('/form-usulan', [PortalController::class, 'formUsulanStore'])->name('form-usulan.store');
-    Route::get('/progress-berkas', [PortalController::class, 'progressBerkas'])->name('progress-berkas');
-    Route::redirect('/uji-kompetensi', '/progress-berkas');
+    // Pengajuan Usulan
+    Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
+    Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store')->middleware('throttle:uploads');
+    Route::post('/pengajuan/kirim-ulang', [PengajuanController::class, 'kirimUlang'])->name('pengajuan.kirim-ulang');
+
+    // Pelacakan Status
+    Route::get('/pelacakan-status', [PelacakanController::class, 'index'])->name('pelacakan-status');
+
+    // Route lama tetap berfungsi (dialihkan ke route baru)
+    Route::redirect('/form-usulan', '/pengajuan')->name('form-usulan');
+    Route::post('/form-usulan', [PengajuanController::class, 'store'])->name('form-usulan.store')->middleware('throttle:uploads');
+    Route::redirect('/progress-berkas', '/pelacakan-status')->name('progress-berkas');
+    Route::redirect('/uji-kompetensi', '/pelacakan-status');
 });
 
 // 4. Halaman untuk semua role yang sudah login
@@ -35,4 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/alur-layanan', [PortalController::class, 'alurLayanan'])->name('alur-layanan');
     Route::get('/regulasi', [PortalController::class, 'regulasi'])->name('regulasi');
     Route::get('/tim-kerja', [PortalController::class, 'timKerja'])->name('tim-kerja');
+
+    // File usulan (pemilik, Tim Pembinaan JF, Super Admin) - FR-PS-6
+    Route::get('/files/{type}/{id}', [FileController::class, 'show'])
+        ->whereIn('type', ['berkas', 'surat', 'sertifikat'])
+        ->whereNumber('id')
+        ->name('files.show');
 });

@@ -238,7 +238,7 @@
 </div>
 
 <!-- PROGRESS MONITORING CTA -->
-<a href="{{ route('progress-berkas') }}" class="progress-cta-card animate-fade-in">
+<a href="{{ route('pelacakan-status') }}" class="progress-cta-card animate-fade-in">
     <div class="progress-cta-text">
         <h3>📊 Cek Progress Berkas Anda</h3>
         <p>Pantau posisi berkas usulan jabatan fungsional Anda secara real-time — lihat sudah sampai tahap mana prosesnya.</p>

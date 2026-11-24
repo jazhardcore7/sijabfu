@@ -141,7 +141,7 @@ class AdminController extends Controller
         ];
 
         // 5. Data Pengajuan Usulan Pegawai
-        $daftarUsulan = FormUsulan::with('user')->latest()->get();
+        $daftarUsulan = FormUsulan::submitted()->with('user')->latest()->get();
         $tahapan = FormUsulan::tahapan();
 
         return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan'));
@@ -152,7 +152,7 @@ class AdminController extends Controller
      */
     public function monitoring(Request $request)
     {
-        $query = FormUsulan::with('user');
+        $query = FormUsulan::submitted()->with('user');
 
         // Filter status
         if ($request->filled('status')) {
@@ -176,12 +176,12 @@ class AdminController extends Controller
 
         // Statistik ringkasan
         $stats = [
-            'total'   => FormUsulan::count(),
-            'tahap_1' => FormUsulan::where('status', 1)->count(),
-            'tahap_2' => FormUsulan::where('status', 2)->count(),
-            'tahap_3' => FormUsulan::where('status', 3)->count(),
-            'tahap_4' => FormUsulan::where('status', 4)->count(),
-            'tahap_5' => FormUsulan::where('status', 5)->count(),
+            'total'   => FormUsulan::submitted()->count(),
+            'tahap_1' => FormUsulan::submitted()->where('status', 1)->count(),
+            'tahap_2' => FormUsulan::submitted()->where('status', 2)->count(),
+            'tahap_3' => FormUsulan::submitted()->where('status', 3)->count(),
+            'tahap_4' => FormUsulan::submitted()->where('status', 4)->count(),
+            'tahap_5' => FormUsulan::submitted()->where('status', 5)->count(),
         ];
 
         return view('admin.monitoring', compact('daftarUsulan', 'tahapan', 'stats'));

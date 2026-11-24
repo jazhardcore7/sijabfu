@@ -6,8 +6,8 @@
     $menus = [
         'pegawai' => [
             ['label' => 'Dashboard', 'route' => 'home', 'icon' => '🏠'],
-            ['label' => 'Pengajuan Usulan', 'route' => 'form-usulan', 'icon' => '📝'],
-            ['label' => 'Pelacakan Status', 'route' => 'progress-berkas', 'icon' => '📊'],
+            ['label' => 'Pengajuan Usulan', 'route' => 'pengajuan', 'icon' => '📝'],
+            ['label' => 'Pelacakan Status', 'route' => 'pelacakan-status', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => '📋'],
             ['label' => 'Tim Kerja', 'route' => 'tim-kerja', 'icon' => '👥'],
             ['label' => 'Chat Box', 'route' => 'chat.index', 'icon' => '💬'],

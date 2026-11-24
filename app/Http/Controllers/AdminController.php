@@ -148,64 +148,23 @@ class AdminController extends Controller
     }
 
     /**
-     * Halaman Admin Panel Khusus Monitoring Progress Usulan
+     * Route lama Monitoring: dialihkan ke Monitoring Progress UKOM yang baru.
      */
     public function monitoring(Request $request)
     {
-        $query = FormUsulan::submitted()->with('user');
-
-        // Filter status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // Filter pencarian
-        if ($request->filled('q')) {
-            $keyword = '%' . $request->q . '%';
-            $query->where(function($q) use ($keyword) {
-                $q->where('nama_lengkap', 'like', $keyword)
-                  ->orWhere('nip', 'like', $keyword)
-                  ->orWhere('satuan_kerja', 'like', $keyword)
-                  ->orWhere('jabatan_fungsional', 'like', $keyword)
-                  ->orWhere('nomor_surat', 'like', $keyword);
-            });
-        }
-
-        $daftarUsulan = $query->latest()->paginate(10)->withQueryString();
-        $tahapan = FormUsulan::tahapan();
-
-        // Statistik ringkasan
-        $stats = [
-            'total'   => FormUsulan::submitted()->count(),
-            'tahap_1' => FormUsulan::submitted()->where('status', 1)->count(),
-            'tahap_2' => FormUsulan::submitted()->where('status', 2)->count(),
-            'tahap_3' => FormUsulan::submitted()->where('status', 3)->count(),
-            'tahap_4' => FormUsulan::submitted()->where('status', 4)->count(),
-            'tahap_5' => FormUsulan::submitted()->where('status', 5)->count(),
-        ];
-
-        return view('admin.monitoring', compact('daftarUsulan', 'tahapan', 'stats'));
+        return redirect()->route('monitoring.index', $request->query());
     }
 
     /**
-     * Update Status Usulan oleh Admin
+     * Form status lama (angka 1-5) dinonaktifkan: perubahan status hanya lewat
+     * state machine di Monitoring Progress UKOM (FR-MON-2). Route tetap ada agar
+     * tautan/form lama tidak error; tidak ada data yang diubah.
      */
     public function updateStatus(Request $request, $id)
     {
-        $usulan = FormUsulan::findOrFail($id);
+        FormUsulan::findOrFail($id);
 
-        Gate::authorize('updateStatus', $usulan);
-
-        $validated = $request->validate([
-            'status' => 'required|integer|min:1|max:5',
-            'catatan' => 'nullable|string|max:1000',
-        ]);
-
-        $usulan->update([
-            'status' => $validated['status'],
-            'catatan' => $validated['catatan'] ?? null,
-        ]);
-
-        return redirect()->back()->with('success', "Status usulan untuk {$usulan->nama_lengkap} berhasil diperbarui menjadi Tahap {$usulan->status}.");
+        return redirect()->route('monitoring.index')
+            ->with('error', 'Perubahan status kini melalui Monitoring Progress UKOM.');
     }
 }

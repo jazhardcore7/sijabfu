@@ -26,12 +26,13 @@ class SidebarMenuTest extends TestCase
         ],
         User::ROLE_TIM_JF => [
             'admin.dashboard' => 'Dashboard',
-            'admin.monitoring' => 'Monitoring Progress UKOM',
+            'verifikasi.index' => 'Verifikasi Berkas Usulan Pegawai',
+            'monitoring.index' => 'Monitoring Progress UKOM',
             'regulasi' => 'Regulasi',
         ],
         User::ROLE_SUPER_ADMIN => [
             'admin.dashboard' => 'Dashboard',
-            'admin.monitoring' => 'Monitoring Progress UKOM',
+            'monitoring.index' => 'Monitoring Progress UKOM',
             'regulasi' => 'Regulasi',
         ],
     ];
@@ -68,7 +69,9 @@ class SidebarMenuTest extends TestCase
 
             foreach (self::MENUS as $otherRole => $otherMenu) {
                 foreach (array_keys($otherMenu) as $routeName) {
-                    if (in_array($routeName, $own, true) || in_array($routeName, $shared, true)) {
+                    // Super Admin boleh membuka semua route Tim JF [ASSUMPTION PRD 11.3]
+                    $staffShared = $role === User::ROLE_SUPER_ADMIN && $otherRole === User::ROLE_TIM_JF;
+                    if ($staffShared || in_array($routeName, $own, true) || in_array($routeName, $shared, true)) {
                         continue;
                     }
 

@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\PelacakanController;
 use App\Http\Controllers\PengajuanController;
 
@@ -22,6 +24,19 @@ Route::middleware(['auth', 'role:tim_jf,super_admin'])->prefix('admin')->group(f
     Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/monitoring', [AdminController::class, 'monitoring'])->name('admin.monitoring');
     Route::post('/usulan/{id}/status', [AdminController::class, 'updateStatus'])->name('admin.usulan.update-status');
+});
+
+// 2b. Verifikasi Berkas dan Monitoring Progress UKOM (Tim Pembinaan JF dan Super Admin)
+Route::middleware(['auth', 'role:tim_jf,super_admin'])->group(function () {
+    Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+    Route::get('/verifikasi/{usulan}', [VerifikasiController::class, 'show'])->whereNumber('usulan')->name('verifikasi.show');
+    Route::post('/verifikasi/{usulan}', [VerifikasiController::class, 'update'])->whereNumber('usulan')->name('verifikasi.update');
+
+    Route::get('/monitoring', [MonitoringController::class, 'index'])->name('monitoring.index');
+    Route::post('/monitoring/{usulan}/status', [MonitoringController::class, 'updateStatus'])
+        ->whereNumber('usulan')
+        ->middleware('throttle:uploads')
+        ->name('monitoring.update-status');
 });
 
 // 3. Menu khusus Pegawai

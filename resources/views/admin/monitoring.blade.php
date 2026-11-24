@@ -707,82 +707,78 @@
 </style>
 @endpush
 
+@push('styles')
+<style>
+    .alert-error-box {
+        background: #FEE2E2; border: 1px solid #FCA5A5; color: #991B1B;
+        padding: 12px 16px; border-radius: 12px; font-size: 13px; font-weight: 600;
+        margin-bottom: 16px; display: flex; gap: 8px; align-items: center;
+    }
+    .mon-action-form { display: flex; flex-direction: column; gap: 8px; padding-top: 10px; border-top: 1px dashed var(--c-border); margin-top: 10px; }
+    .mon-action-form:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .mon-file-input { font-size: 12px; color: var(--c-text-2); }
+    .mon-input {
+        border: 1.5px solid var(--c-border-strong); border-radius: 8px; padding: 8px 10px;
+        font-size: 12.5px; color: var(--c-text); background: var(--c-surface); font-family: inherit; width: 100%;
+    }
+    .mon-hint { font-size: 11.5px; color: var(--c-text-muted); line-height: 1.5; }
+    .mon-btn-link {
+        display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px; border-radius: 10px; text-decoration: none;
+        font-size: 13px; font-weight: 700; color: #FFFFFF;
+        background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid));
+    }
+    .mon-doc-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; }
+    .mon-doc-links a { color: var(--bps-mid); font-weight: 700; text-decoration: none; }
+    .btn-rollback { background: #B45309 !important; }
+</style>
+@endpush
+
 @section('content')
-    <!-- 2. PAGE HEADER -->
+    <!-- PAGE HEADER -->
     <div class="page-header-container">
         <div class="header-card">
             <div class="header-title-box">
-                <h1>📊 Monitoring & Manajemen Progres Usulan Pegawai</h1>
+                <h1>📊 Monitoring Progress UKOM</h1>
                 <p>
-                    Pantau alur 5 tahapan usulan jabatan fungsional dari seluruh Satker BPS.
-                    Perbarui status progres tahapan serta berikan catatan resmi langsung ke pegawai pengusul.
+                    Pantau progres setiap pegawai, terbitkan surat usulan, dan unggah sertifikat hasil UKOM.
+                    Perubahan status mengikuti alur Verifikasi → Disetujui → Ditetapkan → Selesai.
                 </p>
-            </div>
-            <div class="header-badge-live">
-                <span class="live-dot"></span>
-                <span>Live Monitoring Active</span>
             </div>
         </div>
     </div>
 
-    <!-- 3. STATS METRICS -->
+    <!-- STATISTIK PER STATUS (FR-MON-1) -->
     <section class="stats-grid">
-        <a href="{{ route('admin.monitoring') }}" class="stat-card {{ !request('status') ? 'active-filter' : '' }}">
+        <a href="{{ route('monitoring.index', array_filter(['q' => request('q')])) }}" class="stat-card {{ !request('status') ? 'active-filter' : '' }}" data-stat="total">
             <div class="stat-header">
                 <span class="stat-label">Total Usulan</span>
                 <span class="stat-icon">📁</span>
             </div>
             <div class="stat-count">{{ $stats['total'] }}</div>
-            <div class="stat-sub">Seluruh Berkas</div>
+            <div class="stat-sub">Seluruh usulan terkirim</div>
         </a>
-
-        <a href="{{ route('admin.monitoring', ['status' => 1]) }}" class="stat-card {{ request('status') == 1 ? 'active-filter' : '' }}">
+        @php
+            $statMeta = [
+                'verifikasi' => ['🔍', '#0284C7'],
+                'perbaikan' => ['🛠️', '#EA580C'],
+                'disetujui' => ['✅', '#16A34A'],
+                'ditetapkan' => ['📄', '#4F46E5'],
+                'selesai' => ['🎓', '#D97706'],
+            ];
+        @endphp
+        @foreach($statusLabels as $key => $label)
+        <a href="{{ route('monitoring.index', array_filter(['status' => $key, 'q' => request('q')])) }}" class="stat-card {{ request('status') === $key ? 'active-filter' : '' }}" data-stat="{{ $key }}">
             <div class="stat-header">
-                <span class="stat-label">1. Pengusulan</span>
-                <span class="stat-icon">📝</span>
+                <span class="stat-label">{{ $label }}</span>
+                <span class="stat-icon">{{ $statMeta[$key][0] }}</span>
             </div>
-            <div class="stat-count" style="color: #EA580C;">{{ $stats['tahap_1'] }}</div>
-            <div class="stat-sub">Satker / Pejabat JF</div>
+            <div class="stat-count" style="color: {{ $statMeta[$key][1] }};" data-count="{{ $stats[$key] }}">{{ $stats[$key] }}</div>
+            <div class="stat-sub">Usulan</div>
         </a>
-
-        <a href="{{ route('admin.monitoring', ['status' => 2]) }}" class="stat-card {{ request('status') == 2 ? 'active-filter' : '' }}">
-            <div class="stat-header">
-                <span class="stat-label">2. Verifikasi</span>
-                <span class="stat-icon">🔍</span>
-            </div>
-            <div class="stat-count" style="color: #0284C7;">{{ $stats['tahap_2'] }}</div>
-            <div class="stat-sub">Tim Pembinaan JF</div>
-        </a>
-
-        <a href="{{ route('admin.monitoring', ['status' => 3]) }}" class="stat-card {{ request('status') == 3 ? 'active-filter' : '' }}">
-            <div class="stat-header">
-                <span class="stat-label">3. Jadwal & Kuota</span>
-                <span class="stat-icon">📅</span>
-            </div>
-            <div class="stat-count" style="color: #16A34A;">{{ $stats['tahap_3'] }}</div>
-            <div class="stat-sub">Unit Kompetensi</div>
-        </a>
-
-        <a href="{{ route('admin.monitoring', ['status' => 4]) }}" class="stat-card {{ request('status') == 4 ? 'active-filter' : '' }}">
-            <div class="stat-header">
-                <span class="stat-label">4. Undangan</span>
-                <span class="stat-icon">📨</span>
-            </div>
-            <div class="stat-count" style="color: #4F46E5;">{{ $stats['tahap_4'] }}</div>
-            <div class="stat-sub">Sistem / SIGMA</div>
-        </a>
-
-        <a href="{{ route('admin.monitoring', ['status' => 5]) }}" class="stat-card {{ request('status') == 5 ? 'active-filter' : '' }}">
-            <div class="stat-header">
-                <span class="stat-label">5. Selesai</span>
-                <span class="stat-icon">✅</span>
-            </div>
-            <div class="stat-count" style="color: #D97706;">{{ $stats['tahap_5'] }}</div>
-            <div class="stat-sub">Konfirmasi Hadir</div>
-        </a>
+        @endforeach
     </section>
 
-    <!-- 4. MAIN MONITORING TABLE & CONTROLS -->
     <main class="main-container">
 
         @if(session('success'))
@@ -792,80 +788,75 @@
         </div>
         @endif
 
-        <!-- FILTER & SEARCH BAR -->
+        @if($transitionError ?? session('error'))
+        <div class="alert-error-box" data-section="transition-error">
+            <span>⚠️</span>
+            <span>{{ $transitionError ?? session('error') }}</span>
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="alert-error-box" data-section="validation-errors">
+            <span>⚠️</span>
+            <span>{{ implode(' ', $errors->all()) }}</span>
+        </div>
+        @endif
+
+        <!-- FILTER & PENCARIAN -->
         <div class="filter-panel">
-            <form action="{{ route('admin.monitoring') }}" method="GET" class="filter-form">
+            <form action="{{ route('monitoring.index') }}" method="GET" class="filter-form">
                 <div class="search-input-box">
                     <span class="search-icon">🔍</span>
-                    <input type="text" name="q" placeholder="Cari nama pegawai, NIP, Satker, atau Jabatan Fungsional..." value="{{ request('q') }}">
+                    <input type="text" name="q" placeholder="Cari NIP atau nama pegawai..." value="{{ request('q') }}">
                 </div>
-
                 <select name="status" class="select-filter">
-                    <option value="">-- Semua Tahapan Status --</option>
-                    @foreach($tahapan as $t)
-                    <option value="{{ $t['step'] }}" {{ request('status') == $t['step'] ? 'selected' : '' }}>
-                        Tahap {{ $t['step'] }}: {{ $t['label'] }}
-                    </option>
+                    <option value="">-- Semua Status --</option>
+                    @foreach($statusLabels as $key => $label)
+                    <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
-
                 <button type="submit" class="btn-filter">Terapkan Filter</button>
                 @if(request('q') || request('status'))
-                <a href="{{ route('admin.monitoring') }}" class="btn-reset">Reset Filter</a>
+                <a href="{{ route('monitoring.index') }}" class="btn-reset">Reset Filter</a>
                 @endif
             </form>
         </div>
 
-        <!-- LIST USULAN -->
+        <!-- DAFTAR PROGRES PEGAWAI -->
         <div class="monitoring-list">
-            @forelse($daftarUsulan as $index => $item)
+            @php $order = ['verifikasi' => 1, 'perbaikan' => 1, 'disetujui' => 2, 'ditetapkan' => 3, 'selesai' => 4]; @endphp
+            @forelse($daftarUsulan as $item)
             @php
-                $stepClass = match($item->status) {
-                    1 => 'badge-step-1',
-                    2 => 'badge-step-2',
-                    3 => 'badge-step-3',
-                    4 => 'badge-step-4',
-                    5 => 'badge-step-5',
-                    default => 'badge-step-1'
-                };
-                $currTahap = collect($tahapan)->firstWhere('step', $item->status);
-                $persen = $item->progressPersen();
+                $rank = $order[$item->status_key] ?? 1;
+                $tahap = ['Verifikasi', 'Disetujui', 'Ditetapkan', 'Selesai'];
+                $persen = $item->status_key === 'selesai' ? 100 : (int) round((($rank - 1) / 4) * 100);
+                $formQuery = array_filter(['status' => request('status'), 'q' => request('q')]);
             @endphp
-            <div class="usulan-item-card">
-                <!-- TOP BAR -->
+            <div class="usulan-item-card" data-usulan="{{ $item->id }}">
                 <div class="card-top-bar">
                     <div class="card-top-left">
-                        <div class="pegawai-avatar">
-                            {{ strtoupper(substr($item->nama_lengkap, 0, 2)) }}
-                        </div>
+                        <div class="pegawai-avatar">{{ strtoupper(mb_substr($item->nama_lengkap, 0, 2)) }}</div>
                         <div>
                             <div class="pegawai-info-title">{{ $item->nama_lengkap }}</div>
                             <div class="pegawai-info-meta">
                                 <span><strong>NIP:</strong> {{ $item->nip }}</span>
                                 <span>•</span>
                                 <span>🏢 {{ $item->satuan_kerja }}</span>
-                                <span>•</span>
-                                <span>✉️ {{ $item->email }}</span>
                             </div>
                         </div>
                     </div>
-
                     <div style="display: flex; align-items: center; gap: 10px;">
-                        <span class="status-badge-pill {{ $stepClass }}">
-                            ● Tahap {{ $item->status }}: {{ $currTahap['label'] ?? $item->statusLabel() }} ({{ $persen }}%)
+                        <span class="status-badge-pill {{ $item->statusBadgeClass() }}" data-status-key="{{ $item->status_key }}">
+                            ● {{ $item->statusKeyLabel() }} ({{ $persen }}%)
                         </span>
                         @if($safeBerkas = \App\Models\FormUsulan::safeUrl($item->link_berkas))
-                        <a href="{{ $safeBerkas }}" target="_blank" rel="noopener noreferrer" class="link-drive-btn">
-                            📁 Berkas Laci/Drive ↗
-                        </a>
+                        <a href="{{ $safeBerkas }}" target="_blank" rel="noopener noreferrer" class="link-drive-btn">📁 Berkas Laci/Drive ↗</a>
                         @endif
                     </div>
                 </div>
 
-                <!-- BODY: DOSSIER & PROGRESS TRACKER -->
                 <div class="card-body-content">
                     <div>
-                        <!-- DOSSIER DETAILS -->
                         <div class="dossier-grid">
                             <div class="dossier-cell">
                                 <span class="dossier-label">Jabatan Fungsional</span>
@@ -876,80 +867,104 @@
                                 <span class="dossier-value">{{ $item->jenis_usulan }}</span>
                             </div>
                             <div class="dossier-cell">
-                                <span class="dossier-label">Nomor Surat</span>
-                                <span class="dossier-value">{{ $item->nomor_surat }}</span>
+                                <span class="dossier-label">Hasil Verifikasi</span>
+                                <span class="dossier-value">{{ $item->hasil_verifikasi ? strtoupper($item->hasil_verifikasi) : '-' }}</span>
                             </div>
                             <div class="dossier-cell" style="grid-column: span 2;">
-                                <span class="dossier-label">Hal Surat</span>
-                                <span class="dossier-value">{{ $item->hal_surat }}</span>
+                                <span class="dossier-label">Nomor / Hal Surat</span>
+                                <span class="dossier-value">{{ $item->nomor_surat }} — {{ $item->hal_surat }}</span>
                             </div>
                             <div class="dossier-cell">
-                                <span class="dossier-label">Tanggal Usulan Masuk</span>
-                                <span class="dossier-value">{{ $item->created_at->format('d M Y, H:i') }} WIB</span>
+                                <span class="dossier-label">Dikirim</span>
+                                <span class="dossier-value">{{ ($item->submitted_at ?? $item->created_at)->format('d M Y, H:i') }}</span>
                             </div>
                         </div>
 
-                        <!-- 5-STAGE MINI TRACKER (ATTACHMENT 1) -->
-                        <div style="font-size: 11.5px; font-weight: 700; color: var(--c-text-2); margin-bottom: 4px;">
-                            Alur 5 Tahapan Swimlane:
-                        </div>
                         <div class="mini-tracker">
-                            @foreach($tahapan as $t)
+                            @foreach($tahap as $i => $label)
                             @php
-                                $s = $t['step'];
-                                $isDone = $item->status > $s;
-                                $isActive = $item->status == $s;
+                                $s = $i + 1;
+                                $isDone = $item->status_key === 'selesai' || $rank > $s;
+                                $isActive = !$isDone && $rank === $s;
                                 $stateClass = $isDone ? 'done' : ($isActive ? 'active' : '');
-                                $iconText = $isDone ? '✓' : $s;
                             @endphp
                             <div class="tracker-step-node">
-                                <div class="tracker-circle {{ $stateClass }}">{{ $iconText }}</div>
-                                <div class="tracker-step-text" style="{{ $isActive ? 'color: var(--bps-mid); font-weight:800;' : '' }}">
-                                    {{ $t['label'] }}
-                                </div>
-                                <div class="tracker-actor-text">{{ $t['aktor'] }}</div>
+                                <div class="tracker-circle {{ $stateClass }}">{{ $isDone ? '✓' : $s }}</div>
+                                <div class="tracker-step-text">{{ $label }}{{ $isActive && $item->status_key === 'perbaikan' ? ' (Perbaikan)' : '' }}</div>
                             </div>
                             @endforeach
                         </div>
 
-                        <!-- CATATAN DARI ADMIN SAAT INI -->
                         @if($item->catatan)
                         <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 10px 14px; border-radius: 10px; font-size: 12px; color: #92400E; margin-top: 12px;">
-                            <strong>Catatan untuk Pegawai saat ini:</strong> {{ $item->catatan }}
+                            <strong>Catatan terbaru:</strong> {{ $item->catatan }}
                         </div>
                         @endif
+
+                        <div class="mon-doc-links">
+                            @if($item->surat_usulan_path)
+                            <a href="{{ route('files.show', ['type' => 'surat', 'id' => $item->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener">📄 Surat Usulan</a>
+                            @endif
+                            @if($item->sertifikat_path)
+                            <a href="{{ route('files.show', ['type' => 'sertifikat', 'id' => $item->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener">🎓 Sertifikat UKOM</a>
+                            @endif
+                            @if($item->hasil_ukom)
+                            <span>Hasil UKOM: <strong>{{ $item->hasil_ukom }}</strong></span>
+                            @endif
+                        </div>
                     </div>
 
-                    <!-- RIGHT CONTROLS: UPDATE STATUS & CATATAN -->
+                    <!-- PANEL UPDATE STATUS (FR-MON-2, FR-MON-4, FR-MON-5) -->
                     <div class="control-panel-box">
                         <div class="control-panel-title">
                             <span>⚙️</span>
-                            <span>Kelola Progres Pegawai</span>
+                            <span>Update Status</span>
                         </div>
 
-                        <form action="{{ route('admin.usulan.update-status', $item->id) }}" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+                        @if(in_array($item->status_key, ['verifikasi', 'perbaikan'], true))
+                        <a href="{{ route('verifikasi.show', $item->id) }}" class="mon-btn-link" data-action="ke-verifikasi">🔍 Verifikasi Berkas</a>
+                        <div class="mon-hint">
+                            {{ $item->status_key === 'perbaikan' ? 'Menunggu pegawai memperbaiki dan mengirim ulang berkas.' : 'Keputusan MS/TMS dilakukan di halaman Verifikasi Berkas.' }}
+                        </div>
+                        @elseif($item->status_key === 'disetujui')
+                        <form action="{{ route('monitoring.update-status', ['usulan' => $item->id] + $formQuery) }}" method="POST" enctype="multipart/form-data" class="mon-action-form" data-form="tetapkan">
                             @csrf
-                            <div class="form-control-group">
-                                <label class="form-control-label">Status Progres Tahapan:</label>
-                                <select name="status" class="select-status-lg" required>
-                                    @foreach($tahapan as $t)
-                                    <option value="{{ $t['step'] }}" {{ $item->status == $t['step'] ? 'selected' : '' }}>
-                                        Tahap {{ $t['step'] }}: {{ $t['label'] }} ({{ $t['aktor'] }})
-                                    </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="form-control-group">
-                                <label class="form-control-label">Catatan Resmi untuk Pegawai:</label>
-                                <textarea name="catatan" class="textarea-catatan" placeholder="Tulis instruksi, jadwal, atau perbaikan berkas untuk pegawai...">{{ $item->catatan }}</textarea>
-                            </div>
-
-                            <button type="submit" class="btn-update-submit">
-                                <span>💾</span>
-                                <span>Simpan Perubahan</span>
-                            </button>
+                            <input type="hidden" name="aksi" value="tetapkan">
+                            <label class="form-control-label">Upload Surat Usulan (PDF):</label>
+                            <input type="file" name="surat" accept="application/pdf,.pdf" class="mon-file-input" required>
+                            <input type="text" name="catatan" class="mon-input" placeholder="Catatan untuk pegawai (opsional)">
+                            <button type="submit" class="btn-update-submit"><span>📄</span><span>Tetapkan</span></button>
                         </form>
+                        @elseif($item->status_key === 'ditetapkan')
+                        <form action="{{ route('monitoring.update-status', ['usulan' => $item->id] + $formQuery) }}" method="POST" enctype="multipart/form-data" class="mon-action-form" data-form="selesaikan">
+                            @csrf
+                            <input type="hidden" name="aksi" value="selesaikan">
+                            <label class="form-control-label">Upload Sertifikat UKOM (PDF):</label>
+                            <input type="file" name="sertifikat" accept="application/pdf,.pdf" class="mon-file-input" required>
+                            <input type="text" name="hasil_ukom" class="mon-input" placeholder="Hasil UKOM (opsional)">
+                            <input type="text" name="catatan" class="mon-input" placeholder="Catatan untuk pegawai (opsional)">
+                            <button type="submit" class="btn-update-submit"><span>🎓</span><span>Selesai</span></button>
+                        </form>
+                        @else
+                        <div class="mon-hint">Usulan telah selesai.</div>
+                        @endif
+
+                        @if($isSuperAdmin && ($order[$item->status_key] ?? 1) > 1)
+                        <form action="{{ route('monitoring.update-status', ['usulan' => $item->id] + $formQuery) }}" method="POST" class="mon-action-form" data-form="rollback">
+                            @csrf
+                            <input type="hidden" name="aksi" value="rollback">
+                            <label class="form-control-label">Rollback status (Super Admin):</label>
+                            <select name="ke_status" class="mon-input" required>
+                                @foreach($statusLabels as $key => $label)
+                                    @if(($order[$key] ?? 1) < ($order[$item->status_key] ?? 1))
+                                    <option value="{{ $key }}">{{ $label }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <input type="text" name="alasan" class="mon-input" placeholder="Alasan rollback (wajib)" required>
+                            <button type="submit" class="btn-update-submit btn-rollback"><span>↩️</span><span>Rollback</span></button>
+                        </form>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -957,19 +972,16 @@
             <div style="background: var(--c-surface); border-radius: 18px; padding: 60px 20px; text-align: center; border: 2px dashed var(--c-border-strong);">
                 <div style="font-size: 48px; margin-bottom: 12px;">📭</div>
                 <h3 style="font-size: 17px; font-weight: 800; color: var(--c-text); margin-bottom: 6px;">Tidak ada usulan ditemukan</h3>
-                <p style="font-size: 13px; color: var(--c-text-muted);">Silakan sesuaikan filter pencarian atau tunggu pengajuan usulan baru dari pegawai.</p>
+                <p style="font-size: 13px; color: var(--c-text-muted);">Sesuaikan filter pencarian atau tunggu usulan baru dari pegawai.</p>
             </div>
             @endforelse
         </div>
 
-        <!-- PAGINATION -->
         <div style="margin-top: 24px;">
             {{ $daftarUsulan->links() }}
         </div>
-
     </main>
 
-    <!-- 5. FOOTER -->
     <footer class="footer-bar">
         Copyright &copy; 2026 Badan Pusat Statistik RI — Tim Pembinaan JF (SIGMA JF)
     </footer>

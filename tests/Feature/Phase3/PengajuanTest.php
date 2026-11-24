@@ -235,7 +235,7 @@ class PengajuanTest extends TestCase
         $timJf = User::factory()->timJf()->create();
 
         $this->actingAs($timJf)->get('/admin')->assertOk()->assertDontSee('DRAF-RAHASIA');
-        $this->actingAs($timJf)->get('/admin/monitoring')->assertOk()->assertDontSee('DRAF-RAHASIA');
+        $this->actingAs($timJf)->get('/monitoring')->assertOk()->assertDontSee('DRAF-RAHASIA');
     }
 
     public function test_upload_is_throttled(): void

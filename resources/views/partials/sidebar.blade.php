@@ -15,14 +15,14 @@
         'tim_jf' => [
             ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => '🏠'],
             ['label' => 'Verifikasi Berkas Usulan Pegawai', 'route' => 'verifikasi.index', 'icon' => '🔍'],
-            ['label' => 'Monitoring Progress UKOM', 'route' => 'admin.monitoring', 'icon' => '📊'],
+            ['label' => 'Monitoring Progress UKOM', 'route' => 'monitoring.index', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => '📋'],
             ['label' => 'Chat Box (Messenger)', 'route' => 'messenger.index', 'icon' => '💬'],
         ],
         'super_admin' => [
             ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'icon' => '🏠'],
             ['label' => 'Sinkronisasi Data SSO', 'route' => 'admin.sso-sync', 'icon' => '🔄'],
-            ['label' => 'Monitoring Progress UKOM', 'route' => 'admin.monitoring', 'icon' => '📊'],
+            ['label' => 'Monitoring Progress UKOM', 'route' => 'monitoring.index', 'icon' => '📊'],
             ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => '📋'],
             ['label' => 'Daftar User', 'route' => 'admin.users', 'icon' => '👤'],
         ],

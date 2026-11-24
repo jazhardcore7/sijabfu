@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SIGMA JF BPS RI</title>
+    @include('partials.theme')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,7 +15,7 @@
             --bps-cyan: #00A3E0;
             --bps-orange: #F77F00;
             --bps-green: #70B82C;
-            --bg-slate: #F8FAFC;
+            --bg-slate: var(--c-surface-2);
             --card-gray: #CBD5E1;
             --btn-purple: #6366F1;
             --btn-purple-hover: #4F46E5;
@@ -28,8 +29,8 @@
         }
 
         body {
-            background-color: #FFFFFF;
-            color: #1E293B;
+            background-color: var(--c-surface);
+            color: var(--c-text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -38,12 +39,12 @@
 
         /* TOP NAVBAR */
         .top-navbar {
-            background: #FFFFFF;
+            background: var(--c-surface);
             padding: 14px 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #F1F5F9;
+            border-bottom: 1px solid var(--c-border-soft);
         }
 
         .navbar-brand {
@@ -72,7 +73,7 @@
 
         .navbar-subtitle {
             font-size: 13px;
-            color: #64748B;
+            color: var(--c-text-muted);
             font-weight: 500;
         }
 
@@ -84,7 +85,7 @@
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
             align-items: center;
-            border-bottom: 1px solid #E2E8F0;
+            border-bottom: 1px solid var(--c-border);
             overflow: hidden;
         }
 
@@ -145,7 +146,7 @@
 
         .hero-description {
             font-size: 15px;
-            color: #475569;
+            color: var(--c-text-2);
             font-weight: 500;
             line-height: 1.5;
         }
@@ -209,7 +210,7 @@
 
         /* RIGHT FORM COLUMN */
         .login-card {
-            background: #E2E8F0;
+            background: var(--c-border);
             background: linear-gradient(145deg, #E2E8F0 0%, #CBD5E1 100%);
             border-radius: 28px;
             padding: 40px 44px;
@@ -221,7 +222,7 @@
         .login-card-title {
             font-size: 16.5px;
             font-weight: 700;
-            color: #1E293B;
+            color: var(--c-text);
             margin-bottom: 24px;
             text-align: left;
         }
@@ -265,30 +266,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0F172A;
+            color: var(--c-text);
             z-index: 2;
         }
 
         .form-control {
             width: 100%;
-            background: #FFFFFF;
+            background: var(--c-surface);
             border: 1.5px solid transparent;
             border-radius: 12px;
             padding: 16px 16px 16px 52px;
             font-size: 14.5px;
-            color: #1E293B;
+            color: var(--c-text);
             outline: none;
             transition: all 0.2s ease;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
 
         .form-control::placeholder {
-            color: #64748B;
+            color: var(--c-text-muted);
             font-size: 14px;
         }
 
         .form-control:focus {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-color: #6366F1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
@@ -298,7 +299,7 @@
             right: 16px;
             background: none;
             border: none;
-            color: #64748B;
+            color: var(--c-text-muted);
             cursor: pointer;
             padding: 4px;
             display: flex;
@@ -374,7 +375,7 @@
         .demo-label {
             font-size: 12px;
             font-weight: 700;
-            color: #475569;
+            color: var(--c-text-2);
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -394,13 +395,13 @@
         }
 
         .btn-demo-chip {
-            background: #FFFFFF;
-            border: 1px solid #CBD5E1;
+            background: var(--c-surface);
+            border: 1px solid var(--c-border-strong);
             border-radius: 10px;
             padding: 8px 12px;
             font-size: 12px;
             font-weight: 700;
-            color: #1E293B;
+            color: var(--c-text);
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -412,7 +413,7 @@
 
         .btn-demo-chip:hover {
             border-color: #6366F1;
-            background: #F8FAFC;
+            background: var(--c-surface-2);
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
@@ -427,7 +428,7 @@
 
         .btn-demo-chip .chip-sub {
             font-size: 11px;
-            color: #64748B;
+            color: var(--c-text-muted);
             font-weight: 500;
         }
 

@@ -1,43 +1,29 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring Progress Usulan - Admin SIGMA JF</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+@extends('layouts.app')
 
-    <style>
+@section('title', 'Monitoring Progress UKOM')
+@section('breadcrumb', 'Monitoring Progress UKOM')
+@section('flush', '1')
+
+@push('styles')
+<style>
         :root {
             --bps-dark: #002855;
             --bps-navy: #003B73;
             --bps-mid: #005BAA;
             --bps-light: #0284C7;
-            --bg-page: #F0F4F8;
-            --text-main: #0F172A;
-            --text-muted: #64748B;
+            --bg-page: var(--c-bg);
+            --text-main: var(--c-text);
+            --text-muted: var(--c-text-muted);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
 
-        body {
-            background-color: var(--bg-page);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+
+
 
         /* 1. TOP NAVBAR */
         .top-navbar {
-            background: #FFFFFF;
-            border-bottom: 1px solid #E2E8F0;
+            background: var(--c-surface);
+            border-bottom: 1px solid var(--c-border);
             padding: 12px 32px;
             display: flex;
             align-items: center;
@@ -96,12 +82,12 @@
             font-weight: 700;
             text-decoration: none;
             transition: all 0.2s;
-            color: #334155;
-            background: #F1F5F9;
+            color: var(--c-text-2);
+            background: var(--c-surface-3);
         }
 
         .nav-link-btn:hover {
-            background: #E2E8F0;
+            background: var(--c-border);
             color: var(--bps-dark);
         }
 
@@ -114,8 +100,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
+            background: var(--c-surface-2);
+            border: 1px solid var(--c-border);
             padding: 5px 12px 5px 6px;
             border-radius: 50px;
         }
@@ -133,7 +119,7 @@
         .user-name-text {
             font-size: 12.5px;
             font-weight: 700;
-            color: #1E293B;
+            color: var(--c-text);
         }
 
         .btn-logout {
@@ -220,10 +206,10 @@
         }
 
         .stat-card {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-radius: 16px;
             padding: 16px 18px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--c-border);
             box-shadow: 0 2px 8px rgba(0,0,0,0.03);
             display: flex;
             flex-direction: column;
@@ -257,7 +243,7 @@
         .stat-count {
             font-size: 24px;
             font-weight: 900;
-            color: #0F172A;
+            color: var(--c-text);
             line-height: 1.1;
             margin-top: 4px;
         }
@@ -265,13 +251,13 @@
         .stat-label {
             font-size: 11.5px;
             font-weight: 700;
-            color: #64748B;
+            color: var(--c-text-muted);
             line-height: 1.3;
         }
 
         .stat-sub {
             font-size: 10px;
-            color: #94A3B8;
+            color: var(--c-text-faint);
         }
 
         /* 4. MAIN CONTENT & FILTER */
@@ -284,10 +270,10 @@
         }
 
         .filter-panel {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-radius: 16px;
             padding: 16px 20px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--c-border);
             margin-bottom: 20px;
             display: flex;
             align-items: center;
@@ -314,7 +300,7 @@
             width: 100%;
             padding: 10px 14px 10px 36px;
             border-radius: 10px;
-            border: 1.5px solid #CBD5E1;
+            border: 1.5px solid var(--c-border-strong);
             font-size: 13px;
             outline: none;
         }
@@ -328,19 +314,19 @@
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: #94A3B8;
+            color: var(--c-text-faint);
             font-size: 14px;
         }
 
         .select-filter {
             padding: 10px 14px;
             border-radius: 10px;
-            border: 1.5px solid #CBD5E1;
+            border: 1.5px solid var(--c-border-strong);
             font-size: 13px;
             font-weight: 600;
-            color: #1E293B;
+            color: var(--c-text);
             outline: none;
-            background: white;
+            background: var(--c-surface);
             cursor: pointer;
         }
 
@@ -361,7 +347,7 @@
         }
 
         .btn-reset {
-            color: #64748B;
+            color: var(--c-text-muted);
             text-decoration: none;
             font-size: 12.5px;
             font-weight: 600;
@@ -369,7 +355,7 @@
         }
 
         .btn-reset:hover {
-            color: #0F172A;
+            color: var(--c-text);
         }
 
         /* 5. USULAN MONITORING CARDS / ROWS */
@@ -380,9 +366,9 @@
         }
 
         .usulan-item-card {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-radius: 18px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--c-border);
             box-shadow: 0 2px 10px rgba(0,0,0,0.03);
             overflow: hidden;
             transition: all 0.2s;
@@ -390,13 +376,13 @@
 
         .usulan-item-card:hover {
             box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-            border-color: #CBD5E1;
+            border-color: var(--c-border-strong);
         }
 
         .card-top-bar {
             padding: 16px 24px;
-            background: #F8FAFC;
-            border-bottom: 1px solid #E2E8F0;
+            background: var(--c-surface-2);
+            border-bottom: 1px solid var(--c-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -427,12 +413,12 @@
         .pegawai-info-title {
             font-size: 15px;
             font-weight: 800;
-            color: #0F172A;
+            color: var(--c-text);
         }
 
         .pegawai-info-meta {
             font-size: 12px;
-            color: #64748B;
+            color: var(--c-text-muted);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -468,10 +454,10 @@
             grid-template-columns: repeat(3, 1fr);
             gap: 14px;
             margin-bottom: 20px;
-            background: #F8FAFC;
+            background: var(--c-surface-2);
             padding: 16px;
             border-radius: 12px;
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--c-border);
         }
 
         .dossier-cell {
@@ -483,7 +469,7 @@
         .dossier-label {
             font-size: 10.5px;
             font-weight: 700;
-            color: #94A3B8;
+            color: var(--c-text-faint);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -491,7 +477,7 @@
         .dossier-value {
             font-size: 13px;
             font-weight: 700;
-            color: #1E293B;
+            color: var(--c-text);
             word-break: break-word;
         }
 
@@ -512,7 +498,7 @@
             left: 20px;
             right: 20px;
             height: 4px;
-            background: #E2E8F0;
+            background: var(--c-border);
             z-index: 1;
         }
 
@@ -530,14 +516,14 @@
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: #FFFFFF;
-            border: 2px solid #CBD5E1;
+            background: var(--c-surface);
+            border: 2px solid var(--c-border-strong);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 11px;
             font-weight: 800;
-            color: #64748B;
+            color: var(--c-text-muted);
             margin-bottom: 6px;
             transition: all 0.2s;
         }
@@ -558,20 +544,20 @@
         .tracker-step-text {
             font-size: 10.5px;
             font-weight: 700;
-            color: #475569;
+            color: var(--c-text-2);
             line-height: 1.2;
         }
 
         .tracker-actor-text {
             font-size: 9.5px;
-            color: #94A3B8;
+            color: var(--c-text-faint);
             margin-top: 2px;
         }
 
         /* RIGHT SIDE: STATUS UPDATE CONTROL PANEL */
         .control-panel-box {
-            background: #F8FAFC;
-            border: 1.5px solid #E2E8F0;
+            background: var(--c-surface-2);
+            border: 1.5px solid var(--c-border);
             border-radius: 14px;
             padding: 18px;
             display: flex;
@@ -586,7 +572,7 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            border-bottom: 1px solid #E2E8F0;
+            border-bottom: 1px solid var(--c-border);
             padding-bottom: 8px;
         }
 
@@ -599,18 +585,18 @@
         .form-control-label {
             font-size: 11px;
             font-weight: 700;
-            color: #475569;
+            color: var(--c-text-2);
         }
 
         .select-status-lg {
             width: 100%;
             padding: 8px 12px;
             border-radius: 8px;
-            border: 1.5px solid #CBD5E1;
+            border: 1.5px solid var(--c-border-strong);
             font-size: 12px;
             font-weight: 700;
-            color: #1E293B;
-            background: white;
+            color: var(--c-text);
+            background: var(--c-surface);
             cursor: pointer;
         }
 
@@ -618,7 +604,7 @@
             width: 100%;
             padding: 8px 12px;
             border-radius: 8px;
-            border: 1.5px solid #CBD5E1;
+            border: 1.5px solid var(--c-border-strong);
             font-size: 12px;
             font-family: inherit;
             resize: vertical;
@@ -718,45 +704,10 @@
                 display: none;
             }
         }
-    </style>
-</head>
-<body>
+</style>
+@endpush
 
-    <!-- 1. TOP NAVBAR -->
-    <header class="top-navbar">
-        <a href="{{ route('admin.dashboard') }}" class="navbar-brand">
-            <img src="{{ asset('images/bps_logo.svg') }}" alt="Badan Pusat Statistik" class="navbar-logo-img">
-            <div class="navbar-titles">
-                <div class="navbar-title">SIGMA JF</div>
-                <div class="navbar-subtitle">Admin Panel - Biro SDM BPS</div>
-            </div>
-        </a>
-
-        <div class="navbar-nav">
-            <a href="{{ route('admin.dashboard') }}" class="nav-link-btn">
-                <span>🏠</span>
-                <span>Dashboard Utama</span>
-            </a>
-            <a href="{{ route('admin.monitoring') }}" class="nav-link-btn active">
-                <span>📊</span>
-                <span>Monitoring Progress Usulan</span>
-            </a>
-            <a href="{{ route('home') }}" class="nav-link-btn" title="Buka Portal Pegawai">
-                <span>🌐</span>
-                <span>Portal Pegawai ↗</span>
-            </a>
-
-            <div class="user-action-pill">
-                <span class="user-badge-role">ADMIN</span>
-                <span class="user-name-text">{{ Auth::user()->name }}</span>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn-logout" title="Keluar">Logout</button>
-                </form>
-            </div>
-        </div>
-    </header>
-
+@section('content')
     <!-- 2. PAGE HEADER -->
     <div class="page-header-container">
         <div class="header-card">
@@ -937,7 +888,7 @@
                         </div>
 
                         <!-- 5-STAGE MINI TRACKER (ATTACHMENT 1) -->
-                        <div style="font-size: 11.5px; font-weight: 700; color: #475569; margin-bottom: 4px;">
+                        <div style="font-size: 11.5px; font-weight: 700; color: var(--c-text-2); margin-bottom: 4px;">
                             Alur 5 Tahapan Swimlane:
                         </div>
                         <div class="mini-tracker">
@@ -1001,10 +952,10 @@
                 </div>
             </div>
             @empty
-            <div style="background: white; border-radius: 18px; padding: 60px 20px; text-align: center; border: 2px dashed #CBD5E1;">
+            <div style="background: var(--c-surface); border-radius: 18px; padding: 60px 20px; text-align: center; border: 2px dashed var(--c-border-strong);">
                 <div style="font-size: 48px; margin-bottom: 12px;">📭</div>
-                <h3 style="font-size: 17px; font-weight: 800; color: #1E293B; margin-bottom: 6px;">Tidak ada usulan ditemukan</h3>
-                <p style="font-size: 13px; color: #64748B;">Silakan sesuaikan filter pencarian atau tunggu pengajuan usulan baru dari pegawai.</p>
+                <h3 style="font-size: 17px; font-weight: 800; color: var(--c-text); margin-bottom: 6px;">Tidak ada usulan ditemukan</h3>
+                <p style="font-size: 13px; color: var(--c-text-muted);">Silakan sesuaikan filter pencarian atau tunggu pengajuan usulan baru dari pegawai.</p>
             </div>
             @endforelse
         </div>
@@ -1020,7 +971,4 @@
     <footer class="footer-bar">
         Copyright &copy; 2026 Badan Pusat Statistik RI — Tim Pembinaan JF (SIGMA JF)
     </footer>
-
-</body>
-</html>
-
+@endsection

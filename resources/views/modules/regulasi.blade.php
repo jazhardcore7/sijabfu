@@ -21,12 +21,12 @@
     .search-input {
         width: 100%;
         padding: 12px 16px 12px 44px;
-        border: 1.5px solid #e2e8f0;
+        border: 1.5px solid var(--c-border);
         border-radius: 12px;
         font-size: 14px;
         font-family: inherit;
-        color: #374151;
-        background: white;
+        color: var(--c-text-2);
+        background: var(--c-surface);
         transition: border-color 0.2s, box-shadow 0.2s;
         outline: none;
     }
@@ -42,7 +42,7 @@
         top: 50%;
         transform: translateY(-50%);
         font-size: 16px;
-        color: #94a3b8;
+        color: var(--c-text-faint);
     }
 
     .kategori-filter {
@@ -57,9 +57,9 @@
         border-radius: 50px;
         font-size: 13px;
         font-weight: 600;
-        border: 1.5px solid #e2e8f0;
-        background: white;
-        color: #64748b;
+        border: 1.5px solid var(--c-border);
+        background: var(--c-surface);
+        color: var(--c-text-muted);
         cursor: pointer;
         transition: all 0.2s;
         font-family: inherit;
@@ -114,35 +114,35 @@
     .regulasi-table {
         width: 100%;
         border-collapse: collapse;
-        background: white;
+        background: var(--c-surface);
         border-radius: 0 0 12px 12px;
         overflow: hidden;
         box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
 
     .regulasi-table th {
-        background: #f8fafc;
+        background: var(--c-surface-2);
         padding: 12px 18px;
         text-align: left;
         font-size: 12px;
         font-weight: 700;
-        color: #475569;
+        color: var(--c-text-2);
         text-transform: uppercase;
         letter-spacing: 0.5px;
-        border-bottom: 2px solid #e2e8f0;
+        border-bottom: 2px solid var(--c-border);
     }
 
     .regulasi-table td {
         padding: 16px 18px;
         font-size: 14px;
-        color: #374151;
-        border-bottom: 1px solid #f1f5f9;
+        color: var(--c-text-2);
+        border-bottom: 1px solid var(--c-border-soft);
         vertical-align: top;
     }
 
     .regulasi-table tr:last-child td { border-bottom: none; }
 
-    .regulasi-table tr:hover td { background: #f8fafc; }
+    .regulasi-table tr:hover td { background: var(--c-surface-2); }
 
     .reg-nomor {
         font-weight: 700;
@@ -152,7 +152,7 @@
 
     .reg-tentang {
         font-size: 13.5px;
-        color: #374151;
+        color: var(--c-text-2);
         line-height: 1.5;
     }
 

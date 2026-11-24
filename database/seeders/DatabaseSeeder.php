@@ -19,8 +19,21 @@ class DatabaseSeeder extends Seeder
                 'name'      => 'Admin Tim Kerja (PIC)',
                 'email'     => 'admin.jf@bps.go.id',
                 'password'  => \Illuminate\Support\Facades\Hash::make('password'),
-                'role'      => 'admin',
+                'role'      => User::ROLE_TIM_JF,
                 'jabatan'   => 'PIC Pembinaan Jabatan Fungsional',
+                'unit_kerja'=> 'Biro SDM - BPS RI',
+            ]
+        );
+
+        // 1b. Akun Super Admin [ASSUMPTION PRD 11.5: NIP placeholder sampai NIP Super Admin asli dikonfirmasi]
+        User::updateOrCreate(
+            ['nip' => '198001012005011001'],
+            [
+                'name'      => 'Super Admin SIGMA JF',
+                'email'     => 'superadmin.jf@bps.go.id',
+                'password'  => \Illuminate\Support\Facades\Hash::make('password'),
+                'role'      => User::ROLE_SUPER_ADMIN,
+                'jabatan'   => 'Super Admin Pembinaan Jabatan Fungsional',
                 'unit_kerja'=> 'Biro SDM - BPS RI',
             ]
         );
@@ -32,7 +45,7 @@ class DatabaseSeeder extends Seeder
                 'name'      => 'Budi Pratama, S.Tr.Stat.',
                 'email'     => 'budi.pratama@bps.go.id',
                 'password'  => \Illuminate\Support\Facades\Hash::make('password'),
-                'role'      => 'pegawai',
+                'role'      => User::ROLE_PEGAWAI,
                 'jabatan'   => 'Statistisi Ahli Pertama',
                 'unit_kerja'=> 'BPS RI Pusat',
             ]
@@ -64,7 +77,7 @@ class DatabaseSeeder extends Seeder
                 'name'      => 'Siti Rahmawati, S.Tr.Stat.',
                 'email'     => 'siti.rahmawati@bps.go.id',
                 'password'  => \Illuminate\Support\Facades\Hash::make('password'),
-                'role'      => 'pegawai',
+                'role'      => User::ROLE_PEGAWAI,
                 'jabatan'   => 'Statistisi Ahli Pertama',
                 'unit_kerja'=> 'BPS Provinsi DKI Jakarta',
             ]

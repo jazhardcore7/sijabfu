@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Models\ProgressBerkas;
 use App\Models\FormUsulan;
 
@@ -11,6 +12,11 @@ class PortalController extends Controller
 {
     public function index()
     {
+        // Dashboard Tim Pembinaan JF dan Super Admin ada di /admin
+        if (Auth::user()->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
         return view('landing');
     }
 
@@ -92,6 +98,8 @@ class PortalController extends Controller
     public function formUsulanStore(Request $request)
     {
         $user = Auth::user();
+
+        Gate::authorize('create', FormUsulan::class);
 
         // Cek apakah sudah pernah submit
         if (FormUsulan::where('user_id', $user->id)->exists()) {

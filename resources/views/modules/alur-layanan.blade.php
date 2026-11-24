@@ -62,10 +62,10 @@
     }
 
     .step-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 16px;
         padding: 24px 28px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         transition: all 0.3s ease;
     }
@@ -109,7 +109,7 @@
 
     .step-card-desc {
         font-size: 14.5px;
-        color: #475569;
+        color: var(--c-text-2);
         line-height: 1.7;
     }
 
@@ -170,7 +170,7 @@
     .progress-cta-text h3 { font-size: 20px; font-weight: 800; color: white; margin-bottom: 6px; }
     .progress-cta-text p  { font-size: 14px; color: rgba(255,255,255,0.8); }
     .progress-cta-btn {
-        background: white;
+        background: var(--c-surface);
         color: #7C3AED;
         padding: 12px 28px;
         border-radius: 12px;
@@ -255,7 +255,7 @@
         <span style="font-size: 24px; flex-shrink:0;">ℹ️</span>
         <div>
             <div style="font-weight: 700; color: var(--bps-dark); margin-bottom: 8px; font-size: 15px;">Informasi Penting</div>
-            <div style="font-size: 14px; color: #374151; line-height: 1.7;">
+            <div style="font-size: 14px; color: var(--c-text-2); line-height: 1.7;">
                 Seluruh proses pengusulan jabatan fungsional wajib dilakukan melalui unit kerja masing-masing dan dikoordinasikan dengan 
                 Tim Kerja Pembinaan JF BPS RI Pusat. Untuk pertanyaan lebih lanjut, silakan hubungi tim kami melalui halaman 
                 <a href="{{ route('tim-kerja') }}" style="color: var(--bps-mid); font-weight: 600;">Tim Kerja</a>.

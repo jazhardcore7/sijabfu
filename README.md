@@ -7,7 +7,7 @@ Portal Layanan Terpadu Pembinaan Jabatan Fungsional (Statistisi, Pranata Kompute
 ## 🚀 Fitur Utama
 
 ### 1. 👥 Multi-Role Authentication (Login Berbasis NIP)
-- **Role Admin (Tim Kerja / PIC)**: 
+- **Role Tim Pembinaan JF (`tim_jf`, dulu `admin`) dan Super Admin (`super_admin`)**: 
   - Dialihkan ke **Dashboard Admin Pembinaan JF** dengan 3 panel kartu link terpadu:
     - 🌐 **Link Internal** (E-TTD BPS, SIMPEG, Portal SDM, dll.)
     - 🌐 **Link Eksternal** (SIASN BKN, MyASN, KemenPAN-RB, dll.)
@@ -29,7 +29,8 @@ Portal Layanan Terpadu Pembinaan Jabatan Fungsional (Statistisi, Pranata Kompute
 
 | Role | NIP | Password | Halaman Tujuan |
 |---|---|---|---|
-| **Admin / PIC** | `198501012010011001` | `password` | `/admin` (Dashboard Admin) |
+| **Tim Pembinaan JF / PIC** (`tim_jf`) | `198501012010011001` | `password` | `/admin` (Dashboard Tim Pembinaan JF) |
+| **Super Admin** (`super_admin`) | `198001012005011001` | `password` | `/admin` (Dashboard Super Admin) |
 | **Pegawai BPS** | `199505152020121002` | `password` | `/` (Portal Utama Pegawai) |
 
 ---

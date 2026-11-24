@@ -10,21 +10,19 @@ use Symfony\Component\HttpFoundation\Response;
 class RoleMiddleware
 {
     /**
-     * Handle an incoming request.
+     * Batasi akses route ke satu atau beberapa role.
+     * Contoh: role:tim_jf,super_admin
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        $user = Auth::user();
-
-        // Jika rute membutuhkan admin tapi user bukan admin
-        if ($role === 'admin' && !$user->isAdmin()) {
-            return redirect()->route('home')->with('error', 'Akses ditolak: Halaman ini khusus untuk Admin Tim Kerja / PIC.');
+        if (!Auth::user()->hasRole(...$roles)) {
+            abort(403, 'Akses ditolak: halaman ini tidak tersedia untuk role Anda.');
         }
 
         return $next($request);

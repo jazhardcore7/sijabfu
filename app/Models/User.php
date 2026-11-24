@@ -84,7 +84,7 @@ class User extends Authenticatable
      */
     public function dashboardRoute(): string
     {
-        return $this->isAdmin() ? 'admin.dashboard' : 'home';
+        return 'dashboard';
     }
 
     /**

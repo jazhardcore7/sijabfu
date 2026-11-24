@@ -10,9 +10,18 @@ use App\Models\FormUsulan;
 class AdminController extends Controller
 {
     /**
-     * Tampilkan Halaman Dashboard Admin Pembinaan Jabatan Fungsional (Attachment 1)
+     * Route lama /admin: dialihkan ke /dashboard (PRD Revisi bagian 7).
      */
     public function index()
+    {
+        return redirect()->route('dashboard');
+    }
+
+    /**
+     * Konten Dashboard Tim Pembinaan JF / Super Admin: kartu tautan dan tabel usulan
+     * (tetap dipertahankan), ditambah grafik dari DashboardController.
+     */
+    public function dashboardView(array $extra = [])
     {
         // 1. Link Internal (Warna Biru / Nuansa BPS)
         $linkInternal = [
@@ -144,7 +153,7 @@ class AdminController extends Controller
         $daftarUsulan = FormUsulan::submitted()->with('user')->latest()->get();
         $tahapan = FormUsulan::tahapan();
 
-        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan'));
+        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan') + $extra);
     }
 
     /**

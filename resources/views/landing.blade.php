@@ -552,6 +552,9 @@
     </svg>
 </div>
 
+<!-- DASHBOARD PEGAWAI (FR-DASH-3) -->
+@include('dashboard._pegawai-panel')
+
 <!-- CARDS SECTION -->
 <section class="cards-section">
     <div class="section-header animate-fade-in" style="opacity:0;">

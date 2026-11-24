@@ -18,7 +18,8 @@ class RoleAccessMatrixTest extends TestCase
     {
         // [uri, pegawai, tim_jf, super_admin]
         return [
-            'admin dashboard'   => ['/admin', 403, 200, 200],
+            'dashboard'         => ['/dashboard', 200, 200, 200],
+            'admin lama'        => ['/admin', 403, 302, 302],
             'admin monitoring'  => ['/admin/monitoring', 403, 302, 302],
             'monitoring'        => ['/monitoring', 403, 200, 200],
             'verifikasi'        => ['/verifikasi', 403, 200, 200],
@@ -33,7 +34,7 @@ class RoleAccessMatrixTest extends TestCase
             'chat box'          => ['/chat', 200, 403, 403],
             'messenger'         => ['/messenger', 403, 200, 200],
             'alur layanan'      => ['/alur-layanan', 200, 200, 200],
-            'beranda'           => ['/', 200, 302, 302],
+            'beranda'           => ['/', 302, 302, 302],
         ];
     }
 
@@ -58,11 +59,13 @@ class RoleAccessMatrixTest extends TestCase
         $this->get($uri)->assertRedirect(route('login'));
     }
 
-    public function test_staff_home_redirects_to_admin_dashboard(): void
+    public function test_home_and_old_admin_redirect_to_dashboard(): void
     {
-        $this->actingAs(User::factory()->timJf()->create())
-            ->get('/')
-            ->assertRedirect(route('admin.dashboard'));
+        foreach ([User::factory()->pegawai()->create(), User::factory()->timJf()->create(), User::factory()->superAdmin()->create()] as $user) {
+            $this->actingAs($user)->get('/')->assertRedirect(route('dashboard'));
+        }
+
+        $this->actingAs(User::factory()->timJf()->create())->get('/admin')->assertRedirect(route('dashboard'));
     }
 
     public function test_pegawai_cannot_update_status(): void

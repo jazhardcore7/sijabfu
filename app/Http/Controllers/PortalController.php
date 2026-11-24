@@ -9,12 +9,8 @@ class PortalController extends Controller
 {
     public function index()
     {
-        // Dashboard Tim Pembinaan JF dan Super Admin ada di /admin
-        if (Auth::user()->isAdmin()) {
-            return redirect()->route('admin.dashboard');
-        }
-
-        return view('landing');
+        // Beranda dialihkan ke dashboard per role (PRD Revisi bagian 7)
+        return redirect()->route('dashboard');
     }
 
     public function alurLayanan()

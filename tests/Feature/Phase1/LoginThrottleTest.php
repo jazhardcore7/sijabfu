@@ -40,6 +40,6 @@ class LoginThrottleTest extends TestCase
         User::factory()->timJf()->create(['nip' => '198501012010011001']);
 
         $this->post('/login', ['nip' => '198501012010011001', 'password' => 'password'])
-            ->assertRedirect(route('admin.dashboard'));
+            ->assertRedirect(route('dashboard'));
     }
 }

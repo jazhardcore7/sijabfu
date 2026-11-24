@@ -18,7 +18,7 @@ class SidebarMenuTest extends TestCase
     /** route menu yang tersedia saat ini per role, beserta label PDF */
     private const MENUS = [
         User::ROLE_PEGAWAI => [
-            'home' => 'Dashboard',
+            'dashboard' => 'Dashboard',
             'pengajuan' => 'Pengajuan Usulan',
             'pelacakan-status' => 'Pelacakan Status',
             'regulasi' => 'Regulasi',
@@ -26,14 +26,14 @@ class SidebarMenuTest extends TestCase
             'chat.index' => 'Chat Box',
         ],
         User::ROLE_TIM_JF => [
-            'admin.dashboard' => 'Dashboard',
+            'dashboard' => 'Dashboard',
             'verifikasi.index' => 'Verifikasi Berkas Usulan Pegawai',
             'monitoring.index' => 'Monitoring Progress UKOM',
             'admin.regulasi.index' => 'Regulasi',
             'messenger.index' => 'Chat Box (Messenger)',
         ],
         User::ROLE_SUPER_ADMIN => [
-            'admin.dashboard' => 'Dashboard',
+            'dashboard' => 'Dashboard',
             'monitoring.index' => 'Monitoring Progress UKOM',
             'admin.regulasi.index' => 'Regulasi',
         ],
@@ -50,7 +50,7 @@ class SidebarMenuTest extends TestCase
     {
         foreach (self::MENUS as $role => $menu) {
             $user = User::factory()->create(['role' => $role]);
-            $uri = $role === User::ROLE_PEGAWAI ? '/regulasi' : '/admin';
+            $uri = $role === User::ROLE_PEGAWAI ? '/regulasi' : '/dashboard';
 
             $response = $this->actingAs($user)->get($uri)->assertOk();
 
@@ -91,10 +91,11 @@ class SidebarMenuTest extends TestCase
 
     public function test_menu_items_without_route_are_hidden(): void
     {
-        $response = $this->actingAs(User::factory()->superAdmin()->create())->get('/admin');
+        $response = $this->actingAs(User::factory()->superAdmin()->create())->get('/dashboard');
 
-        $response->assertDontSee('Sinkronisasi Data SSO');
-        $response->assertDontSee('Daftar User');
+        // menu fase berikutnya belum muncul di sidebar (kartu SSO di dashboard bukan menu)
+        $response->assertDontSee('data-menu-route="admin.sso-sync"', false);
+        $response->assertDontSee('data-menu-route="admin.users"', false);
         $response->assertDontSee('data-menu-route="chat.index"', false);
     }
 }

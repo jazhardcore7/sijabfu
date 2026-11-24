@@ -518,7 +518,7 @@
             <!-- RIGHT: LOGIN CARD CONTAINER -->
             <div class="login-card">
                 <div class="login-card-title">
-                    Silahkan Masukkan NIP dan Password Anda
+                    {{ $localEnabled ? 'Silahkan Masukkan NIP dan Password Anda' : 'Silahkan Masuk dengan Akun SSO BPS' }}
                 </div>
 
                 @if ($errors->any())
@@ -535,9 +535,11 @@
                     </div>
                 @endif
 
+                {{-- FR-AUTH-3: form NIP/password hanya bila AUTH_LOCAL_ENABLED=true --}}
+                @if($localEnabled)
                 <form action="{{ route('login') }}" method="POST" id="loginForm">
                     @csrf
-                    
+
                     <!-- INPUT NIP -->
                     <div class="input-group">
                         <div class="input-icon-box">
@@ -586,37 +588,16 @@
                     <button type="submit" class="btn-login" id="submitBtn">
                         LOGIN
                     </button>
-
-                    <!-- BUTTON LOGIN SSO (WARNA HIJAU) -->
-                    <button type="button" class="btn-sso" id="btnSso" onclick="handleSSO()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <span>LOGIN SSO</span>
-                    </button>
                 </form>
+                @endif
 
-                <!-- DEMO ACCOUNT SHORTCUTS -->
-                <div class="demo-box">
-                    <div class="demo-label">
-                        <span>⚡</span>
-                        <span>Klik untuk Coba Akun Demo:</span>
-                    </div>
-                    <div class="demo-buttons-row">
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('198501012010011001', 'password')">
-                            <span class="chip-title">🛡️ Admin PIC</span>
-                            <span class="chip-sub">Monitoring & Kelola</span>
-                        </button>
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('199505152020121002', 'password')">
-                            <span class="chip-title">👤 Sudah Usul</span>
-                            <span class="chip-sub">Budi (Cek Progres)</span>
-                        </button>
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('199808182022032005', 'password')">
-                            <span class="chip-title">📝 Belum Usul</span>
-                            <span class="chip-sub">Siti (Coba Isi Form)</span>
-                        </button>
-                    </div>
-                </div>
+                <!-- BUTTON LOGIN SSO (FR-AUTH-1, FR-AUTH-2): lewat adapter SSO -->
+                <a href="{{ route('sso.redirect') }}" class="btn-sso" id="btnSso" data-action="login-sso">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>LOGIN SSO</span>
+                </a>
 
             </div>
 
@@ -629,25 +610,6 @@
     </footer>
 
     <script>
-        function fillCredentials(nip, password) {
-            document.getElementById('nipInput').value = nip;
-            document.getElementById('passwordInput').value = password;
-            // Highlight effect
-            const btn = document.getElementById('submitBtn');
-            btn.style.transform = 'scale(1.02)';
-            setTimeout(() => { btn.style.transform = 'none'; }, 200);
-        }
-
-        function handleSSO() {
-            const ssoBtn = document.getElementById('btnSso');
-            ssoBtn.innerHTML = '<span>⏳ Mengautentikasi SSO BPS...</span>';
-            ssoBtn.style.opacity = '0.85';
-            setTimeout(() => {
-                fillCredentials('199505152020121002', 'password');
-                document.getElementById('loginForm').submit();
-            }, 350);
-        }
-
         function togglePasswordVisibility() {
             const pwd = document.getElementById('passwordInput');
             const icon = document.getElementById('eyeIcon');

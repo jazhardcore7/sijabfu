@@ -5,6 +5,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\SsoController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\SsoSyncController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\ChatController;
@@ -21,6 +24,19 @@ use App\Http\Controllers\PengajuanController;
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:login');
+
+    // Login SSO lewat adapter (FR-AUTH-1)
+    Route::get('/auth/sso/redirect', [SsoController::class, 'redirect'])->name('sso.redirect');
+    Route::get('/auth/sso/callback', [SsoController::class, 'callback'])->middleware('throttle:login')->name('sso.callback');
+});
+
+// Daftar User dan Sinkronisasi Data SSO (Super Admin) - FR-USR-1, FR-USR-2
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::post('/users/{user}', [UserController::class, 'update'])->whereNumber('user')->name('admin.users.update');
+
+    Route::get('/sso-sync', [SsoSyncController::class, 'index'])->name('admin.sso-sync');
+    Route::post('/sso-sync', [SsoSyncController::class, 'store'])->name('admin.sso-sync.run');
 });
 
 // Logout Route (Authenticated)
@@ -62,6 +78,7 @@ Route::middleware(['auth', 'role:pegawai'])->group(function () {
     Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store')->middleware('throttle:uploads');
     Route::post('/pengajuan/kirim-ulang', [PengajuanController::class, 'kirimUlang'])->name('pengajuan.kirim-ulang');
+    Route::post('/pengajuan/sinkron', [PengajuanController::class, 'sinkron'])->name('pengajuan.sinkron'); // FR-PU-1
 
     // Chat Box (FR-CHAT-1); JSON untuk polling
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');

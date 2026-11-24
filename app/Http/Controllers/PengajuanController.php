@@ -144,6 +144,23 @@ class PengajuanController extends Controller
     }
 
     /**
+     * FR-PU-1: Sinkron data dengan SIMPEG/SIASN. Gagal -> peringatan, form tetap dapat dipakai.
+     */
+    public function sinkron(\App\Services\SimpegSyncService $simpeg): RedirectResponse
+    {
+        $result = $simpeg->syncUser(Auth::user());
+
+        if (!$result['ok']) {
+            return redirect()->route('pengajuan')->with('warning', $result['message']);
+        }
+
+        // Satuan Kerja di form diisi dari unit kerja SIMPEG/SIASN
+        return redirect()->route('pengajuan')
+            ->with('success', $result['message'])
+            ->withInput(['satuan_kerja' => $result['data']['unit_kerja']]);
+    }
+
+    /**
      * Kirim ulang usulan dari status perbaikan (FR-PU-5).
      */
     public function kirimUlang(): RedirectResponse

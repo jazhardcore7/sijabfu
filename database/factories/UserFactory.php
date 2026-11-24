@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'nip' => fake()->unique()->numerify('##################'),
             'role' => User::ROLE_PEGAWAI,
+            'is_active' => true,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

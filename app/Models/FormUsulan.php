@@ -57,6 +57,39 @@ class FormUsulan extends Model
         return $this->hasMany(UsulanStatusLog::class, 'form_usulan_id')->orderBy('id');
     }
 
+    /**
+     * Kelas badge warna per status (memakai kelas badge-step-N yang sudah ada).
+     */
+    public const STATUS_BADGES = [
+        self::STATUS_PERBAIKAN => 'badge-step-1',
+        self::STATUS_VERIFIKASI => 'badge-step-2',
+        self::STATUS_DISETUJUI => 'badge-step-3',
+        self::STATUS_DITETAPKAN => 'badge-step-4',
+        self::STATUS_SELESAI => 'badge-step-5',
+    ];
+
+    public function statusBadgeClass(): string
+    {
+        return self::STATUS_BADGES[$this->status_key] ?? 'badge-step-1';
+    }
+
+    /**
+     * Filter daftar staf: status_key dan pencarian NIP/nama (FR-VB-1, FR-MON-1).
+     */
+    public function scopeFilterStaf($query, ?string $status, ?string $keyword)
+    {
+        if ($status !== null && $status !== '' && array_key_exists($status, self::STATUS_LABELS)) {
+            $query->where('status_key', $status);
+        }
+
+        if ($keyword !== null && trim($keyword) !== '') {
+            $like = '%' . trim($keyword) . '%';
+            $query->where(fn ($q) => $q->where('nip', 'like', $like)->orWhere('nama_lengkap', 'like', $like));
+        }
+
+        return $query;
+    }
+
     public function statusKeyLabel(): string
     {
         return self::STATUS_LABELS[$this->status_key] ?? 'Draf';

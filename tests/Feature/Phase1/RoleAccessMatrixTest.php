@@ -19,7 +19,9 @@ class RoleAccessMatrixTest extends TestCase
         // [uri, pegawai, tim_jf, super_admin]
         return [
             'admin dashboard'   => ['/admin', 403, 200, 200],
-            'admin monitoring'  => ['/admin/monitoring', 403, 200, 200],
+            'admin monitoring'  => ['/admin/monitoring', 403, 302, 302],
+            'monitoring'        => ['/monitoring', 403, 200, 200],
+            'verifikasi'        => ['/verifikasi', 403, 200, 200],
             'pengajuan usulan'  => ['/pengajuan', 200, 403, 403],
             'pelacakan status'  => ['/pelacakan-status', 200, 403, 403],
             'form usulan lama'  => ['/form-usulan', 302, 403, 403],

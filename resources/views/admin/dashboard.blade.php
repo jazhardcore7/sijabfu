@@ -829,7 +829,7 @@
                             <th>Jabatan & Jenis Usulan</th>
                             <th>Surat & Berkas</th>
                             <th>Status Alur Saat Ini</th>
-                            <th style="min-width: 250px;">Kelola Status & Catatan</th>
+                            <th style="min-width: 250px;">Kelola Usulan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -872,23 +872,14 @@
                                 @endif
                             </td>
                             <td>
-                                @php
-                                    $stepClass = match($item->status) {
-                                        1 => 'badge-step-1',
-                                        2 => 'badge-step-2',
-                                        3 => 'badge-step-3',
-                                        4 => 'badge-step-4',
-                                        5 => 'badge-step-5',
-                                        default => 'badge-step-1'
-                                    };
-                                    $currTahap = collect($tahapan)->firstWhere('step', $item->status);
-                                @endphp
-                                <span class="badge-step {{ $stepClass }}">
-                                    Tahap {{ $item->status }}: {{ $currTahap['label'] ?? $item->statusLabel() }}
+                                <span class="badge-step {{ $item->statusBadgeClass() }}" data-status-key="{{ $item->status_key }}">
+                                    {{ $item->statusKeyLabel() }}
                                 </span>
+                                @if($item->hasil_verifikasi)
                                 <div style="font-size: 11px; color: var(--c-text-muted); margin-top: 4px;">
-                                    Aktor: <strong>{{ $currTahap['aktor'] ?? '-' }}</strong>
+                                    Hasil verifikasi: <strong>{{ strtoupper($item->hasil_verifikasi) }}</strong>
                                 </div>
+                                @endif
                                 @if($item->catatan)
                                 <div style="margin-top: 6px; font-size: 11px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 4px 8px; border-radius: 6px; color: #92400E;">
                                     <strong>Catatan:</strong> {{ $item->catatan }}
@@ -896,20 +887,15 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('admin.usulan.update-status', $item->id) }}" method="POST" class="form-update-status">
-                                    @csrf
-                                    <select name="status" class="select-status" required>
-                                        @foreach($tahapan as $t)
-                                        <option value="{{ $t['step'] }}" {{ $item->status == $t['step'] ? 'selected' : '' }}>
-                                            Tahap {{ $t['step'] }}: {{ $t['label'] }} ({{ $t['aktor'] }})
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" name="catatan" class="input-catatan" placeholder="Catatan untuk pegawai (opsional)..." value="{{ $item->catatan }}">
-                                    <button type="submit" class="btn-save-status">
-                                        💾 Perbarui Status
-                                    </button>
-                                </form>
+                                {{-- Perubahan status hanya lewat state machine (FR-MON-2) --}}
+                                <div class="form-update-status">
+                                    <a href="{{ route('verifikasi.show', $item->id) }}" class="btn-save-status" style="text-decoration:none; text-align:center;" data-action="buka-verifikasi">
+                                        🔍 Verifikasi
+                                    </a>
+                                    <a href="{{ route('monitoring.index', ['q' => $item->nip]) }}" class="btn-save-status" style="text-decoration:none; text-align:center;" data-action="buka-monitoring">
+                                        ⚙️ Kelola
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @empty

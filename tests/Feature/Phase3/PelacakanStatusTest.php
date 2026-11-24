@@ -164,14 +164,14 @@ class PelacakanStatusTest extends TestCase
             [$this->pegawai, '/pelacakan-status'],
             [$this->pegawai, '/pengajuan'],
             [$timJf, '/admin'],
-            [$timJf, '/admin/monitoring'],
+            [$timJf, '/monitoring'],
         ];
 
         foreach ($pages as [$user, $uri]) {
             $html = $this->actingAs($user)->get($uri)->assertOk()->getContent();
             $this->assertStringNotContainsString('href="javascript:', $html, $uri);
             $this->assertStringNotContainsString('javascript:alert', $html, $uri);
-            if ($uri !== '/admin/monitoring') { // monitoring hanya menampilkan link_berkas
+            if ($uri !== '/monitoring') { // monitoring hanya menampilkan link_berkas
                 $this->assertStringContainsString('href="https://drive.example.test/usulan"', $html, $uri);
             }
         }

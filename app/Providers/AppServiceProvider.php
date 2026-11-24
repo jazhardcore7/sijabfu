@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::policy(FormUsulan::class, FormUsulanPolicy::class);
+        Gate::policy(\App\Models\UsulanBerkas::class, \App\Policies\UsulanBerkasPolicy::class);
 
         // FR-AUTH-4: maksimal 5 percobaan login per menit per NIP dan IP.
         RateLimiter::for('login', function (Request $request) {

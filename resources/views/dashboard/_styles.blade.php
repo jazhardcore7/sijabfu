@@ -30,6 +30,8 @@
     .dash-notif-item { padding: 8px 0; border-bottom: 1px dashed var(--c-border); font-size: 13px; }
     .dash-notif-item:last-child { border-bottom: none; }
     .dash-notif-item a { color: var(--c-text); text-decoration: none; font-weight: 700; }
+    .dash-span-2 { grid-column: span 2; min-width: 0; }
+    @media (max-width: 760px) { .dash-span-2 { grid-column: auto; } }
     @media (max-width: 640px) {
         .dash-wrap { padding: 16px; }
         .dash-steps { grid-template-columns: repeat(2, 1fr); }

@@ -3,7 +3,7 @@
 @php $dashUsulan = $dashboard['usulan']; @endphp
 <section class="dash-wrap" data-section="dashboard-pegawai">
     <div class="dash-grid">
-        <div class="dash-card" style="grid-column: span 2; min-width: 0;" data-section="progres-usulan">
+        <div class="dash-card dash-span-2" data-section="progres-usulan">
             <div class="dash-card-title">📊 Progres Usulan Saya</div>
             @if($dashUsulan)
             <div class="dash-steps">

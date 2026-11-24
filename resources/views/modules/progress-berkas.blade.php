@@ -474,7 +474,7 @@
 <div class="pb-help animate-fade-in" style="margin-top:24px;">
     <span style="font-size:22px; flex-shrink:0;">💬</span>
     <div>
-        <div style="font-weight:700; color:var(--bps-dark); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
+        <div style="font-weight:700; color:var(--c-heading); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
         <div style="font-size:13.5px; color:var(--c-text-2); line-height:1.7;">
             Jika ada pertanyaan terkait status usulan Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
             <a href="{{ route('tim-kerja') }}">Tim Kerja</a>.

@@ -146,7 +146,7 @@
 
     .reg-nomor {
         font-weight: 700;
-        color: var(--bps-dark);
+        color: var(--c-heading);
         font-size: 13px;
     }
 
@@ -161,7 +161,7 @@
         align-items: center;
         padding: 3px 10px;
         background: rgba(0,59,115,0.08);
-        color: var(--bps-dark);
+        color: var(--c-heading);
         border-radius: 50px;
         font-size: 12px;
         font-weight: 700;
@@ -203,6 +203,9 @@
     @media (max-width: 768px) {
         .regulasi-table { font-size: 12px; }
         .regulasi-table th, .regulasi-table td { padding: 10px 12px; }
+        /* tabel 4 kolom digulir di dalam kartunya, halaman tidak melebar */
+        .regulasi-group { overflow-x: auto; }
+        .regulasi-search { flex-wrap: wrap; }
     }
 
     .btn-group-reg { display: flex; gap: 6px; flex-wrap: wrap; }
@@ -247,7 +250,7 @@
         <span style="font-size: 18px; flex-shrink:0;">⚠️</span>
         <div>
             <strong>Catatan:</strong> Dokumen regulasi yang ditampilkan bersifat informatif. Untuk versi resmi dan terbaru,
-            silakan unduh dari situs resmi BPS RI (<a href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" style="color: var(--bps-dark); font-weight: 600;">www.bps.go.id</a>)
+            silakan unduh dari situs resmi BPS RI (<a href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" style="color: var(--c-heading); font-weight: 600;">www.bps.go.id</a>)
             atau JDIH BKN. Regulasi dapat berubah sewaktu-waktu mengikuti peraturan perundangan yang berlaku.
         </div>
     </div>

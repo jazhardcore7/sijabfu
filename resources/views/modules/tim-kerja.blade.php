@@ -122,7 +122,7 @@
     .tim-nama {
         font-size: 15px;
         font-weight: 800;
-        color: var(--bps-dark);
+        color: var(--c-heading);
         margin-bottom: 4px;
         line-height: 1.3;
     }
@@ -153,7 +153,7 @@
 
     .jabatan-anggota {
         background: rgba(0,59,115,0.08);
-        color: var(--bps-dark);
+        color: var(--c-heading);
         border: 1px solid rgba(0,59,115,0.15);
     }
 
@@ -191,6 +191,8 @@
     .tim-card-link { text-decoration: none; color: inherit; display: block; }
     .tim-card-link:hover .tim-card { transform: translateY(-3px); }
     .tim-profile-link { margin-top: 12px; font-size: 12.5px; font-weight: 700; color: var(--bps-mid); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
     .tim-empty {
         background: var(--c-surface); border: 2px dashed var(--c-border-strong); border-radius: 16px;
         padding: 40px 20px; text-align: center; color: var(--c-text-muted); font-size: 14px;
@@ -257,8 +259,8 @@
 
 <!-- CONTACT SECTION -->
 <div style="margin-top: 40px; background: var(--c-surface); border-radius: 16px; padding: 28px; border: 1px solid var(--c-border); max-width: 700px;" class="animate-fade-in">
-    <div style="font-size: 16px; font-weight: 700; color: var(--bps-dark); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+    <div style="font-size: 16px; font-weight: 700; color: var(--c-heading); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
+    <div class="contact-grid">
         <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">✉️</span>
             <div>

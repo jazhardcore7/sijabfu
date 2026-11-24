@@ -158,7 +158,7 @@
         .section-title {
             font-size: clamp(22px, 3vw, 36px);
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             margin-bottom: 12px;
         }
 
@@ -300,7 +300,7 @@
         .card-title {
             font-size: 18px;
             font-weight: 700;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             margin-bottom: 8px;
         }
 
@@ -321,7 +321,7 @@
         }
 
         .service-card:hover .card-arrow { gap: 10px; }
-        .card-blue .card-arrow { color: var(--bps-dark); }
+        .card-blue .card-arrow { color: var(--c-heading); }
         .card-indigo .card-arrow { color: #4F46E5; }
         .card-orange .card-arrow { color: var(--bps-orange); }
         .card-teal .card-arrow { color: #0D9488; }
@@ -423,6 +423,9 @@
 @endpush
 
 @section('content')
+<!-- DASHBOARD PEGAWAI (FR-DASH-3): ditampilkan paling atas -->
+@include('dashboard._pegawai-panel')
+
 <!-- HERO SECTION -->
 <section class="hero-section">
     <div class="hero-inner">
@@ -469,9 +472,6 @@
         <path d="M0,60 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" style="fill: var(--c-bg)"/>
     </svg>
 </div>
-
-<!-- DASHBOARD PEGAWAI (FR-DASH-3) -->
-@include('dashboard._pegawai-panel')
 
 <!-- CARDS SECTION -->
 <section class="cards-section">

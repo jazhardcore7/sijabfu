@@ -67,7 +67,7 @@
         .navbar-title {
             font-size: 17px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
         }
 
@@ -80,7 +80,7 @@
         /* HERO WELCOME BANNER */
         .hero-banner {
             position: relative;
-            background: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 60%, #DBEAFE 100%);
+            background: var(--c-hero-bg);
             padding: 32px 48px;
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
@@ -135,7 +135,7 @@
         .hero-heading {
             font-size: 32px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.25;
             margin-bottom: 10px;
         }
@@ -211,7 +211,7 @@
         /* RIGHT FORM COLUMN */
         .login-card {
             background: var(--c-border);
-            background: linear-gradient(145deg, #E2E8F0 0%, #CBD5E1 100%);
+            background: var(--c-card-muted-bg);
             border-radius: 28px;
             padding: 40px 44px;
             box-shadow: 0 10px 30px rgba(100, 116, 139, 0.2);

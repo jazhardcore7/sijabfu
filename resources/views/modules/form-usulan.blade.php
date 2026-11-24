@@ -227,7 +227,7 @@
         display: flex; align-items: center; justify-content: center;
         font-size: 16px;
     }
-    .fu-card-header-title { font-size: 14.5px; font-weight: 700; color: var(--bps-dark); }
+    .fu-card-header-title { font-size: 14.5px; font-weight: 700; color: var(--c-heading); }
     .fu-card-header-subtitle { font-size: 12px; color: var(--c-text-muted); }
     .fu-card-body { padding: 24px; }
 

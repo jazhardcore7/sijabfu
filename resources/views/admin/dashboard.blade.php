@@ -26,7 +26,7 @@
         /* 2. HERO WELCOME BANNER (ATTACHMENT 1) */
         .hero-banner {
             position: relative;
-            background: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 55%, #DBEAFE 100%);
+            background: var(--c-hero-bg);
             padding: 32px 48px;
             display: grid;
             grid-template-columns: 1.25fr 0.75fr;
@@ -69,7 +69,7 @@
         .hero-heading {
             font-size: 34px;
             font-weight: 900;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
             margin-bottom: 10px;
         }
@@ -350,7 +350,7 @@
             background: var(--c-surface-2);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            color: var(--bps-dark);
+            color: var(--c-heading);
         }
 
         .btn-action-pill:active {
@@ -722,7 +722,7 @@
                                 <div style="font-size: 11px; color: var(--c-text-muted);">{{ $item->email }}</div>
                             </td>
                             <td>
-                                <div style="font-weight: 700; color: #003B73;">{{ $item->jabatan_fungsional }}</div>
+                                <div style="font-weight: 700; color: var(--c-heading);">{{ $item->jabatan_fungsional }}</div>
                                 <div style="font-size: 11px; color: var(--c-text-2); margin-top: 2px;">{{ $item->jenis_usulan }}</div>
                                 <div style="font-size: 10px; color: var(--c-text-faint); margin-top: 4px;">Diajukan: {{ $item->created_at->format('d/m/Y H:i') }}</div>
                             </td>

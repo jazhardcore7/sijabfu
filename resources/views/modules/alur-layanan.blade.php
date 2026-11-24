@@ -86,7 +86,7 @@
     .step-card-title {
         font-size: 18px;
         font-weight: 700;
-        color: var(--bps-dark);
+        color: var(--c-heading);
     }
 
     .step-card-tag {
@@ -100,7 +100,7 @@
         letter-spacing: 0.5px;
     }
 
-    .tag-blue   { background: rgba(0,59,115,0.08);  color: var(--bps-dark); }
+    .tag-blue   { background: rgba(0,59,115,0.08);  color: var(--c-heading); }
     .tag-indigo { background: rgba(79,70,229,0.08); color: #4F46E5; }
     .tag-orange { background: rgba(247,127,0,0.1);  color: var(--bps-orange); }
     .tag-teal   { background: rgba(13,148,136,0.08); color: #0D9488; }
@@ -254,7 +254,7 @@
     <div style="display: flex; gap: 16px; align-items: flex-start;">
         <span style="font-size: 24px; flex-shrink:0;">ℹ️</span>
         <div>
-            <div style="font-weight: 700; color: var(--bps-dark); margin-bottom: 8px; font-size: 15px;">Informasi Penting</div>
+            <div style="font-weight: 700; color: var(--c-heading); margin-bottom: 8px; font-size: 15px;">Informasi Penting</div>
             <div style="font-size: 14px; color: var(--c-text-2); line-height: 1.7;">
                 Seluruh proses pengusulan jabatan fungsional wajib dilakukan melalui unit kerja masing-masing dan dikoordinasikan dengan 
                 Tim Kerja Pembinaan JF BPS RI Pusat. Untuk pertanyaan lebih lanjut, silakan hubungi tim kami melalui halaman 

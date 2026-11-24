@@ -204,6 +204,8 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            /* flex item: boleh menyempit di bawah lebar kontennya, agar halaman tidak melebar ke samping */
+            min-width: 0;
         }
 
         /* TOP HEADER BAR */
@@ -269,7 +271,7 @@
         .page-header-title {
             font-size: 28px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
             margin-bottom: 8px;
         }
@@ -409,6 +411,20 @@
             .mobile-menu-btn { display: flex; align-items: center; }
             .page-content { padding: 20px; }
             .top-header { padding: 12px 20px; }
+            .datetime-badge { display: none; }
+        }
+
+        /* Navbar di layar sempit: sembunyikan nama (badge tingkatan tetap), rapatkan jarak */
+        @media (max-width: 640px) {
+            .top-header { padding: 10px 12px; gap: 8px; }
+            .top-header > div:first-child { min-width: 0; gap: 10px !important; }
+            .top-header-breadcrumb { font-size: 12.5px; min-width: 0; overflow: hidden; white-space: nowrap; }
+            .top-header-breadcrumb > a { display: none; }
+            .top-header-breadcrumb > span:first-of-type { display: none; }
+            .navbar-actions { gap: 6px; flex-shrink: 0; }
+            .profile-btn { padding: 4px 8px; }
+            .profile-name { display: none; }
+            .page-content { padding: 14px; }
         }
 
         /* ANIMATIONS */
@@ -569,7 +585,7 @@
                     <!-- Profil dengan tingkatan user -->
                     <details class="nav-dropdown" data-layout="profile-menu">
                         <summary class="profile-btn">
-                            👤 {{ $authUser->name }}
+                            👤 <span class="profile-name">{{ $authUser->name }}</span>
                             <span class="level-badge" data-level="{{ $authUser->role }}">{{ $authUser->levelLabel() }}</span>
                         </summary>
                         <div class="nav-dropdown-panel">

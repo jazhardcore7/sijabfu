@@ -448,7 +448,7 @@
         .control-panel-title {
             font-size: 13px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -737,7 +737,7 @@
                         <div class="dossier-grid">
                             <div class="dossier-cell">
                                 <span class="dossier-label">Jabatan Fungsional</span>
-                                <span class="dossier-value" style="color: var(--bps-navy);">{{ $item->jabatan_fungsional }}</span>
+                                <span class="dossier-value" style="color: var(--c-heading);">{{ $item->jabatan_fungsional }}</span>
                             </div>
                             <div class="dossier-cell">
                                 <span class="dossier-label">Jenis Usulan</span>

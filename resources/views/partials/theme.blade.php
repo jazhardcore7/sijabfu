@@ -31,6 +31,10 @@
         --c-text-2: #475569;
         --c-text-muted: #64748B;
         --c-text-faint: #94A3B8;
+        /* judul/teks aksen biru tua, kartu hero terang, kartu login */
+        --c-heading: #003B73;
+        --c-hero-bg: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 55%, #DBEAFE 100%);
+        --c-card-muted-bg: linear-gradient(145deg, #E2E8F0 0%, #CBD5E1 100%);
     }
 
     [data-theme="dark"] {
@@ -46,6 +50,9 @@
         --c-text-2: #CBD5E1;
         --c-text-muted: #94A3B8;
         --c-text-faint: #7C8BA5;
+        --c-heading: #93C5FD;
+        --c-hero-bg: linear-gradient(135deg, #0F1E36 0%, #132846 55%, #16305A 100%);
+        --c-card-muted-bg: linear-gradient(145deg, #1C2944 0%, #26354F 100%);
     }
 
     .theme-toggle {
@@ -61,6 +68,8 @@
         cursor: pointer;
         font-size: 16px;
     }
+
+    [data-theme="dark"] .top-header-breadcrumb a { color: var(--c-heading); }
 
     .theme-toggle .icon-dark { display: none; }
     [data-theme="dark"] .theme-toggle .icon-light { display: none; }

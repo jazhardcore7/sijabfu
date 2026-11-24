@@ -65,9 +65,9 @@
     }
 
     .tim-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         overflow: hidden;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -122,14 +122,14 @@
     .tim-nama {
         font-size: 15px;
         font-weight: 800;
-        color: var(--bps-dark);
+        color: var(--c-heading);
         margin-bottom: 4px;
         line-height: 1.3;
     }
 
     .tim-nip {
         font-size: 11px;
-        color: #94a3b8;
+        color: var(--c-text-faint);
         font-weight: 500;
         letter-spacing: 0.5px;
         margin-bottom: 12px;
@@ -153,7 +153,7 @@
 
     .jabatan-anggota {
         background: rgba(0,59,115,0.08);
-        color: var(--bps-dark);
+        color: var(--c-heading);
         border: 1px solid rgba(0,59,115,0.15);
     }
 
@@ -165,13 +165,13 @@
 
     .tim-bidang {
         font-size: 12.5px;
-        color: #64748b;
+        color: var(--c-text-muted);
         line-height: 1.5;
-        background: #f8fafc;
+        background: var(--c-surface-2);
         border-radius: 10px;
         padding: 10px 14px;
         width: 100%;
-        border: 1px solid #f1f5f9;
+        border: 1px solid var(--c-border-soft);
     }
 
     @media (max-width: 1024px) {
@@ -186,11 +186,25 @@
 </style>
 @endpush
 
+@push('styles')
+<style>
+    .tim-card-link { text-decoration: none; color: inherit; display: block; }
+    .tim-card-link:hover .tim-card { transform: translateY(-3px); }
+    .tim-profile-link { margin-top: 12px; font-size: 12.5px; font-weight: 700; color: var(--bps-mid); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
+    .tim-empty {
+        background: var(--c-surface); border: 2px dashed var(--c-border-strong); border-radius: 16px;
+        padding: 40px 20px; text-align: center; color: var(--c-text-muted); font-size: 14px;
+    }
+</style>
+@endpush
+
 @section('content')
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
     <h1 class="page-header-title">👥 Tim Kerja Pembinaan JF</h1>
-    <p class="page-header-desc">Profil lengkap Tim Pembinaan JF BPS RI Pusat</p>
+    <p class="page-header-desc">Daftar Tim Pembinaan, profile Tim Pembinaan, dan Chat Box untuk komunikasi 2 arah</p>
     <div class="page-header-divider"></div>
 </div>
 
@@ -200,84 +214,79 @@
     <div class="tim-header-content">
         <div class="tim-header-title">Tim Pembinaan JF BPS RI</div>
         <div class="tim-header-desc">
-            Tim Pembinaan JF BPS RI Pusat bertugas untuk melakukan pembinaan, pengawasan, 
-            dan fasilitasi pengusulan serta pengembangan seluruh Jabatan Fungsional di 
+            Tim Pembinaan JF BPS RI Pusat bertugas untuk melakukan pembinaan, pengawasan,
+            dan fasilitasi pengusulan serta pengembangan seluruh Jabatan Fungsional di
             seluruh satuan kerja BPS.
         </div>
         <div class="tim-stats">
             <div class="tim-stat">
-                <div class="tim-stat-num">{{ count($tim) }}</div>
+                <div class="tim-stat-num" data-jumlah-anggota="{{ $tim->count() }}">{{ $tim->count() }}</div>
                 <div class="tim-stat-label">Anggota Tim</div>
-            </div>
-            <div style="width:1px; background:rgba(255,255,255,0.15); height:36px; align-self:center;"></div>
-            <div class="tim-stat">
-                <div class="tim-stat-num">2</div>
-                <div class="tim-stat-label">Jenis JF</div>
-            </div>
-            <div style="width:1px; background:rgba(255,255,255,0.15); height:36px; align-self:center;"></div>
-            <div class="tim-stat">
-                <div class="tim-stat-num">34+</div>
-                <div class="tim-stat-label">Satker Binaan</div>
             </div>
         </div>
     </div>
 </div>
 
 <!-- TIM GRID -->
+@php $colors = ['blue', 'indigo', 'orange', 'teal', 'purple', 'rose']; @endphp
+@if($tim->isEmpty())
+<div class="tim-empty">Belum ada anggota Tim Pembinaan JF yang terdaftar.</div>
+@else
 <div class="tim-grid">
     @foreach($tim as $i => $anggota)
-    <div class="tim-card animate-fade-in animate-delay-{{ ($i % 5) + 1 }}">
-        <div class="tim-card-top bg-{{ $anggota['color'] }}"></div>
-        <div class="tim-card-body">
-            <div class="tim-avatar avatar-{{ $anggota['color'] }}">
-                {{ $anggota['avatar'] }}
-            </div>
-            <div class="tim-nama">{{ $anggota['nama'] }}</div>
-            <div class="tim-nip">NIP. {{ $anggota['nip'] }}</div>
-            <div class="tim-jabatan {{ 
-                str_contains($anggota['jabatan'], 'Ketua') ? 'jabatan-ketua' : 
-                (str_contains($anggota['jabatan'], 'Staf') ? 'jabatan-staf' : 'jabatan-anggota') 
-            }}">
-                {{ str_contains($anggota['jabatan'], 'Ketua') ? '⭐ ' : (str_contains($anggota['jabatan'], 'Staf') ? '🗂️ ' : '👤 ') }}{{ $anggota['jabatan'] }}
-            </div>
-            <div class="tim-bidang">
-                📌 {{ $anggota['bidang'] }}
+    @php
+        $color = $colors[$i % count($colors)];
+        $inisial = collect(preg_split('/\s+/', trim(preg_replace('/,.*$/', '', $anggota->name))))->filter()->take(2)->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
+    @endphp
+    <a href="{{ route('tim-kerja.show', $anggota) }}" class="tim-card-link" data-anggota="{{ $anggota->id }}">
+        <div class="tim-card animate-fade-in animate-delay-{{ ($i % 5) + 1 }}">
+            <div class="tim-card-top bg-{{ $color }}"></div>
+            <div class="tim-card-body">
+                <div class="tim-avatar avatar-{{ $color }}">{{ $inisial }}</div>
+                <div class="tim-nama">{{ $anggota->name }}</div>
+                <div class="tim-nip">NIP. {{ $anggota->nip ?? '-' }}</div>
+                <div class="tim-jabatan jabatan-anggota">👤 {{ $anggota->jabatan ?? 'Tim Pembinaan JF' }}</div>
+                @if($anggota->bidang)
+                <div class="tim-bidang">📌 {{ $anggota->bidang }}</div>
+                @endif
+                <div class="tim-profile-link">Lihat Profile →</div>
             </div>
         </div>
-    </div>
+    </a>
     @endforeach
 </div>
+@endif
 
 <!-- CONTACT SECTION -->
-<div style="margin-top: 40px; background: white; border-radius: 16px; padding: 28px; border: 1px solid #e2e8f0; max-width: 700px;" class="animate-fade-in">
-    <div style="font-size: 16px; font-weight: 700; color: var(--bps-dark); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+<div style="margin-top: 40px; background: var(--c-surface); border-radius: 16px; padding: 28px; border: 1px solid var(--c-border); max-width: 700px;" class="animate-fade-in">
+    <div style="font-size: 16px; font-weight: 700; color: var(--c-heading); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
+    <div class="contact-grid">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">✉️</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">jabatanfungsional@bps.go.id</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">jabatanfungsional@bps.go.id</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">📞</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">(021) 3841195 ext. 3xxxx</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">(021) 3841195 ext. 3xxxx</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">🏢</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">Gedung 3 Lt. 2, BPS RI, Jakarta</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Gedung 3 Lt. 2, BPS RI, Jakarta</div>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0;">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
             <span style="font-size: 20px;">⏰</span>
             <div>
-                <div style="font-size: 11px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jam Operasional</div>
-                <div style="font-size: 13px; color: #374151; font-weight: 600;">Senin–Jumat, 08.00–16.00 WIB</div>
+                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jam Operasional</div>
+                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Senin–Jumat, 08.00–16.00 WIB</div>
             </div>
         </div>
     </div>

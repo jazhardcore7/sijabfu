@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat">
     <title>Portal JF BPS RI - @yield('title', 'Beranda')</title>
+    @include('partials.theme')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,20 +16,20 @@
             --bps-light: #90E0EF;
             --bps-orange: #F77F00;
             --bps-orange-dark: #D97706;
-            --bg-slate: #F0F4F8;
+            --bg-slate: var(--c-bg);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
             background: var(--bg-slate);
-            color: #1e293b;
+            color: var(--c-text);
             min-height: 100vh;
         }
 
         /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-track { background: var(--c-surface-3); }
         ::-webkit-scrollbar-thumb { background: var(--bps-mid); border-radius: 3px; }
 
         /* Layout wrapper */
@@ -203,13 +204,15 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            /* flex item: boleh menyempit di bawah lebar kontennya, agar halaman tidak melebar ke samping */
+            min-width: 0;
         }
 
         /* TOP HEADER BAR */
         .top-header {
-            background: white;
+            background: var(--c-surface);
             padding: 16px 32px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid var(--c-border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -224,7 +227,7 @@
             align-items: center;
             gap: 8px;
             font-size: 14px;
-            color: #64748b;
+            color: var(--c-text-muted);
         }
 
         .top-header-breadcrumb a {
@@ -245,12 +248,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
+            background: var(--c-surface-2);
+            border: 1px solid var(--c-border);
             border-radius: 8px;
             padding: 6px 12px;
             font-size: 13px;
-            color: #475569;
+            color: var(--c-text-2);
             font-weight: 500;
         }
 
@@ -268,14 +271,14 @@
         .page-header-title {
             font-size: 28px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
             margin-bottom: 8px;
         }
 
         .page-header-desc {
             font-size: 15px;
-            color: #64748b;
+            color: var(--c-text-muted);
             font-weight: 400;
         }
 
@@ -289,16 +292,16 @@
 
         /* CARDS */
         .card {
-            background: white;
+            background: var(--c-surface);
             border-radius: 16px;
             box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-            border: 1px solid #f1f5f9;
+            border: 1px solid var(--c-border-soft);
             overflow: hidden;
         }
 
         .card-header {
             padding: 20px 24px;
-            border-bottom: 1px solid #f1f5f9;
+            border-bottom: 1px solid var(--c-border-soft);
         }
 
         .card-body { padding: 24px; }
@@ -369,25 +372,25 @@
         }
 
         .data-table th {
-            background: #f8fafc;
+            background: var(--c-surface-2);
             padding: 12px 16px;
             text-align: left;
             font-size: 12px;
             font-weight: 700;
-            color: #475569;
+            color: var(--c-text-2);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid var(--c-border);
         }
 
         .data-table td {
             padding: 14px 16px;
             font-size: 14px;
-            color: #374151;
-            border-bottom: 1px solid #f1f5f9;
+            color: var(--c-text-2);
+            border-bottom: 1px solid var(--c-border-soft);
         }
 
-        .data-table tr:hover td { background: #f8fafc; }
+        .data-table tr:hover td { background: var(--c-surface-2); }
 
         /* MOBILE SIDEBAR TOGGLE */
         .mobile-menu-btn {
@@ -408,6 +411,20 @@
             .mobile-menu-btn { display: flex; align-items: center; }
             .page-content { padding: 20px; }
             .top-header { padding: 12px 20px; }
+            .datetime-badge { display: none; }
+        }
+
+        /* Navbar di layar sempit: sembunyikan nama (badge tingkatan tetap), rapatkan jarak */
+        @media (max-width: 640px) {
+            .top-header { padding: 10px 12px; gap: 8px; }
+            .top-header > div:first-child { min-width: 0; gap: 10px !important; }
+            .top-header-breadcrumb { font-size: 12.5px; min-width: 0; overflow: hidden; white-space: nowrap; }
+            .top-header-breadcrumb > a { display: none; }
+            .top-header-breadcrumb > span:first-of-type { display: none; }
+            .navbar-actions { gap: 6px; flex-shrink: 0; }
+            .profile-btn { padding: 4px 8px; }
+            .profile-name { display: none; }
+            .page-content { padding: 14px; }
         }
 
         /* ANIMATIONS */
@@ -437,15 +454,78 @@
         }
 
         .sidebar-overlay.active { display: block; }
+
+        /* NAVBAR: notifikasi, profil, logout, tema (FR-DASH-1) */
+        .navbar-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown > summary { list-style: none; cursor: pointer; }
+        .nav-dropdown > summary::-webkit-details-marker { display: none; }
+        .notif-bell-btn {
+            position: relative;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px; border-radius: 10px;
+            border: 1px solid var(--c-border); background: var(--c-surface-2);
+            font-size: 16px;
+        }
+        .notif-count {
+            position: absolute; top: -6px; right: -6px;
+            min-width: 18px; height: 18px; padding: 0 5px;
+            border-radius: 9px; background: #ef4444; color: #FFFFFF;
+            font-size: 10px; font-weight: 700;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+        .notif-count[data-count="0"] { display: none; }
+        .nav-dropdown-panel {
+            position: absolute; right: 0; top: calc(100% + 8px);
+            min-width: 260px; z-index: 60;
+            background: var(--c-surface); border: 1px solid var(--c-border);
+            border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 12px; font-size: 13px; color: var(--c-text);
+        }
+        .notif-empty { color: var(--c-text-muted); text-align: center; padding: 12px 4px; }
+        .notif-panel { width: 340px; max-height: 420px; overflow-y: auto; padding: 0; }
+        .notif-panel-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--c-border); position: sticky; top: 0; background: var(--c-surface); }
+        .notif-read-all { background: none; border: none; color: var(--bps-mid); font-size: 12px; font-weight: 700; cursor: pointer; }
+        .notif-item { display: block; padding: 10px 14px; border-bottom: 1px solid var(--c-border-soft); text-decoration: none; color: var(--c-text); }
+        .notif-item.is-unread { background: var(--c-surface-3); }
+        .notif-item.is-unread .notif-item-title::before { content: '● '; color: #ef4444; }
+        .notif-item-title { font-size: 13px; font-weight: 700; }
+        .notif-item-body { font-size: 12px; color: var(--c-text-2); margin-top: 2px; }
+        .notif-item-time { font-size: 11px; color: var(--c-text-faint); margin-top: 3px; }
+        .profile-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--c-surface-2); border: 1px solid var(--c-border);
+            padding: 4px 12px; border-radius: 24px;
+            font-size: 12.5px; font-weight: 700; color: var(--c-text);
+        }
+        .level-badge {
+            display: inline-flex; align-items: center;
+            padding: 2px 8px; border-radius: 10px;
+            font-size: 10.5px; font-weight: 700; letter-spacing: 0.3px;
+            background: rgba(0,119,182,0.12); color: var(--bps-mid);
+        }
+        .level-badge[data-level="super_admin"] { background: rgba(247,127,0,0.15); color: var(--bps-orange-dark); }
+        .profile-panel-name { font-weight: 700; margin-bottom: 2px; }
+        .profile-panel-meta { color: var(--c-text-muted); font-size: 12px; margin-bottom: 10px; }
+        .btn-logout-nav {
+            width: 100%; background: none; border: 1px solid var(--c-border);
+            color: #ef4444; font-size: 12.5px; font-weight: 700;
+            cursor: pointer; padding: 8px; border-radius: 8px;
+        }
+        .page-content.page-content--flush { padding: 0; }
     </style>
     @stack('styles')
 </head>
 <body>
+    @php
+        $authUser = Auth::user();
+        $dashboardRoute = $authUser->dashboardRoute();
+    @endphp
     <div class="layout-wrapper">
         <!-- Overlay for mobile -->
         <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (menu per role, FR-DASH-2) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="sidebar-logo-wrapper">
@@ -455,7 +535,7 @@
                         <div class="sidebar-subtitle">BPS Republik Indonesia</div>
                     </div>
                 </div>
-                <a href="{{ route('home') }}" class="sidebar-back-btn">
+                <a href="{{ route($dashboardRoute) }}" class="sidebar-back-btn">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                     </svg>
@@ -463,29 +543,7 @@
                 </a>
             </div>
 
-            <nav class="sidebar-nav">
-                <div class="sidebar-nav-label">Menu Utama</div>
-                <a href="{{ route('alur-layanan') }}" class="sidebar-nav-item {{ request()->routeIs('alur-layanan') ? 'active' : '' }}">
-                    <div class="nav-icon">🔄</div>
-                    Alur Layanan
-                </a>
-                <a href="{{ route('form-usulan') }}" class="sidebar-nav-item {{ request()->routeIs('form-usulan') ? 'active' : '' }}">
-                    <div class="nav-icon">📝</div>
-                    Form Usulan
-                </a>
-                <a href="{{ route('progress-berkas') }}" class="sidebar-nav-item {{ request()->routeIs('progress-berkas') ? 'active' : '' }}">
-                    <div class="nav-icon">📊</div>
-                    Progress Berkas
-                </a>
-                <a href="{{ route('regulasi') }}" class="sidebar-nav-item {{ request()->routeIs('regulasi') ? 'active' : '' }}">
-                    <div class="nav-icon">📋</div>
-                    Regulasi
-                </a>
-                <a href="{{ route('tim-kerja') }}" class="sidebar-nav-item {{ request()->routeIs('tim-kerja') ? 'active' : '' }}">
-                    <div class="nav-icon">👥</div>
-                    Tim Kerja
-                </a>
-            </nav>
+            @include('partials.sidebar')
 
             <div class="sidebar-footer">
                 <div class="sidebar-footer-text">
@@ -497,44 +555,56 @@
 
         <!-- MAIN CONTENT -->
         <div class="main-content">
-            <!-- TOP HEADER -->
-            <header class="top-header">
+            <!-- NAVBAR (FR-DASH-1) -->
+            <header class="top-header" data-layout="navbar">
                 <div style="display:flex; align-items: center; gap: 16px;">
                     <button class="mobile-menu-btn" onclick="toggleSidebar()" id="menuBtn">
                         ☰
                     </button>
                     <nav class="top-header-breadcrumb">
-                        <a href="{{ route('home') }}">🏠 Beranda</a>
+                        <a href="{{ route($dashboardRoute) }}">🏠 Beranda</a>
                         <span>›</span>
-                        <span style="color: #1e293b; font-weight: 600;">@yield('breadcrumb', 'Halaman')</span>
+                        <span style="color: var(--c-text); font-weight: 600;">@yield('breadcrumb', 'Halaman')</span>
                     </nav>
                 </div>
-                <div class="top-header-right" style="display:flex; align-items:center; gap:12px;">
+                <div class="top-header-right navbar-actions">
                     <div class="datetime-badge" id="datetimeBadge">
                         <span>📅</span>
                         <span id="headerDatetime">--</span>
                     </div>
-                    @auth
-                    <div style="display:flex; align-items:center; gap:8px; background:#f8fafc; border:1px solid #e2e8f0; padding:4px 12px; border-radius:24px;">
-                        <span style="font-size:12.5px; font-weight:700; color:#1e293b;">👤 {{ Auth::user()->name }}</span>
-                        @if(Auth::user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}" style="font-size:11px; font-weight:700; color:#1d4ed8; text-decoration:none; background:#eff6ff; padding:2px 8px; border-radius:10px;">
-                            🛡️ Admin
-                        </a>
-                        @endif
-                        <form action="{{ route('logout') }}" method="POST" style="display:inline; margin:0;">
-                            @csrf
-                            <button type="submit" style="background:none; border:none; color:#ef4444; font-size:12px; font-weight:700; cursor:pointer; padding:2px 4px;">
-                                Logout 🚪
-                            </button>
-                        </form>
-                    </div>
-                    @endauth
+
+                    <!-- Notifikasi -->
+                    @include('partials.notifications')
+
+                    <!-- Tema dark/light -->
+                    <button type="button" class="theme-toggle" onclick="toggleTheme()" data-layout="theme-toggle" title="Ganti tema" aria-label="Ganti tema dark/light">
+                        <span class="icon-light">🌙</span>
+                        <span class="icon-dark">☀️</span>
+                    </button>
+
+                    <!-- Profil dengan tingkatan user -->
+                    <details class="nav-dropdown" data-layout="profile-menu">
+                        <summary class="profile-btn">
+                            👤 <span class="profile-name">{{ $authUser->name }}</span>
+                            <span class="level-badge" data-level="{{ $authUser->role }}">{{ $authUser->levelLabel() }}</span>
+                        </summary>
+                        <div class="nav-dropdown-panel">
+                            <div class="profile-panel-name">{{ $authUser->name }}</div>
+                            <div class="profile-panel-meta">
+                                NIP {{ $authUser->nip ?? '-' }}<br>
+                                Tingkatan: {{ $authUser->levelLabel() }}
+                            </div>
+                            <form action="{{ route('logout') }}" method="POST" style="margin:0;" data-layout="logout">
+                                @csrf
+                                <button type="submit" class="btn-logout-nav">Logout 🚪</button>
+                            </form>
+                        </div>
+                    </details>
                 </div>
             </header>
 
             <!-- PAGE CONTENT -->
-            <main class="page-content">
+            <main class="page-content @hasSection('flush') page-content--flush @endif">
                 @yield('content')
             </main>
         </div>

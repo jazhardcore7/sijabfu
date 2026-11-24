@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\FormUsulan;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     /**
-     * Tampilkan Halaman Dashboard Admin Pembinaan Jabatan Fungsional (Attachment 1)
+     * Route lama /admin: dialihkan ke /dashboard (PRD Revisi bagian 7).
      */
     public function index()
+    {
+        return redirect()->route('dashboard');
+    }
+
+    /**
+     * Konten Dashboard Tim Pembinaan JF / Super Admin: kartu tautan dan tabel usulan
+     * (tetap dipertahankan), ditambah grafik dari DashboardController.
+     */
+    public function dashboardView(array $extra = [])
     {
         // 1. Link Internal (Warna Biru / Nuansa BPS)
         $linkInternal = [
@@ -135,74 +143,33 @@ class AdminController extends Controller
 
         // 4. Akses Cepat (Bottom Bar)
         $aksesCepat = [
-            'form_usulan' => route('form-usulan'),
             'response' => 'https://docs.google.com/spreadsheets/d/1dummy-response-sijabfu-bps/edit',
         ];
 
         // 5. Data Pengajuan Usulan Pegawai
-        $daftarUsulan = FormUsulan::with('user')->latest()->get();
-        $tahapan = FormUsulan::tahapan();
+        $daftarUsulan = FormUsulan::submitted()->with('user')->latest()->get();
 
-        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan', 'tahapan'));
+        return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan') + $extra);
     }
 
     /**
-     * Halaman Admin Panel Khusus Monitoring Progress Usulan
+     * Route lama Monitoring: dialihkan ke Monitoring Progress UKOM yang baru.
      */
     public function monitoring(Request $request)
     {
-        $query = FormUsulan::with('user');
-
-        // Filter status
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        // Filter pencarian
-        if ($request->filled('q')) {
-            $keyword = '%' . $request->q . '%';
-            $query->where(function($q) use ($keyword) {
-                $q->where('nama_lengkap', 'like', $keyword)
-                  ->orWhere('nip', 'like', $keyword)
-                  ->orWhere('satuan_kerja', 'like', $keyword)
-                  ->orWhere('jabatan_fungsional', 'like', $keyword)
-                  ->orWhere('nomor_surat', 'like', $keyword);
-            });
-        }
-
-        $daftarUsulan = $query->latest()->paginate(10)->withQueryString();
-        $tahapan = FormUsulan::tahapan();
-
-        // Statistik ringkasan
-        $stats = [
-            'total'   => FormUsulan::count(),
-            'tahap_1' => FormUsulan::where('status', 1)->count(),
-            'tahap_2' => FormUsulan::where('status', 2)->count(),
-            'tahap_3' => FormUsulan::where('status', 3)->count(),
-            'tahap_4' => FormUsulan::where('status', 4)->count(),
-            'tahap_5' => FormUsulan::where('status', 5)->count(),
-        ];
-
-        return view('admin.monitoring', compact('daftarUsulan', 'tahapan', 'stats'));
+        return redirect()->route('monitoring.index', $request->query());
     }
 
     /**
-     * Update Status Usulan oleh Admin
+     * Form status lama (angka 1-5) dinonaktifkan: perubahan status hanya lewat
+     * state machine di Monitoring Progress UKOM (FR-MON-2). Route tetap ada agar
+     * tautan/form lama tidak error; tidak ada data yang diubah.
      */
     public function updateStatus(Request $request, $id)
     {
-        $usulan = FormUsulan::findOrFail($id);
+        FormUsulan::findOrFail($id);
 
-        $validated = $request->validate([
-            'status' => 'required|integer|min:1|max:5',
-            'catatan' => 'nullable|string|max:1000',
-        ]);
-
-        $usulan->update([
-            'status' => $validated['status'],
-            'catatan' => $validated['catatan'] ?? null,
-        ]);
-
-        return redirect()->back()->with('success', "Status usulan untuk {$usulan->nama_lengkap} berhasil diperbarui menjadi Tahap {$usulan->status}.");
+        return redirect()->route('monitoring.index')
+            ->with('error', 'Perubahan status kini melalui Monitoring Progress UKOM.');
     }
 }

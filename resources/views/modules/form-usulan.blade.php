@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Form Usulan & Progress')
-@section('breadcrumb', 'Usulan')
+@section('title', 'Pengajuan Usulan')
+@section('breadcrumb', 'Pengajuan Usulan')
 
 @push('styles')
 <style>
@@ -79,17 +79,17 @@
 
     /* ─── ALUR SWIMLANE (ATTACHMENT 1) ─── */
     .pb-swimlane {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .pb-swimlane-title {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; justify-content: space-between;
     }
     .pb-lanes { padding: 20px 24px; display: flex; flex-direction: column; gap: 0; }
@@ -100,13 +100,13 @@
         position: relative;
     }
     .pb-lane:not(:last-child) {
-        border-bottom: 1px dashed #e2e8f0;
+        border-bottom: 1px dashed var(--c-border);
     }
     .pb-lane-actor {
         display: flex; align-items: center;
         padding: 14px 18px 14px 0;
         gap: 12px;
-        border-right: 2px solid #f1f5f9;
+        border-right: 2px solid var(--c-border-soft);
         margin-right: 18px;
     }
     .pb-lane-actor-badge {
@@ -116,7 +116,7 @@
         font-size: 18px; flex-shrink: 0;
     }
     .pb-lane-actor-name {
-        font-size: 12px; font-weight: 700; color: #374151; line-height: 1.4;
+        font-size: 12px; font-weight: 700; color: var(--c-text-2); line-height: 1.4;
     }
     .pb-lane-step {
         display: flex; align-items: center;
@@ -130,11 +130,11 @@
     }
     .pb-step-num.done  { background: #d1fae5; color: #065f46; }
     .pb-step-num.active { background: #dbeafe; color: #1e40af; box-shadow: 0 0 0 4px rgba(59,130,246,0.18); font-weight: 900; }
-    .pb-step-num.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-num.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     .pb-step-content { flex: 1; }
-    .pb-step-label { font-size: 13.5px; font-weight: 700; color: #111827; margin-bottom: 2px; }
-    .pb-step-desc  { font-size: 12px; color: #6b7280; line-height: 1.45; }
+    .pb-step-label { font-size: 13.5px; font-weight: 700; color: var(--c-text); margin-bottom: 2px; }
+    .pb-step-desc  { font-size: 12px; color: var(--c-text-muted); line-height: 1.45; }
     .pb-step-badge {
         font-size: 11px; font-weight: 700;
         padding: 4px 10px; border-radius: 20px;
@@ -142,7 +142,7 @@
     }
     .pb-step-badge.done    { background: #d1fae5; color: #065f46; }
     .pb-step-badge.active  { background: #dbeafe; color: #1e40af; }
-    .pb-step-badge.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-badge.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     /* ─── CATATAN ADMIN ─── */
     .catatan-card {
@@ -158,17 +158,17 @@
 
     /* ─── DETAIL USULAN ─── */
     .pb-detail-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .pb-detail-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 14px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; justify-content: space-between;
     }
     .pb-detail-grid {
@@ -178,11 +178,11 @@
     }
     .pb-detail-row {
         padding: 12px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--c-border-soft);
     }
-    .pb-detail-row:nth-child(odd) { border-right: 1px solid #f1f5f9; }
-    .pb-detail-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: #111827; }
+    .pb-detail-row:nth-child(odd) { border-right: 1px solid var(--c-border-soft); }
+    .pb-detail-label { font-size: 11px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: var(--c-text); }
     .pb-detail-link  { font-size: 13px; color: #005baa; word-break: break-all; }
 
     /* ─── INFO BANNER UNTUK FORM BARU ─── */
@@ -207,15 +207,15 @@
 
     /* ─── FORM CARD ─── */
     .fu-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
     }
     .fu-card-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
         display: flex;
         align-items: center;
@@ -227,8 +227,8 @@
         display: flex; align-items: center; justify-content: center;
         font-size: 16px;
     }
-    .fu-card-header-title { font-size: 14.5px; font-weight: 700; color: var(--bps-dark); }
-    .fu-card-header-subtitle { font-size: 12px; color: #6b7280; }
+    .fu-card-header-title { font-size: 14.5px; font-weight: 700; color: var(--c-heading); }
+    .fu-card-header-subtitle { font-size: 12px; color: var(--c-text-muted); }
     .fu-card-body { padding: 24px; }
 
     .fu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
@@ -236,17 +236,17 @@
 
     .fu-field { display: flex; flex-direction: column; gap: 5px; }
     .fu-label {
-        font-size: 13px; font-weight: 600; color: #374151;
+        font-size: 13px; font-weight: 600; color: var(--c-text-2);
         display: flex; align-items: center; gap: 4px;
     }
     .fu-label .req { color: #ef4444; }
     .fu-input, .fu-select {
-        border: 1.5px solid #d1d5db;
+        border: 1.5px solid var(--c-border-strong);
         border-radius: 10px;
         padding: 10px 14px;
         font-size: 14px;
-        color: #111827;
-        background: white;
+        color: var(--c-text);
+        background: var(--c-surface);
         transition: border-color 0.2s, box-shadow 0.2s;
         font-family: inherit;
         width: 100%;
@@ -259,7 +259,7 @@
     }
     .fu-input.is-invalid, .fu-select.is-invalid { border-color: #ef4444; }
     .fu-select { cursor: pointer; }
-    .fu-hint { font-size: 11.5px; color: #6b7280; line-height: 1.45; margin-top: 2px; }
+    .fu-hint { font-size: 11.5px; color: var(--c-text-muted); line-height: 1.45; margin-top: 2px; }
     .fu-error { font-size: 12px; color: #ef4444; margin-top: 2px; }
 
     .fu-link-info {
@@ -280,7 +280,7 @@
         gap: 16px;
         justify-content: flex-end;
         padding-top: 16px;
-        border-top: 1px solid #f1f5f9;
+        border-top: 1px solid var(--c-border-soft);
         margin-top: 8px;
     }
     .fu-btn-submit {
@@ -308,289 +308,249 @@
     @media (max-width: 640px) {
         .fu-grid { grid-template-columns: 1fr; }
         .pb-lane { grid-template-columns: 1fr; }
-        .pb-lane-actor { border-right: none; border-bottom: 1px solid #f1f5f9; margin-right: 0; padding-bottom: 8px; }
+        .pb-lane-actor { border-right: none; border-bottom: 1px solid var(--c-border-soft); margin-right: 0; padding-bottom: 8px; }
         .pb-detail-grid { grid-template-columns: 1fr; }
         .pb-detail-row:nth-child(odd) { border-right: none; }
+    }
+
+    /* ─── SLOT BERKAS PERSYARATAN ─── */
+    .slot-list { display: flex; flex-direction: column; gap: 12px; }
+    .slot-item {
+        border: 1.5px solid var(--c-border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px 16px;
+        align-items: center;
+        background: var(--c-surface);
+    }
+    .slot-item.is-flagged { border-color: #f59e0b; background: #fffbeb; }
+    .slot-item.is-flagged .slot-title { color: #92400e; }
+    .slot-title { font-size: 13.5px; font-weight: 700; color: var(--c-text); }
+    .slot-status { font-size: 12px; color: var(--c-text-muted); margin-top: 2px; word-break: break-all; }
+    .slot-status.ok { color: #16a34a; font-weight: 600; }
+    .slot-flag-note { font-size: 12px; color: #92400e; margin-top: 4px; }
+    .slot-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .slot-actions a { font-size: 12px; font-weight: 700; color: var(--bps-mid); text-decoration: none; }
+    .slot-file { grid-column: 1 / -1; font-size: 12.5px; color: var(--c-text-2); }
+    .fu-btn-secondary {
+        background: var(--c-surface-2);
+        color: var(--c-text);
+        border: 1.5px solid var(--c-border-strong);
+        padding: 12px 24px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .alert-error-bar {
+        background: #fee2e2; border: 1.5px solid #fca5a5; border-radius: 12px;
+        padding: 14px 18px; color: #991b1b; font-size: 13.5px; font-weight: 600;
+        display: flex; align-items: center; gap: 10px;
+    }
+    .readonly-identity { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 18px; }
+    .readonly-identity .fu-input { background: var(--c-surface-2); color: var(--c-text-2); }
+    @media (max-width: 640px) {
+        .readonly-identity { grid-template-columns: 1fr; }
+        .slot-item { grid-template-columns: 1fr; }
     }
 </style>
 @endpush
 
 @section('content')
-{{-- PAGE HEADER --}}
+@php
+    $editable = $usulan === null || $usulan->isEditableByPegawai();
+    $isPerbaikan = $usulan?->status_key === \App\Models\FormUsulan::STATUS_PERBAIKAN;
+    $authUser = auth()->user();
+@endphp
+
 <div class="page-header animate-fade-in">
-    @if($sudahSubmit)
-        <h1 class="page-header-title">📊 Progress Usulan Berkas</h1>
-        <p class="page-header-desc">Pantau proses pengusulan jabatan fungsional Anda secara real-time</p>
-    @else
-        <h1 class="page-header-title">📝 Form Usulan SIGMA JF</h1>
-        <p class="page-header-desc">Ajukan usulan jabatan fungsional Anda secara online melalui portal SIGMA JF</p>
-    @endif
+    <h1 class="page-header-title">📝 Pengajuan Usulan</h1>
+    <p class="page-header-desc">Entri data, upload berkas persyaratan, lalu kirim usulan jabatan fungsional Anda</p>
     <div class="page-header-divider"></div>
 </div>
 
 <div class="fu-wrapper">
 
     @if(session('success'))
-    <div class="alert-success-bar animate-fade-in">
-        <span>✅</span> {{ session('success') }}
+    <div class="alert-success-bar"><span>✅</span> {{ session('success') }}</div>
+    @endif
+
+    @if(session('warning'))
+    <div class="catatan-card" data-section="sinkron-warning"><div class="catatan-icon">⚠️</div><div class="catatan-text">{{ session('warning') }}</div></div>
+    @endif
+
+    @if(session('error'))
+    <div class="alert-error-bar" data-section="error"><span>⚠️</span> {{ session('error') }}</div>
+    @endif
+
+    @if($errors->any())
+    <div class="alert-error-bar" data-section="validation-errors">
+        <span>⚠️</span>
+        <div>
+            @foreach($errors->all() as $message)
+                <div>{{ $message }}</div>
+            @endforeach
+        </div>
     </div>
     @endif
 
-    @if($sudahSubmit && $usulan)
-    {{-- ══════════════════════════════════════════════════════════ --}}
-    {{-- SUDAH MENGISI FORM: TAMPILKAN PROGRESS BERKAS (LENGKAP)  --}}
-    {{-- FORM DIKUNCI / TIDAK DAPAT DIISI LAGI                   --}}
-    {{-- ══════════════════════════════════════════════════════════ --}}
-
-    {{-- LOCK NOTICE BADGE --}}
-    <div style="background:#f0fdf4; border:1px solid #86efac; border-radius:12px; padding:12px 18px; display:flex; align-items:center; gap:10px; color:#166534; font-size:13px; font-weight:600;">
-        <span>🔒</span>
-        <span>Anda sudah mengisi formulir usulan. Formulir telah dikunci dan status progres saat ini dikelola oleh Tim Pembinaan JF (Admin).</span>
+    @if($usulanSelesai)
+    <div class="fu-info-banner" data-section="usulan-selesai">
+        <div class="fu-info-icon">🎓</div>
+        <div>
+            <div class="fu-info-title">Usulan sebelumnya telah Selesai</div>
+            <div class="fu-info-desc">Anda dapat mengajukan usulan baru melalui formulir di bawah ini.</div>
+        </div>
     </div>
+    @endif
 
-    {{-- HERO CARD --}}
-    <div class="pb-hero animate-fade-in">
+    @if($isPerbaikan)
+    <div class="catatan-card" data-section="perbaikan-banner">
+        <div class="catatan-icon">🛠️</div>
+        <div>
+            <div class="catatan-title">Perbaikan: usulan Anda dinyatakan TMS</div>
+            <div class="catatan-text">
+                {{ $usulan->catatan ?: 'Perbaiki berkas yang ditandai, lalu klik "Kirim ulang".' }}
+            </div>
+        </div>
+    </div>
+    @endif
+
+    @if(!$editable)
+    {{-- ─── USULAN SEDANG DIPROSES (READ ONLY) ─── --}}
+    <div class="pb-hero" data-section="usulan-diproses">
         <div class="pb-hero-top">
             <div>
-                <div class="pb-hero-label">Pegawai Pengusul</div>
+                <div class="pb-hero-label">Usulan Sedang Diproses</div>
                 <div class="pb-hero-name">{{ $usulan->nama_lengkap }}</div>
                 <div class="pb-hero-meta">
                     <div class="pb-hero-chip">🎓 {{ $usulan->jabatan_fungsional }}</div>
                     <div class="pb-hero-chip">📋 {{ $usulan->jenis_usulan }}</div>
-                    <div class="pb-hero-chip">📅 Diajukan: {{ $usulan->created_at->format('d M Y') }}</div>
                 </div>
             </div>
-            <div class="pb-badge-aktif">● {{ $usulan->statusLabel() }}</div>
+            <div class="pb-badge-aktif">● {{ $usulan->statusKeyLabel() }}</div>
         </div>
-        <div class="pb-progress-label">
-            <span>Progress Alur Usulan</span>
-            <span>Tahap {{ $usulan->status }} dari 5 ({{ $persen }}%)</span>
-        </div>
-        <div class="pb-progress-track">
-            <div class="pb-progress-fill" style="width: {{ $persen }}%;"></div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.85);">
+            Data dan berkas tidak dapat diubah selama usulan diproses.
+            Pantau perkembangannya di menu <a href="{{ route('pelacakan-status') }}" style="color:#fde047; font-weight:700;">Pelacakan Status</a>.
         </div>
     </div>
 
-    {{-- CATATAN ADMIN --}}
-    @if($usulan->catatan)
-    <div class="catatan-card animate-fade-in">
-        <div class="catatan-icon">📋</div>
-        <div>
-            <div class="catatan-title">Catatan dari Tim Pembinaan JF:</div>
-            <div class="catatan-text">{{ $usulan->catatan }}</div>
-        </div>
-    </div>
-    @endif
-
-    {{-- SWIMLANE 5 TAHAPAN (ATTACHMENT 1) --}}
-    <div class="pb-swimlane animate-fade-in">
-        <div class="pb-swimlane-title">
-            <span>🏊 Alur & Status Tahapan Usulan</span>
-            <span style="font-size:12px; font-weight:600; color:#64748b;">Disesuaikan oleh Tim Pembinaan JF</span>
-        </div>
-        <div class="pb-lanes">
-            @foreach($tahapan as $i => $t)
-            @php
-                $step     = $t['step'];
-                $current  = $usulan->status;
-                $state    = $current > $step ? 'done' : ($current === $step ? 'active' : 'pending');
-                $numIcon  = $state === 'done' ? '✓' : ($step);
-                $badgeTxt = $state === 'done' ? 'Selesai' : ($state === 'active' ? 'Sedang Berjalan' : 'Menunggu');
-            @endphp
-            <div class="pb-lane">
-                <div class="pb-lane-actor">
-                    <div class="pb-lane-actor-badge" style="background: {{ $t['color'] }}22;">{{ $t['icon'] }}</div>
-                    <div class="pb-lane-actor-name">{{ $t['aktor'] }}</div>
-                </div>
-                <div class="pb-lane-step">
-                    <div class="pb-step-num {{ $state }}">{{ $numIcon }}</div>
-                    <div class="pb-step-content">
-                        <div class="pb-step-label">{{ $step }}. {{ $t['label'] }}</div>
-                        <div class="pb-step-desc">{{ $t['desc'] }}</div>
+    <div class="pb-detail-card">
+        <div class="pb-detail-header">📎 Berkas Persyaratan</div>
+        <div class="fu-card-body">
+            <div class="slot-list">
+                @foreach($persyaratan as $key => $label)
+                    @php $file = $berkas->get($key); @endphp
+                    <div class="slot-item">
+                        <div>
+                            <div class="slot-title">{{ $label }}</div>
+                            <div class="slot-status {{ $file ? 'ok' : '' }}">{{ $file ? '✔ ' . $file->original_name : 'Belum diunggah' }}</div>
+                        </div>
+                        @if($file)
+                        <div class="slot-actions">
+                            <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener">👁 Preview</a>
+                            <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id]) }}">⬇ Unduh</a>
+                        </div>
+                        @endif
                     </div>
-                    <div class="pb-step-badge {{ $state }}">{{ $badgeTxt }}</div>
-                </div>
+                @endforeach
             </div>
-            @endforeach
-        </div>
-    </div>
-
-    {{-- DETAIL USULAN --}}
-    <div class="pb-detail-card animate-fade-in">
-        <div class="pb-detail-header">
-            <span>📄 Data Dokumen Usulan yang Diajukan</span>
-            <span style="font-size:12px; color:#64748b;">No. Surat: {{ $usulan->nomor_surat }}</span>
-        </div>
-        <div class="pb-detail-grid">
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Nama Lengkap</div>
-                <div class="pb-detail-value">{{ $usulan->nama_lengkap }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">NIP</div>
-                <div class="pb-detail-value">{{ $usulan->nip }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Jabatan Fungsional</div>
-                <div class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Jenis Usulan</div>
-                <div class="pb-detail-value">{{ $usulan->jenis_usulan }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Satuan Kerja</div>
-                <div class="pb-detail-value">{{ $usulan->satuan_kerja }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Email</div>
-                <div class="pb-detail-value">{{ $usulan->email }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Hal Surat</div>
-                <div class="pb-detail-value">{{ $usulan->hal_surat }}</div>
-            </div>
-            <div class="pb-detail-row">
-                <div class="pb-detail-label">Waktu Pengajuan</div>
-                <div class="pb-detail-value">{{ $usulan->created_at->format('d F Y, H:i') }} WIB</div>
-            </div>
-            <div class="pb-detail-row" style="grid-column: 1 / -1;">
-                <div class="pb-detail-label">Link Berkas (Laci BPS / Google Drive)</div>
-                <a href="{{ $usulan->link_berkas }}" target="_blank" class="pb-detail-link">{{ $usulan->link_berkas }} ↗</a>
-            </div>
-            @if($usulan->link_usulan)
-            <div class="pb-detail-row" style="grid-column: 1 / -1;">
-                <div class="pb-detail-label">Link Usulan Tambahan</div>
-                <a href="{{ $usulan->link_usulan }}" target="_blank" class="pb-detail-link">{{ $usulan->link_usulan }} ↗</a>
-            </div>
-            @endif
+            @include('modules.partials.legacy-links', ['usulan' => $usulan])
         </div>
     </div>
 
     @else
-    {{-- ══════════════════════════════════════════════════════════ --}}
-    {{-- BELUM MENGISI FORM: TAMPILKAN FORM LENGKAP               --}}
-    {{-- ══════════════════════════════════════════════════════════ --}}
-
-    {{-- INFO BANNER --}}
-    <div class="fu-info-banner animate-fade-in">
-        <div class="fu-info-icon">📋</div>
-        <div>
-            <div class="fu-info-title">Formulir Usulan Pembinaan Jabatan Fungsional</div>
-            <div class="fu-info-desc">
-                Isi formulir ini dengan data yang lengkap dan benar. Setelah dikirim, Anda dapat memantau
-                proses berkas secara langsung di halaman ini. <strong>Formulir hanya dapat dikirim 1 (satu) kali.</strong>
+    {{-- ─── SINKRON DATA SIMPEG/SIASN (FR-PU-1) ─── --}}
+    <form action="{{ route('pengajuan.sinkron') }}" method="POST" class="fu-card animate-fade-in" style="margin-bottom:16px;" data-form="sinkron-simpeg">
+        @csrf
+        <div class="fu-card-header" style="justify-content: space-between;">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div class="fu-card-header-icon" style="background:#f0fdf4;">🔄</div>
+                <div>
+                    <div class="fu-card-header-title">Sinkron Data dengan SIMPEG/SIASN</div>
+                    <div class="fu-card-header-subtitle">Perbarui nama, jabatan, dan unit kerja dari SIMPEG/SIASN</div>
+                </div>
             </div>
+            <button type="submit" class="fu-btn-secondary" data-action="sinkron-simpeg">🔄 Sinkron Data</button>
         </div>
-    </div>
+    </form>
 
-    {{-- FORM --}}
-    <form action="{{ route('form-usulan.store') }}" method="POST" id="formUsulan">
+    {{-- ─── FORM ENTRI DATA + UPLOAD BERKAS ─── --}}
+    <form action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data" id="formPengajuan">
         @csrf
 
-        {{-- SECTION 1: IDENTITAS SURAT --}}
+        {{-- ENTRI DATA --}}
         <div class="fu-card animate-fade-in" style="margin-bottom:16px;">
             <div class="fu-card-header">
-                <div class="fu-card-header-icon" style="background:#eff6ff;">📄</div>
+                <div class="fu-card-header-icon" style="background:#eff6ff;">👤</div>
                 <div>
-                    <div class="fu-card-header-title">Identitas Surat</div>
-                    <div class="fu-card-header-subtitle">Informasi surat pengantar usulan</div>
+                    <div class="fu-card-header-title">Entri Data</div>
+                    <div class="fu-card-header-subtitle">Identitas diambil dari akun Anda; lengkapi data usulan</div>
                 </div>
             </div>
             <div class="fu-card-body">
+                <div class="readonly-identity">
+                    <div class="fu-field">
+                        <label class="fu-label">Nama Lengkap</label>
+                        <input type="text" class="fu-input" value="{{ $authUser->name }}" readonly>
+                    </div>
+                    <div class="fu-field">
+                        <label class="fu-label">NIP</label>
+                        <input type="text" class="fu-input" value="{{ $authUser->nip }}" readonly>
+                    </div>
+                    <div class="fu-field">
+                        <label class="fu-label">Email</label>
+                        <input type="text" class="fu-input" value="{{ $authUser->email }}" readonly>
+                    </div>
+                    <div class="fu-field">
+                        <label class="fu-label">Jabatan</label>
+                        <input type="text" class="fu-input" value="{{ $authUser->jabatan }}" readonly data-field="jabatan">
+                    </div>
+                </div>
+
                 <div class="fu-grid">
                     <div class="fu-field">
                         <label class="fu-label">Nomor Surat <span class="req">*</span></label>
                         <input type="text" name="nomor_surat" class="fu-input @error('nomor_surat') is-invalid @enderror"
                             placeholder="Contoh: 001/BPS-RI/SDM/X/2026"
-                            value="{{ old('nomor_surat') }}" required>
+                            value="{{ old('nomor_surat', $usulan?->nomor_surat) }}" required>
                         @error('nomor_surat')<div class="fu-error">{{ $message }}</div>@enderror
                     </div>
                     <div class="fu-field">
                         <label class="fu-label">Hal Surat <span class="req">*</span></label>
                         <input type="text" name="hal_surat" class="fu-input @error('hal_surat') is-invalid @enderror"
                             placeholder="Contoh: Permohonan Uji Kompetensi Kenaikan Jenjang"
-                            value="{{ old('hal_surat') }}" required>
+                            value="{{ old('hal_surat', $usulan?->hal_surat) }}" required>
                         @error('hal_surat')<div class="fu-error">{{ $message }}</div>@enderror
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- SECTION 2: DATA PEGAWAI --}}
-        <div class="fu-card animate-fade-in" style="margin-bottom:16px;">
-            <div class="fu-card-header">
-                <div class="fu-card-header-icon" style="background:#f0fdf4;">👤</div>
-                <div>
-                    <div class="fu-card-header-title">Data Pegawai</div>
-                    <div class="fu-card-header-subtitle">Identitas pejabat fungsional yang diusulkan</div>
-                </div>
-            </div>
-            <div class="fu-card-body">
-                <div class="fu-grid">
-                    <div class="fu-field fu-grid-full">
-                        <label class="fu-label">Nama Lengkap <span class="req">*</span></label>
-                        <input type="text" name="nama_lengkap" class="fu-input @error('nama_lengkap') is-invalid @enderror"
-                            placeholder="Nama lengkap beserta gelar"
-                            value="{{ old('nama_lengkap', auth()->user()->name) }}" required>
-                        @error('nama_lengkap')<div class="fu-error">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="fu-field">
-                        <label class="fu-label">NIP <span class="req">*</span></label>
-                        <input type="text" name="nip" class="fu-input @error('nip') is-invalid @enderror"
-                            placeholder="18 digit NIP"
-                            value="{{ old('nip', auth()->user()->nip) }}" required>
-                        @error('nip')<div class="fu-error">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="fu-field">
-                        <label class="fu-label">Email <span class="req">*</span></label>
-                        <input type="email" name="email" class="fu-input @error('email') is-invalid @enderror"
-                            placeholder="email@bps.go.id"
-                            value="{{ old('email', auth()->user()->email) }}" required>
-                        @error('email')<div class="fu-error">{{ $message }}</div>@enderror
                     </div>
                     <div class="fu-field fu-grid-full">
                         <label class="fu-label">Satuan Kerja <span class="req">*</span></label>
                         <input type="text" name="satuan_kerja" class="fu-input @error('satuan_kerja') is-invalid @enderror"
                             placeholder="Contoh: BPS Provinsi DKI Jakarta"
-                            value="{{ old('satuan_kerja', auth()->user()->unit_kerja) }}" required>
+                            value="{{ old('satuan_kerja', $usulan?->satuan_kerja ?? $authUser->unit_kerja) }}" required>
                         @error('satuan_kerja')<div class="fu-error">{{ $message }}</div>@enderror
                     </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- SECTION 3: JABATAN FUNGSIONAL & JENIS USULAN --}}
-        <div class="fu-card animate-fade-in" style="margin-bottom:16px;">
-            <div class="fu-card-header">
-                <div class="fu-card-header-icon" style="background:#fdf4ff;">🎯</div>
-                <div>
-                    <div class="fu-card-header-title">Jenis Usulan</div>
-                    <div class="fu-card-header-subtitle">Pilih jabatan fungsional (33 JF) dan peruntukan usulan</div>
-                </div>
-            </div>
-            <div class="fu-card-body">
-                <div class="fu-grid">
                     <div class="fu-field">
                         <label class="fu-label">Jabatan Fungsional <span class="req">*</span></label>
+                        @php $jfValue = old('jabatan_fungsional', $usulan?->jabatan_fungsional); @endphp
                         <select name="jabatan_fungsional" class="fu-select @error('jabatan_fungsional') is-invalid @enderror" required>
-                            <option value="" disabled selected>-- Pilih Jabatan Fungsional (33 JF) --</option>
+                            <option value="" disabled {{ $jfValue ? '' : 'selected' }}>-- Pilih Jabatan Fungsional --</option>
                             @foreach($jabfungList as $jf)
-                            <option value="{{ $jf }}" {{ old('jabatan_fungsional') === $jf ? 'selected' : '' }}>
-                                {{ $jf }}
-                            </option>
+                            <option value="{{ $jf }}" {{ $jfValue === $jf ? 'selected' : '' }}>{{ $jf }}</option>
                             @endforeach
                         </select>
                         @error('jabatan_fungsional')<div class="fu-error">{{ $message }}</div>@enderror
                     </div>
                     <div class="fu-field">
                         <label class="fu-label">Jenis Usulan <span class="req">*</span></label>
+                        @php $juValue = old('jenis_usulan', $usulan?->jenis_usulan); @endphp
                         <select name="jenis_usulan" class="fu-select @error('jenis_usulan') is-invalid @enderror" required>
-                            <option value="" disabled selected>-- Pilih Jenis Usulan --</option>
+                            <option value="" disabled {{ $juValue ? '' : 'selected' }}>-- Pilih Jenis Usulan --</option>
                             @foreach($jenisUsulanList as $ju)
-                            <option value="{{ $ju }}" {{ old('jenis_usulan') === $ju ? 'selected' : '' }}>
-                                {{ $ju }}
-                            </option>
+                            <option value="{{ $ju }}" {{ $juValue === $ju ? 'selected' : '' }}>{{ $ju }}</option>
                             @endforeach
                         </select>
                         @error('jenis_usulan')<div class="fu-error">{{ $message }}</div>@enderror
@@ -599,46 +559,66 @@
             </div>
         </div>
 
-        {{-- SECTION 4: LINK BERKAS --}}
+        {{-- UPLOAD BERKAS PERSYARATAN --}}
         <div class="fu-card animate-fade-in">
             <div class="fu-card-header">
-                <div class="fu-card-header-icon" style="background:#fff7ed;">🔗</div>
+                <div class="fu-card-header-icon" style="background:#fff7ed;">📎</div>
                 <div>
-                    <div class="fu-card-header-title">Link Berkas & Dokumen</div>
-                    <div class="fu-card-header-subtitle">Tautan penyimpanan berkas digital</div>
+                    <div class="fu-card-header-title">Upload Berkas Persyaratan</div>
+                    <div class="fu-card-header-subtitle">Format PDF, maksimal {{ $maxKb / 1024 }} MB per berkas. Berkas dapat diunggah bertahap lalu disimpan.</div>
                 </div>
             </div>
             <div class="fu-card-body">
-                <div class="fu-link-info">
-                    <strong>⚠️ WAJIB:</strong> Upload surat usulan Eselon II dan kelengkapan berkas dalam <strong>satu media penyimpanan Laci BPS / Google Drive</strong>, kemudian salin link tersebut di bawah ini.<br>
-                    <span style="color:#b45309; font-weight:600;">Catatan: Pastikan Link berikut dapat diakses oleh Tim Pembinaan Jafung.</span>
-                </div>
-                <div class="fu-grid">
-                    <div class="fu-field fu-grid-full">
-                        <label class="fu-label">Link Berkas <span class="req">*</span></label>
-                        <input type="url" name="link_berkas" class="fu-input @error('link_berkas') is-invalid @enderror"
-                            placeholder="https://drive.google.com/... atau https://laci.bps.go.id/..."
-                            value="{{ old('link_berkas') }}" required>
-                        @error('link_berkas')<div class="fu-error">{{ $message }}</div>@enderror
-                    </div>
-                    <div class="fu-field fu-grid-full">
-                        <label class="fu-label">Link Usulan <span style="color:#9ca3af; font-weight:400;">(Opsional)</span></label>
-                        <input type="text" name="link_usulan" class="fu-input"
-                            placeholder="Tautan usulan pelengkap bila ada"
-                            value="{{ old('link_usulan') }}">
-                    </div>
+                <div class="slot-list">
+                    @foreach($persyaratan as $key => $label)
+                        @php
+                            $file = $berkas->get($key);
+                            $flagged = $file && $file->pemeriksaan === \App\Models\UsulanBerkas::PEMERIKSAAN_PERLU_PERBAIKAN;
+                        @endphp
+                        <div class="slot-item {{ $flagged ? 'is-flagged' : '' }}" data-slot="{{ $key }}">
+                            <div>
+                                <div class="slot-title">{{ $loop->iteration }}. {{ $label }} <span class="req" style="color:#ef4444;">*</span></div>
+                                <div class="slot-status {{ $file ? 'ok' : '' }}">{{ $file ? '✔ ' . $file->original_name : 'Belum diunggah' }}</div>
+                                @if($flagged)
+                                <div class="slot-flag-note">⚠️ Perlu perbaikan{{ $file->catatan ? ': ' . $file->catatan : '' }}</div>
+                                @endif
+                                @error('berkas.' . $key)<div class="fu-error">{{ $message }}</div>@enderror
+                            </div>
+                            @if($file)
+                            <div class="slot-actions">
+                                <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener">👁 Preview</a>
+                                <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id]) }}">⬇ Unduh</a>
+                            </div>
+                            @endif
+                            <input type="file" name="berkas[{{ $key }}]" accept="application/pdf,.pdf" class="slot-file">
+                        </div>
+                    @endforeach
                 </div>
 
-                {{-- TOMBOL KIRIM --}}
                 <div class="fu-submit-row">
-                    <button type="submit" class="fu-btn-submit" id="btnSubmit">
-                        <span>📤</span>
-                        <span>Kirim Usulan Jabatan Fungsional</span>
+                    <button type="submit" name="aksi" value="simpan" class="fu-btn-secondary">💾 Simpan</button>
+                    @unless($isPerbaikan)
+                    <button type="submit" name="aksi" value="kirim" class="fu-btn-submit" data-action="kirim-usulan">
+                        <span>📤</span><span>Kirim Usulan</span>
                     </button>
+                    @endunless
                 </div>
             </div>
         </div>
     </form>
+
+    @if($isPerbaikan)
+    <form action="{{ route('pengajuan.kirim-ulang') }}" method="POST" style="display:flex; justify-content:flex-end;">
+        @csrf
+        <button type="submit" class="fu-btn-submit" data-action="kirim-ulang">
+            <span>🔁</span><span>Kirim Ulang</span>
+        </button>
+    </form>
+    @endif
+
+    @if($usulan)
+        @include('modules.partials.legacy-links', ['usulan' => $usulan])
+    @endif
     @endif
 
 </div>

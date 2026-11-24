@@ -1,110 +1,21 @@
-<!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="SIGMA JF BPS Republik Indonesia - Pusat. Layanan pengusulan, monitoring progres berkas, dan pembinaan jabatan fungsional.">
-    <meta name="keywords" content="BPS, Jabatan Fungsional, SIGMA JF, Portal Layanan">
-    <title>SIGMA JF - BPS RI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
+@extends('layouts.app')
+
+@section('title', 'Beranda')
+@section('breadcrumb', 'Dashboard')
+@section('flush', '1')
+
+@push('styles')
+<style>
         :root {
             --bps-dark: #003B73;
             --bps-mid: #0077B6;
             --bps-light: #90E0EF;
             --bps-orange: #F77F00;
             --bps-orange-dark: #D97706;
-            --bg-slate: #F0F4F8;
+            --bg-slate: var(--c-bg);
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-            background: var(--bg-slate);
-            color: #1e293b;
-            overflow-x: hidden;
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: var(--bps-mid); border-radius: 3px; }
 
         /* ===== HEADER ===== */
-        .landing-header {
-            background: linear-gradient(135deg, var(--bps-dark) 0%, #00509D 100%);
-            padding: 0 48px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-        }
-
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 72px;
-            gap: 20px;
-        }
-
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--bps-orange), #F59E0B);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 16px;
-            color: white;
-            box-shadow: 0 4px 16px rgba(247,127,0,0.5);
-            flex-shrink: 0;
-        }
-
-        .header-text-main {
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            line-height: 1.2;
-        }
-
-        .header-text-sub {
-            font-size: 11px;
-            color: rgba(255,255,255,0.65);
-            font-weight: 400;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-datetime {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 8px 16px;
-            color: rgba(255,255,255,0.9);
-            font-size: 13px;
-            font-weight: 500;
-            backdrop-filter: blur(8px);
-        }
 
         /* ===== HERO ===== */
         .hero-section {
@@ -247,13 +158,13 @@
         .section-title {
             font-size: clamp(22px, 3vw, 36px);
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             margin-bottom: 12px;
         }
 
         .section-desc {
             font-size: 15px;
-            color: #64748b;
+            color: var(--c-text-muted);
         }
 
         /* Cards Grid: 5 responsive */
@@ -305,7 +216,7 @@
 
         /* Service Card */
         .service-card {
-            background: white;
+            background: var(--c-surface);
             border-radius: 20px;
             padding: 32px 28px;
             text-decoration: none;
@@ -313,7 +224,7 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--c-border);
             box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
@@ -389,13 +300,13 @@
         .card-title {
             font-size: 18px;
             font-weight: 700;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             margin-bottom: 8px;
         }
 
         .card-desc {
             font-size: 13.5px;
-            color: #64748b;
+            color: var(--c-text-muted);
             line-height: 1.6;
         }
 
@@ -410,7 +321,7 @@
         }
 
         .service-card:hover .card-arrow { gap: 10px; }
-        .card-blue .card-arrow { color: var(--bps-dark); }
+        .card-blue .card-arrow { color: var(--c-heading); }
         .card-indigo .card-arrow { color: #4F46E5; }
         .card-orange .card-arrow { color: var(--bps-orange); }
         .card-teal .card-arrow { color: #0D9488; }
@@ -504,49 +415,16 @@
         }
 
         @media (max-width: 640px) {
-            .header-datetime { display: none; }
-            .header-text-main { font-size: 12px; }
             .hero-stats { gap: 20px; }
             .cards-row-top { grid-template-columns: 1fr; }
             .cards-row-bottom { grid-template-columns: 1fr; }
         }
-    </style>
-</head>
-<body>
+</style>
+@endpush
 
-<!-- HEADER -->
-<header class="landing-header">
-    <div class="header-inner">
-        <div class="header-brand">
-            <div class="header-logo">BPS</div>
-            <div>
-                <div class="header-text-main">SIGMA JF</div>
-                <div class="header-text-sub">Badan Pusat Statistik Republik Indonesia</div>
-            </div>
-        </div>
-        <div class="header-right" style="display:flex; align-items:center; gap:16px;">
-            <div class="header-datetime">
-                📅 <span id="headerDatetime">--</span>
-            </div>
-            @auth
-            <div style="display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.12); padding:5px 14px; border-radius:30px; border:1px solid rgba(255,255,255,0.25);">
-                <span style="color:white; font-size:12.5px; font-weight:700;">👤 {{ Auth::user()->name }}</span>
-                @if(Auth::user()->isAdmin())
-                <a href="{{ route('admin.dashboard') }}" style="color:#fde047; font-size:11.5px; font-weight:700; text-decoration:none; background:rgba(0,0,0,0.25); padding:3px 8px; border-radius:10px;">
-                    🛡️ Admin
-                </a>
-                @endif
-                <form action="{{ route('logout') }}" method="POST" style="display:inline; margin:0;">
-                    @csrf
-                    <button type="submit" style="background:none; border:none; color:#fca5a5; font-size:12px; font-weight:700; cursor:pointer; padding:2px 6px;">
-                        Keluar 🚪
-                    </button>
-                </form>
-            </div>
-            @endauth
-        </div>
-    </div>
-</header>
+@section('content')
+<!-- DASHBOARD PEGAWAI (FR-DASH-3): ditampilkan paling atas -->
+@include('dashboard._pegawai-panel')
 
 <!-- HERO SECTION -->
 <section class="hero-section">
@@ -591,7 +469,7 @@
 <!-- WAVE DIVIDER -->
 <div style="background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); margin: 0;">
     <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" style="display:block; width:100%;">
-        <path d="M0,60 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" fill="#F0F4F8"/>
+        <path d="M0,60 C360,0 1080,60 1440,20 L1440,60 L0,60 Z" style="fill: var(--c-bg)"/>
     </svg>
 </div>
 
@@ -616,7 +494,7 @@
                 <div class="card-arrow">Lihat Alur <span>→</span></div>
             </a>
 
-            <a href="{{ route('form-usulan') }}" class="service-card card-indigo animate-fade-in delay-200" style="opacity:0">
+            <a href="{{ route('pengajuan') }}" class="service-card card-indigo animate-fade-in delay-200" style="opacity:0">
                 <div class="card-number">02</div>
                 <div class="card-icon-wrapper icon-indigo">📝</div>
                 <div class="card-content">
@@ -626,7 +504,7 @@
                 <div class="card-arrow">Isi Formulir <span>→</span></div>
             </a>
 
-            <a href="{{ route('progress-berkas') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
+            <a href="{{ route('pelacakan-status') }}" class="service-card card-orange animate-fade-in delay-300" style="opacity:0">
                 <div class="card-number">03</div>
                 <div class="card-icon-wrapper icon-orange">📊</div>
                 <div class="card-content">
@@ -676,25 +554,10 @@
         </div>
     </div>
 </footer>
+@endsection
 
+@push('scripts')
 <script>
-    function updateDatetime() {
-        const now = new Date();
-        const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
-        const months = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-        const dayName = days[now.getDay()];
-        const date = now.getDate();
-        const month = months[now.getMonth()];
-        const year = now.getFullYear();
-        const hours = String(now.getHours()).padStart(2,'0');
-        const minutes = String(now.getMinutes()).padStart(2,'0');
-        const seconds = String(now.getSeconds()).padStart(2,'0');
-        document.getElementById('headerDatetime').textContent = `${dayName}, ${date} ${month} ${year} | ${hours}:${minutes}:${seconds}`;
-    }
-
-    updateDatetime();
-    setInterval(updateDatetime, 1000);
-
     // Intersection Observer for scroll animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -710,5 +573,4 @@
         observer.observe(el);
     });
 </script>
-</body>
-</html>
+@endpush

@@ -13,13 +13,10 @@ class AuthController extends Controller
     public function showLoginForm()
     {
         if (Auth::check()) {
-            if (Auth::user()->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            }
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
 
-        return view('auth.login');
+        return view('auth.login', ['localEnabled' => config('sijabfu.auth_local_enabled')]);
     }
 
     /**
@@ -27,6 +24,13 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        // FR-AUTH-3: login lokal hanya bila AUTH_LOCAL_ENABLED=true
+        if (! config('sijabfu.auth_local_enabled')) {
+            return redirect()->route('login')->withErrors([
+                'nip' => 'Login dengan NIP dan password dinonaktifkan. Silakan gunakan LOGIN SSO.',
+            ]);
+        }
+
         $credentials = $request->validate([
             'nip' => ['required', 'string'],
             'password' => ['required', 'string'],
@@ -38,17 +42,26 @@ class AuthController extends Controller
         $remember = $request->boolean('remember');
 
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate();
-
             $user = Auth::user();
 
-            if ($user->isAdmin()) {
-                return redirect()->intended(route('admin.dashboard'))
-                    ->with('success', 'Selamat datang di Dashboard Admin Pembinaan JF, ' . $user->name);
+            // User nonaktif tidak boleh masuk (FR-USR-1)
+            if (! $user->is_active) {
+                Auth::logout();
+
+                return back()->withErrors([
+                    'nip' => 'Akun Anda dinonaktifkan. Hubungi Super Admin.',
+                ])->onlyInput('nip');
             }
 
-            return redirect()->intended(route('home'))
-                ->with('success', 'Selamat datang di Portal Pembinaan JF BPS RI, ' . $user->name);
+            $request->session()->regenerate();
+
+            if ($user->isAdmin()) {
+                return redirect()->intended(route('dashboard'))
+                    ->with('success', 'Selamat datang di Dashboard Admin Pembinaan JF, '.$user->name);
+            }
+
+            return redirect()->intended(route('dashboard'))
+                ->with('success', 'Selamat datang di Portal Pembinaan JF BPS RI, '.$user->name);
         }
 
         return back()->withErrors([

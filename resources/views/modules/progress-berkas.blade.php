@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Progress Berkas Saya')
-@section('breadcrumb', 'Progress Berkas')
+@section('title', 'Pelacakan Status')
+@section('breadcrumb', 'Pelacakan Status')
 
 @push('styles')
 <style>
@@ -87,18 +87,18 @@
 
     /* ─── SWIMLANE TIMELINE ─── */
     .pb-swimlane {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         margin-bottom: 24px;
     }
     .pb-swimlane-title {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 16px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; gap: 10px;
     }
     .pb-lanes { padding: 24px; display: flex; flex-direction: column; gap: 0; }
@@ -109,13 +109,13 @@
         position: relative;
     }
     .pb-lane:not(:last-child) {
-        border-bottom: 1px dashed #e2e8f0;
+        border-bottom: 1px dashed var(--c-border);
     }
     .pb-lane-actor {
         display: flex; align-items: center;
         padding: 16px 20px 16px 0;
         gap: 12px;
-        border-right: 2px solid #f1f5f9;
+        border-right: 2px solid var(--c-border-soft);
         margin-right: 20px;
     }
     .pb-lane-actor-badge {
@@ -125,7 +125,7 @@
         font-size: 18px; flex-shrink: 0;
     }
     .pb-lane-actor-name {
-        font-size: 12.5px; font-weight: 700; color: #374151; line-height: 1.4;
+        font-size: 12.5px; font-weight: 700; color: var(--c-text-2); line-height: 1.4;
     }
     .pb-lane-step {
         display: flex; align-items: center;
@@ -141,14 +141,14 @@
     }
     .pb-step-num.done  { background: #d1fae5; color: #065f46; }
     .pb-step-num.active { background: #dbeafe; color: #1e40af; box-shadow: 0 0 0 4px rgba(59,130,246,0.15); animation: pulsering 1.8s ease-in-out infinite; }
-    .pb-step-num.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-num.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
     @keyframes pulsering {
         0%, 100% { box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
         50%       { box-shadow: 0 0 0 8px rgba(59,130,246,0.08); }
     }
     .pb-step-content { flex: 1; }
-    .pb-step-label { font-size: 14px; font-weight: 700; color: #111827; margin-bottom: 3px; }
-    .pb-step-desc  { font-size: 12px; color: #6b7280; line-height: 1.5; }
+    .pb-step-label { font-size: 14px; font-weight: 700; color: var(--c-text); margin-bottom: 3px; }
+    .pb-step-desc  { font-size: 12px; color: var(--c-text-muted); line-height: 1.5; }
     .pb-step-badge {
         font-size: 11.5px; font-weight: 700;
         padding: 4px 10px; border-radius: 20px;
@@ -156,7 +156,7 @@
     }
     .pb-step-badge.done    { background: #d1fae5; color: #065f46; }
     .pb-step-badge.active  { background: #dbeafe; color: #1e40af; }
-    .pb-step-badge.pending { background: #f3f4f6; color: #9ca3af; }
+    .pb-step-badge.pending { background: var(--c-surface-3); color: var(--c-text-faint); }
 
     /* ─── CATATAN ADMIN ─── */
     .catatan-card {
@@ -173,18 +173,18 @@
 
     /* ─── RINGKASAN USULAN ─── */
     .pb-detail-card {
-        background: white;
+        background: var(--c-surface);
         border-radius: 20px;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--c-border);
         overflow: hidden;
         box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         margin-bottom: 24px;
     }
     .pb-detail-header {
-        background: #f8fafc;
-        border-bottom: 1px solid #e2e8f0;
+        background: var(--c-surface-2);
+        border-bottom: 1px solid var(--c-border);
         padding: 14px 24px;
-        font-size: 14px; font-weight: 700; color: #1e293b;
+        font-size: 14px; font-weight: 700; color: var(--c-text);
         display: flex; align-items: center; gap: 10px;
     }
     .pb-detail-grid {
@@ -194,24 +194,24 @@
     }
     .pb-detail-row {
         padding: 14px 24px;
-        border-bottom: 1px solid #f1f5f9;
+        border-bottom: 1px solid var(--c-border-soft);
     }
-    .pb-detail-row:nth-child(odd) { border-right: 1px solid #f1f5f9; }
-    .pb-detail-label { font-size: 11px; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: #111827; }
+    .pb-detail-row:nth-child(odd) { border-right: 1px solid var(--c-border-soft); }
+    .pb-detail-label { font-size: 11px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+    .pb-detail-value { font-size: 13.5px; font-weight: 600; color: var(--c-text); }
     .pb-detail-link  { font-size: 13px; color: #005baa; word-break: break-all; }
 
     /* ─── EMPTY STATE ─── */
     .empty-state {
-        background: white;
+        background: var(--c-surface);
         border-radius: 24px;
-        border: 2px dashed #d1d5db;
+        border: 2px dashed var(--c-border-strong);
         padding: 60px 32px;
         text-align: center;
     }
     .empty-state-icon { font-size: 56px; margin-bottom: 20px; }
-    .empty-state h3 { font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 10px; }
-    .empty-state p { color: #6b7280; font-size: 14px; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
+    .empty-state h3 { font-size: 20px; font-weight: 800; color: var(--c-text); margin-bottom: 10px; }
+    .empty-state p { color: var(--c-text-muted); font-size: 14px; max-width: 400px; margin: 0 auto 24px; line-height: 1.6; }
     .btn-to-form {
         display: inline-flex; align-items: center; gap: 8px;
         background: linear-gradient(135deg, var(--bps-dark), #00509D);
@@ -233,18 +233,58 @@
     @media (max-width: 640px) {
         .pb-hero { padding: 24px 20px; }
         .pb-lane { grid-template-columns: 1fr; }
-        .pb-lane-actor { border-right: none; border-bottom: 1px solid #f1f5f9; margin-right: 0; padding-bottom: 10px; }
+        .pb-lane-actor { border-right: none; border-bottom: 1px solid var(--c-border-soft); margin-right: 0; padding-bottom: 10px; }
         .pb-detail-grid { grid-template-columns: 1fr; }
         .pb-detail-row:nth-child(odd) { border-right: none; }
+    }
+
+    /* ─── TAMBAHAN PELACAKAN STATUS ─── */
+    .hasil-badge {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 6px 14px; border-radius: 20px;
+        font-size: 12px; font-weight: 800; white-space: nowrap;
+    }
+    .hasil-badge.ms  { background: rgba(52,211,153,0.2); border: 1.5px solid rgba(52,211,153,0.5); color: #6ee7b7; }
+    .hasil-badge.tms { background: rgba(248,113,113,0.2); border: 1.5px solid rgba(248,113,113,0.5); color: #fca5a5; }
+    .pb-step-num.perbaikan, .pb-step-badge.perbaikan { background: #fef3c7; color: #92400e; }
+    .doc-card {
+        background: var(--c-surface);
+        border: 1px solid var(--c-border);
+        border-radius: 20px;
+        padding: 20px 24px;
+        margin-bottom: 24px;
+        display: flex; flex-direction: column; gap: 14px;
+    }
+    .doc-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .doc-title { font-size: 14px; font-weight: 700; color: var(--c-text); }
+    .doc-sub { font-size: 12.5px; color: var(--c-text-muted); }
+    .doc-actions { display: flex; gap: 8px; }
+    .doc-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 8px 14px; border-radius: 10px;
+        font-size: 12.5px; font-weight: 700; text-decoration: none;
+        border: 1.5px solid var(--c-border-strong); color: var(--c-text); background: var(--c-surface-2);
+    }
+    .doc-btn.primary { background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); color: #FFFFFF; border: none; }
+    .doc-missing { font-size: 12.5px; font-weight: 600; color: #b45309; }
+    .timeline { list-style: none; padding: 20px 24px; margin: 0; }
+    .timeline li { display: grid; grid-template-columns: 150px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px dashed var(--c-border); }
+    .timeline li:last-child { border-bottom: none; }
+    .timeline-date { font-size: 12px; color: var(--c-text-muted); font-weight: 600; }
+    .timeline-main { font-size: 13px; color: var(--c-text); }
+    .timeline-actor { font-size: 11.5px; color: var(--c-text-faint); }
+    .timeline-note { font-size: 12.5px; color: var(--c-text-2); margin-top: 3px; }
+    .flagged-list { margin: 8px 0 0 18px; font-size: 13px; color: #78350f; }
+    @media (max-width: 640px) {
+        .timeline li { grid-template-columns: 1fr; }
     }
 </style>
 @endpush
 
 @section('content')
-{{-- PAGE HEADER --}}
 <div class="page-header animate-fade-in">
-    <h1 class="page-header-title">📊 Progress Berkas Saya</h1>
-    <p class="page-header-desc">Pantau posisi berkas usulan jabatan fungsional Anda secara real-time</p>
+    <h1 class="page-header-title">📊 Pelacakan Status</h1>
+    <p class="page-header-desc">Pantau status usulan, unduh surat usulan, dan lihat sertifikat UKOM Anda</p>
     <div class="page-header-divider"></div>
 </div>
 
@@ -256,8 +296,8 @@
 
 @if($usulan)
 
-{{-- ─── HERO CARD ─── --}}
-<div class="pb-hero animate-fade-in">
+{{-- ─── HERO ─── --}}
+<div class="pb-hero animate-fade-in" data-status-key="{{ $usulan->status_key }}">
     <div class="pb-hero-top">
         <div>
             <div class="pb-hero-label">Nama Pegawai</div>
@@ -265,10 +305,18 @@
             <div class="pb-hero-meta">
                 <div class="pb-hero-chip">🎓 {{ $usulan->jabatan_fungsional }}</div>
                 <div class="pb-hero-chip">📋 {{ $usulan->jenis_usulan }}</div>
-                <div class="pb-hero-chip">📅 Diajukan: {{ $usulan->created_at->format('d M Y') }}</div>
+                <div class="pb-hero-chip">📅 Dikirim: {{ ($usulan->submitted_at ?? $usulan->created_at)->format('d M Y') }}</div>
             </div>
         </div>
-        <div class="pb-badge-aktif">● {{ $usulan->statusLabel() }}</div>
+        <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+            <div class="pb-badge-aktif" data-section="status-label">● {{ $usulan->statusKeyLabel() }}</div>
+            @if($usulan->hasil_verifikasi)
+            {{-- FR-PS-3 --}}
+            <div class="hasil-badge {{ $usulan->hasil_verifikasi }}" data-hasil="{{ $usulan->hasil_verifikasi }}">
+                Hasil Verifikasi: {{ strtoupper($usulan->hasil_verifikasi) }}
+            </div>
+            @endif
+        </div>
     </div>
     <div class="pb-progress-label">
         <span>Progress Keseluruhan</span>
@@ -279,9 +327,27 @@
     </div>
 </div>
 
-{{-- ─── CATATAN ADMIN ─── --}}
-@if($usulan->catatan)
-<div class="catatan-card animate-fade-in">
+{{-- ─── PERBAIKAN (FR-PS-2) ─── --}}
+@if($usulan->status_key === \App\Models\FormUsulan::STATUS_PERBAIKAN)
+<div class="catatan-card animate-fade-in" data-section="perbaikan-banner">
+    <div class="catatan-icon">🛠️</div>
+    <div>
+        <div class="catatan-title">Perbaikan diperlukan</div>
+        <div class="catatan-text">{{ $usulan->catatan ?: 'Silakan perbaiki berkas yang ditandai.' }}</div>
+        @if($flaggedBerkas->isNotEmpty())
+        <ul class="flagged-list">
+            @foreach($flaggedBerkas as $fb)
+            <li>{{ $persyaratan[$fb->jenis_persyaratan] ?? $fb->jenis_persyaratan }}{{ $fb->catatan ? ': ' . $fb->catatan : '' }}</li>
+            @endforeach
+        </ul>
+        @endif
+        <div style="margin-top:10px;">
+            <a href="{{ route('pengajuan') }}" class="btn-to-form" style="padding:8px 18px; font-size:13px;">🛠️ Perbaiki dan Kirim Ulang</a>
+        </div>
+    </div>
+</div>
+@elseif($usulan->catatan)
+<div class="catatan-card animate-fade-in" data-section="catatan-terbaru">
     <div class="catatan-icon">📋</div>
     <div>
         <div class="catatan-title">Catatan dari Tim Pembinaan JF</div>
@@ -290,29 +356,29 @@
 </div>
 @endif
 
-{{-- ─── SWIMLANE PROGRESS ─── --}}
+{{-- ─── TRACKER (FR-PS-1) ─── --}}
 <div class="pb-swimlane animate-fade-in animate-delay-1">
-    <div class="pb-swimlane-title">
-        🏊 Alur Proses Usulan
-    </div>
+    <div class="pb-swimlane-title">🏊 Status Usulan</div>
     <div class="pb-lanes">
         @foreach($tahapan as $i => $t)
         @php
-            $step     = $t['step'];
-            $current  = $usulan->status;
-            $state    = $current > $step ? 'done' : ($current === $step ? 'active' : 'pending');
-            $numIcon  = $state === 'done' ? '✓' : ($step);
-            $badgeTxt = $state === 'done' ? 'Selesai' : ($state === 'active' ? 'Sedang Diproses' : 'Belum Mulai');
+            if ($isSelesai || $i < $currentIndex) { $state = 'done'; }
+            elseif ($i === $currentIndex) { $state = $usulan->status_key === 'perbaikan' ? 'perbaikan' : 'active'; }
+            else { $state = 'pending'; }
+            $badgeTxt = match ($state) {
+                'done' => 'Selesai',
+                'active' => 'Sedang Diproses',
+                'perbaikan' => 'Perbaikan',
+                default => 'Belum Mulai',
+            };
         @endphp
-        <div class="pb-lane">
+        <div class="pb-lane" data-stage="{{ $t['key'] }}" data-state="{{ $state }}">
             <div class="pb-lane-actor">
-                <div class="pb-lane-actor-badge" style="background: {{ $t['color'] }}22; font-size:20px;">{{ $t['icon'] }}</div>
-                <div class="pb-lane-actor-name">{{ $t['aktor'] }}</div>
+                <div class="pb-step-num {{ $state }}">{{ $state === 'done' ? '✓' : $loop->iteration }}</div>
+                <div class="pb-lane-actor-name">{{ $t['label'] }}</div>
             </div>
             <div class="pb-lane-step">
-                <div class="pb-step-num {{ $state }}">{{ $numIcon }}</div>
                 <div class="pb-step-content">
-                    <div class="pb-step-label">{{ $step }}. {{ $t['label'] }}</div>
                     <div class="pb-step-desc">{{ $t['desc'] }}</div>
                 </div>
                 <div class="pb-step-badge {{ $state }}">{{ $badgeTxt }}</div>
@@ -322,81 +388,112 @@
     </div>
 </div>
 
+{{-- ─── DOKUMEN HASIL (FR-PS-4, FR-PS-5) ─── --}}
+@if($showSurat || $showSertifikat)
+<div class="doc-card animate-fade-in">
+    @if($showSurat)
+    <div class="doc-row" data-section="surat-usulan">
+        <div>
+            <div class="doc-title">📄 Surat Usulan</div>
+            <div class="doc-sub">Surat usulan UKOM yang diterbitkan Tim Pembinaan JF</div>
+        </div>
+        @if($usulan->surat_usulan_path)
+        <div class="doc-actions">
+            <a class="doc-btn" href="{{ route('files.show', ['type' => 'surat', 'id' => $usulan->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener" data-action="preview-surat">👁 Preview</a>
+            <a class="doc-btn primary" href="{{ route('files.show', ['type' => 'surat', 'id' => $usulan->id]) }}" data-action="download-surat">⬇ Unduh</a>
+        </div>
+        @else
+        <div class="doc-missing">Dokumen belum diunggah</div>
+        @endif
+    </div>
+    @endif
+
+    @if($showSertifikat)
+    <div class="doc-row" data-section="sertifikat-ukom">
+        <div>
+            <div class="doc-title">🎓 Sertifikat UKOM</div>
+            @if($usulan->hasil_ukom)
+            <div class="doc-sub" data-section="hasil-ukom">Hasil UKOM: {{ $usulan->hasil_ukom }}</div>
+            @endif
+        </div>
+        @if($usulan->sertifikat_path)
+        <div class="doc-actions">
+            <a class="doc-btn" href="{{ route('files.show', ['type' => 'sertifikat', 'id' => $usulan->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener" data-action="preview-sertifikat">👁 Preview</a>
+            <a class="doc-btn primary" href="{{ route('files.show', ['type' => 'sertifikat', 'id' => $usulan->id]) }}" data-action="download-sertifikat">⬇ Unduh</a>
+        </div>
+        @else
+        <div class="doc-missing">Dokumen belum diunggah</div>
+        @endif
+    </div>
+    @endif
+</div>
+@endif
+
+{{-- ─── TIMELINE (FR-PS-1) ─── --}}
+<div class="pb-detail-card animate-fade-in animate-delay-2">
+    <div class="pb-detail-header">🕒 Riwayat Status</div>
+    @if($logs->isEmpty())
+    <div style="padding:18px 24px; font-size:13px; color:var(--c-text-muted);">Belum ada riwayat perubahan status.</div>
+    @else
+    <ul class="timeline" data-section="timeline">
+        @foreach($logs as $log)
+        <li data-log-to="{{ $log->to_status }}">
+            <div class="timeline-date">{{ $log->created_at->format('d M Y H:i') }}</div>
+            <div>
+                <div class="timeline-main">
+                    {{ $log->from_status ? (\App\Models\FormUsulan::STATUS_LABELS[$log->from_status] ?? $log->from_status) . ' → ' : 'Dikirim → ' }}<strong>{{ \App\Models\FormUsulan::STATUS_LABELS[$log->to_status] ?? $log->to_status }}</strong>
+                </div>
+                <div class="timeline-actor">oleh {{ $levelLabels[$log->actor?->role] ?? 'Sistem' }}</div>
+                @if($log->catatan)
+                <div class="timeline-note">{{ $log->catatan }}</div>
+                @endif
+            </div>
+        </li>
+        @endforeach
+    </ul>
+    @endif
+</div>
+
 {{-- ─── RINGKASAN USULAN ─── --}}
 <div class="pb-detail-card animate-fade-in animate-delay-2">
     <div class="pb-detail-header">📄 Ringkasan Usulan</div>
     <div class="pb-detail-grid">
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Nama Lengkap</div>
-            <div class="pb-detail-value">{{ $usulan->nama_lengkap }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">NIP</div>
-            <div class="pb-detail-value">{{ $usulan->nip }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Jabatan Fungsional</div>
-            <div class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Jenis Usulan</div>
-            <div class="pb-detail-value">{{ $usulan->jenis_usulan }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Satuan Kerja</div>
-            <div class="pb-detail-value">{{ $usulan->satuan_kerja }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Email</div>
-            <div class="pb-detail-value">{{ $usulan->email }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Nomor Surat</div>
-            <div class="pb-detail-value">{{ $usulan->nomor_surat }}</div>
-        </div>
-        <div class="pb-detail-row">
-            <div class="pb-detail-label">Hal Surat</div>
-            <div class="pb-detail-value">{{ $usulan->hal_surat }}</div>
-        </div>
-        <div class="pb-detail-row" style="grid-column: 1 / -1;">
-            <div class="pb-detail-label">Link Berkas</div>
-            <a href="{{ $usulan->link_berkas }}" target="_blank" class="pb-detail-link">{{ $usulan->link_berkas }}</a>
-        </div>
-        @if($usulan->link_usulan)
-        <div class="pb-detail-row" style="grid-column: 1 / -1;">
-            <div class="pb-detail-label">Link Usulan</div>
-            <a href="{{ $usulan->link_usulan }}" target="_blank" class="pb-detail-link">{{ $usulan->link_usulan }}</a>
-        </div>
-        @endif
+        <div class="pb-detail-row"><div class="pb-detail-label">Nama Lengkap</div><div class="pb-detail-value">{{ $usulan->nama_lengkap }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">NIP</div><div class="pb-detail-value">{{ $usulan->nip }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Jabatan Fungsional</div><div class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Jenis Usulan</div><div class="pb-detail-value">{{ $usulan->jenis_usulan }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Satuan Kerja</div><div class="pb-detail-value">{{ $usulan->satuan_kerja }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Email</div><div class="pb-detail-value">{{ $usulan->email }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Nomor Surat</div><div class="pb-detail-value">{{ $usulan->nomor_surat }}</div></div>
+        <div class="pb-detail-row"><div class="pb-detail-label">Hal Surat</div><div class="pb-detail-value">{{ $usulan->hal_surat }}</div></div>
     </div>
 </div>
 
-{{-- ─── INFO BANTUAN ─── --}}
-<div class="pb-help animate-fade-in">
+@include('modules.partials.legacy-links', ['usulan' => $usulan])
+
+<div class="pb-help animate-fade-in" style="margin-top:24px;">
     <span style="font-size:22px; flex-shrink:0;">💬</span>
     <div>
-        <div style="font-weight:700; color:var(--bps-dark); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
-        <div style="font-size:13.5px; color:#374151; line-height:1.7;">
-            Jika ada pertanyaan terkait status berkas Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
+        <div style="font-weight:700; color:var(--c-heading); margin-bottom:6px; font-size:14px;">Ada pertanyaan?</div>
+        <div style="font-size:13.5px; color:var(--c-text-2); line-height:1.7;">
+            Jika ada pertanyaan terkait status usulan Anda, silakan hubungi Tim Kerja Pembinaan JF melalui halaman
             <a href="{{ route('tim-kerja') }}">Tim Kerja</a>.
-            Informasi status diperbarui oleh admin secara berkala.
         </div>
     </div>
 </div>
 
 @else
 
-{{-- ─── EMPTY STATE ─── --}}
 <div class="empty-state animate-fade-in">
     <div class="empty-state-icon">📭</div>
-    <h3>Belum Ada Berkas Usulan</h3>
-    <p>
-        Anda belum mengajukan usulan jabatan fungsional.
-        Silakan isi formulir usulan terlebih dahulu untuk memulai proses.
-    </p>
-    <a href="{{ route('form-usulan') }}" class="btn-to-form">
-        📝 Isi Formulir Usulan
-    </a>
+    @if($hasDraft)
+    <h3>Usulan Belum Dikirim</h3>
+    <p>Anda memiliki draf usulan yang belum dikirim. Lengkapi berkas persyaratan lalu klik "Kirim Usulan".</p>
+    @else
+    <h3>Belum Ada Usulan</h3>
+    <p>Anda belum mengajukan usulan jabatan fungsional. Silakan lakukan Pengajuan Usulan terlebih dahulu.</p>
+    @endif
+    <a href="{{ route('pengajuan') }}" class="btn-to-form">📝 Pengajuan Usulan</a>
 </div>
 
 @endif

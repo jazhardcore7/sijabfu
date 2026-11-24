@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - SIGMA JF BPS RI</title>
+    @include('partials.theme')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,7 +15,7 @@
             --bps-cyan: #00A3E0;
             --bps-orange: #F77F00;
             --bps-green: #70B82C;
-            --bg-slate: #F8FAFC;
+            --bg-slate: var(--c-surface-2);
             --card-gray: #CBD5E1;
             --btn-purple: #6366F1;
             --btn-purple-hover: #4F46E5;
@@ -28,8 +29,8 @@
         }
 
         body {
-            background-color: #FFFFFF;
-            color: #1E293B;
+            background-color: var(--c-surface);
+            color: var(--c-text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -38,12 +39,12 @@
 
         /* TOP NAVBAR */
         .top-navbar {
-            background: #FFFFFF;
+            background: var(--c-surface);
             padding: 14px 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid #F1F5F9;
+            border-bottom: 1px solid var(--c-border-soft);
         }
 
         .navbar-brand {
@@ -66,25 +67,25 @@
         .navbar-title {
             font-size: 17px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
         }
 
         .navbar-subtitle {
             font-size: 13px;
-            color: #64748B;
+            color: var(--c-text-muted);
             font-weight: 500;
         }
 
         /* HERO WELCOME BANNER */
         .hero-banner {
             position: relative;
-            background: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 60%, #DBEAFE 100%);
+            background: var(--c-hero-bg);
             padding: 32px 48px;
             display: grid;
             grid-template-columns: 1.2fr 0.8fr;
             align-items: center;
-            border-bottom: 1px solid #E2E8F0;
+            border-bottom: 1px solid var(--c-border);
             overflow: hidden;
         }
 
@@ -134,7 +135,7 @@
         .hero-heading {
             font-size: 32px;
             font-weight: 800;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.25;
             margin-bottom: 10px;
         }
@@ -145,7 +146,7 @@
 
         .hero-description {
             font-size: 15px;
-            color: #475569;
+            color: var(--c-text-2);
             font-weight: 500;
             line-height: 1.5;
         }
@@ -209,8 +210,8 @@
 
         /* RIGHT FORM COLUMN */
         .login-card {
-            background: #E2E8F0;
-            background: linear-gradient(145deg, #E2E8F0 0%, #CBD5E1 100%);
+            background: var(--c-border);
+            background: var(--c-card-muted-bg);
             border-radius: 28px;
             padding: 40px 44px;
             box-shadow: 0 10px 30px rgba(100, 116, 139, 0.2);
@@ -221,7 +222,7 @@
         .login-card-title {
             font-size: 16.5px;
             font-weight: 700;
-            color: #1E293B;
+            color: var(--c-text);
             margin-bottom: 24px;
             text-align: left;
         }
@@ -265,30 +266,30 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0F172A;
+            color: var(--c-text);
             z-index: 2;
         }
 
         .form-control {
             width: 100%;
-            background: #FFFFFF;
+            background: var(--c-surface);
             border: 1.5px solid transparent;
             border-radius: 12px;
             padding: 16px 16px 16px 52px;
             font-size: 14.5px;
-            color: #1E293B;
+            color: var(--c-text);
             outline: none;
             transition: all 0.2s ease;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
         }
 
         .form-control::placeholder {
-            color: #64748B;
+            color: var(--c-text-muted);
             font-size: 14px;
         }
 
         .form-control:focus {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-color: #6366F1;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
         }
@@ -298,7 +299,7 @@
             right: 16px;
             background: none;
             border: none;
-            color: #64748B;
+            color: var(--c-text-muted);
             cursor: pointer;
             padding: 4px;
             display: flex;
@@ -365,71 +366,6 @@
         }
 
         /* DEMO QUICK LOGIN ACCORDION / CHIPS */
-        .demo-box {
-            margin-top: 22px;
-            padding-top: 18px;
-            border-top: 1px dashed rgba(100, 116, 139, 0.3);
-        }
-
-        .demo-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #475569;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .demo-buttons-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        @media (max-width: 640px) {
-            .demo-buttons-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .btn-demo-chip {
-            background: #FFFFFF;
-            border: 1px solid #CBD5E1;
-            border-radius: 10px;
-            padding: 8px 12px;
-            font-size: 12px;
-            font-weight: 700;
-            color: #1E293B;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2px;
-            transition: all 0.2s ease;
-            text-align: left;
-        }
-
-        .btn-demo-chip:hover {
-            border-color: #6366F1;
-            background: #F8FAFC;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .btn-demo-chip .chip-title {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--bps-dark);
-            font-size: 12px;
-        }
-
-        .btn-demo-chip .chip-sub {
-            font-size: 11px;
-            color: #64748B;
-            font-weight: 500;
-        }
 
         /* FOOTER */
         .footer-bar {
@@ -517,7 +453,7 @@
             <!-- RIGHT: LOGIN CARD CONTAINER -->
             <div class="login-card">
                 <div class="login-card-title">
-                    Silahkan Masukkan NIP dan Password Anda
+                    {{ $localEnabled ? 'Silahkan Masukkan NIP dan Password Anda' : 'Silahkan Masuk dengan Akun SSO BPS' }}
                 </div>
 
                 @if ($errors->any())
@@ -534,9 +470,11 @@
                     </div>
                 @endif
 
+                {{-- FR-AUTH-3: form NIP/password hanya bila AUTH_LOCAL_ENABLED=true --}}
+                @if($localEnabled)
                 <form action="{{ route('login') }}" method="POST" id="loginForm">
                     @csrf
-                    
+
                     <!-- INPUT NIP -->
                     <div class="input-group">
                         <div class="input-icon-box">
@@ -585,37 +523,16 @@
                     <button type="submit" class="btn-login" id="submitBtn">
                         LOGIN
                     </button>
-
-                    <!-- BUTTON LOGIN SSO (WARNA HIJAU) -->
-                    <button type="button" class="btn-sso" id="btnSso" onclick="handleSSO()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                        </svg>
-                        <span>LOGIN SSO</span>
-                    </button>
                 </form>
+                @endif
 
-                <!-- DEMO ACCOUNT SHORTCUTS -->
-                <div class="demo-box">
-                    <div class="demo-label">
-                        <span>⚡</span>
-                        <span>Klik untuk Coba Akun Demo:</span>
-                    </div>
-                    <div class="demo-buttons-row">
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('198501012010011001', 'password')">
-                            <span class="chip-title">🛡️ Admin PIC</span>
-                            <span class="chip-sub">Monitoring & Kelola</span>
-                        </button>
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('199505152020121002', 'password')">
-                            <span class="chip-title">👤 Sudah Usul</span>
-                            <span class="chip-sub">Budi (Cek Progres)</span>
-                        </button>
-                        <button type="button" class="btn-demo-chip" onclick="fillCredentials('199808182022032005', 'password')">
-                            <span class="chip-title">📝 Belum Usul</span>
-                            <span class="chip-sub">Siti (Coba Isi Form)</span>
-                        </button>
-                    </div>
-                </div>
+                <!-- BUTTON LOGIN SSO (FR-AUTH-1, FR-AUTH-2): lewat adapter SSO -->
+                <a href="{{ route('sso.redirect') }}" class="btn-sso" id="btnSso" data-action="login-sso">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                    <span>LOGIN SSO</span>
+                </a>
 
             </div>
 
@@ -628,25 +545,6 @@
     </footer>
 
     <script>
-        function fillCredentials(nip, password) {
-            document.getElementById('nipInput').value = nip;
-            document.getElementById('passwordInput').value = password;
-            // Highlight effect
-            const btn = document.getElementById('submitBtn');
-            btn.style.transform = 'scale(1.02)';
-            setTimeout(() => { btn.style.transform = 'none'; }, 200);
-        }
-
-        function handleSSO() {
-            const ssoBtn = document.getElementById('btnSso');
-            ssoBtn.innerHTML = '<span>⏳ Mengautentikasi SSO BPS...</span>';
-            ssoBtn.style.opacity = '0.85';
-            setTimeout(() => {
-                fillCredentials('199505152020121002', 'password');
-                document.getElementById('loginForm').submit();
-            }, 350);
-        }
-
         function togglePasswordVisibility() {
             const pwd = document.getElementById('passwordInput');
             const icon = document.getElementById('eyeIcon');

@@ -1,0 +1,51 @@
+<?php
+
+namespace Tests\Feature\Phase2;
+
+use App\Models\FormUsulan;
+use App\Models\User;
+use App\Models\UsulanStatusLog;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Tests\TestCase;
+
+/**
+ * FR-PU-4: kirim usulan membuat status verifikasi dan satu baris log.
+ * (Notifikasi ke Tim JF ada di Fase 7.)
+ */
+class PengajuanSubmitLogTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_submission_creates_verifikasi_status_and_log(): void
+    {
+        Storage::fake('local');
+        $user = User::factory()->pegawai()->create();
+
+        $files = [];
+        foreach (array_keys(config('sijabfu.berkas_persyaratan')) as $key) {
+            $files[$key] = UploadedFile::fake()->create($key.'.pdf', 100, 'application/pdf');
+        }
+
+        $this->actingAs($user)->post('/pengajuan', [
+            'aksi' => 'kirim',
+            'jabatan_fungsional' => 'Statistisi',
+            'jenis_usulan' => 'Inpassing',
+            'nomor_surat' => '001/TEST',
+            'hal_surat' => 'Uji',
+            'satuan_kerja' => 'BPS RI',
+            'berkas' => $files,
+        ])->assertRedirect(route('pelacakan-status'));
+
+        $usulan = FormUsulan::where('user_id', $user->id)->sole();
+        $this->assertSame('verifikasi', $usulan->status_key);
+        $this->assertSame(1, (int) $usulan->status, 'kolom status lama tetap diisi');
+        $this->assertNotNull($usulan->submitted_at);
+
+        $log = UsulanStatusLog::where('form_usulan_id', $usulan->id)->sole();
+        $this->assertNull($log->from_status);
+        $this->assertSame('verifikasi', $log->to_status);
+        $this->assertSame($user->id, (int) $log->actor_id);
+    }
+}

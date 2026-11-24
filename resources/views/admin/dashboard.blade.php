@@ -1,13 +1,11 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGMA JF - Admin Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
+@extends('layouts.app')
+
+@section('title', 'Dashboard')
+@section('breadcrumb', 'Dashboard')
+@section('flush', '1')
+
+@push('styles')
+<style>
         :root {
             --bps-dark: #003B73;
             --bps-mid: #0077B6;
@@ -23,138 +21,17 @@
             --dark-bar: #102A43;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            background-color: #FFFFFF;
-            color: #1E293B;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
         /* 1. TOP NAVBAR */
-        .top-navbar {
-            background: #FFFFFF;
-            padding: 14px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid #F1F5F9;
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .navbar-logo-img {
-            height: 44px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .navbar-titles {
-            text-align: right;
-        }
-
-        .navbar-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--bps-dark);
-            line-height: 1.2;
-        }
-
-        .navbar-subtitle {
-            font-size: 13px;
-            color: #64748B;
-            font-weight: 500;
-        }
-
-        .user-action-pill {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #F8FAFC;
-            border: 1px solid #E2E8F0;
-            padding: 6px 14px;
-            border-radius: 30px;
-        }
-
-        .user-badge-role {
-            background: #EFF6FF;
-            color: #1D4ED8;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 12px;
-            border: 1px solid #BFDBFE;
-        }
-
-        .user-name-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: #1E293B;
-        }
-
-        .btn-portal-link {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--bps-mid);
-            text-decoration: none;
-            padding: 4px 10px;
-            border-radius: 8px;
-            background: #F0F9FF;
-            transition: all 0.2s;
-        }
-
-        .btn-portal-link:hover {
-            background: #E0F2FE;
-            color: var(--bps-dark);
-        }
-
-        .btn-logout {
-            background: none;
-            border: none;
-            color: #EF4444;
-            font-size: 12.5px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-logout:hover {
-            background: #FEE2E2;
-        }
 
         /* 2. HERO WELCOME BANNER (ATTACHMENT 1) */
         .hero-banner {
             position: relative;
-            background: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 55%, #DBEAFE 100%);
+            background: var(--c-hero-bg);
             padding: 32px 48px;
             display: grid;
             grid-template-columns: 1.25fr 0.75fr;
             align-items: center;
-            border-bottom: 1px solid #E2E8F0;
+            border-bottom: 1px solid var(--c-border);
             overflow: hidden;
         }
 
@@ -192,7 +69,7 @@
         .hero-heading {
             font-size: 34px;
             font-weight: 900;
-            color: var(--bps-dark);
+            color: var(--c-heading);
             line-height: 1.2;
             margin-bottom: 10px;
         }
@@ -203,7 +80,7 @@
 
         .hero-description {
             font-size: 15px;
-            color: #475569;
+            color: var(--c-text-2);
             font-weight: 500;
             line-height: 1.5;
         }
@@ -308,7 +185,7 @@
         .card-header-title {
             font-size: 19px;
             font-weight: 800;
-            color: #0F172A;
+            color: var(--c-text);
             letter-spacing: -0.2px;
         }
 
@@ -320,14 +197,14 @@
         }
 
         .link-item-row {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-radius: 14px;
             padding: 13px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             text-decoration: none;
-            color: #1E293B;
+            color: var(--c-text);
             border: 1px solid rgba(255, 255, 255, 0.8);
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
             transition: all 0.2s ease;
@@ -335,9 +212,9 @@
 
         .link-item-row:hover {
             transform: translateX(4px);
-            background: #FFFFFF;
+            background: var(--c-surface);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-            border-color: #CBD5E1;
+            border-color: var(--c-border-strong);
         }
 
         .link-item-left {
@@ -356,7 +233,7 @@
             justify-content: center;
             font-size: 14px;
             flex-shrink: 0;
-            background: #F1F5F9;
+            background: var(--c-surface-3);
         }
 
         .link-item-text {
@@ -369,7 +246,7 @@
         }
 
         .link-item-arrow {
-            color: #94A3B8;
+            color: var(--c-text-faint);
             font-size: 16px;
             font-weight: 700;
             transition: transform 0.2s ease, color 0.2s ease;
@@ -392,7 +269,7 @@
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            color: #94A3B8;
+            color: var(--c-text-faint);
             font-weight: 500;
             transition: all 0.2s ease;
         }
@@ -400,7 +277,7 @@
         .slot-placeholder:hover {
             background: rgba(255, 255, 255, 0.95);
             border-color: #94A3B8;
-            color: #475569;
+            color: var(--c-text-2);
         }
 
         /* 4. BOTTOM BAR - AKSES CEPAT (ATTACHMENT 1) */
@@ -454,8 +331,8 @@
         }
 
         .btn-action-pill {
-            background: #FFFFFF;
-            color: #0F172A;
+            background: var(--c-surface);
+            color: var(--c-text);
             padding: 13px 36px;
             border-radius: 40px;
             font-size: 15px;
@@ -470,29 +347,14 @@
         }
 
         .btn-action-pill:hover {
-            background: #F8FAFC;
+            background: var(--c-surface-2);
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            color: var(--bps-dark);
+            color: var(--c-heading);
         }
 
         .btn-action-pill:active {
             transform: translateY(0);
-        }
-
-        .bottom-right-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #94A3B8;
-            text-decoration: none;
-            font-size: 13.5px;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .bottom-right-link:hover {
-            color: #FFFFFF;
         }
 
         /* USULAN TABLE STYLES */
@@ -503,10 +365,10 @@
         }
 
         .usulan-box {
-            background: #FFFFFF;
+            background: var(--c-surface);
             border-radius: 20px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-            border: 1px solid #E2E8F0;
+            border: 1px solid var(--c-border);
             overflow: hidden;
         }
 
@@ -553,22 +415,22 @@
         }
 
         .usulan-table th {
-            background: #F8FAFC;
-            color: #475569;
+            background: var(--c-surface-2);
+            color: var(--c-text-2);
             font-weight: 700;
             padding: 14px 18px;
-            border-bottom: 2px solid #E2E8F0;
+            border-bottom: 2px solid var(--c-border);
             white-space: nowrap;
         }
 
         .usulan-table td {
             padding: 16px 18px;
-            border-bottom: 1px solid #F1F5F9;
+            border-bottom: 1px solid var(--c-border-soft);
             vertical-align: middle;
         }
 
         .usulan-table tr:hover {
-            background: #F8FAFC;
+            background: var(--c-surface-2);
         }
 
         .badge-step {
@@ -597,17 +459,17 @@
             font-size: 12px;
             padding: 6px 10px;
             border-radius: 8px;
-            border: 1.5px solid #CBD5E1;
-            background: white;
+            border: 1.5px solid var(--c-border-strong);
+            background: var(--c-surface);
             font-weight: 600;
-            color: #1E293B;
+            color: var(--c-text);
         }
 
         .input-catatan {
             font-size: 11px;
             padding: 6px 8px;
             border-radius: 6px;
-            border: 1px solid #CBD5E1;
+            border: 1px solid var(--c-border-strong);
             width: 100%;
             box-sizing: border-box;
         }
@@ -667,41 +529,10 @@
                 align-items: flex-start;
             }
         }
-    </style>
-</head>
-<body>
+</style>
+@endpush
 
-    <!-- 1. TOP NAVBAR -->
-    <header class="top-navbar">
-        <a href="{{ route('admin.dashboard') }}" class="navbar-brand">
-            <img src="{{ asset('images/bps_logo.svg') }}" alt="Badan Pusat Statistik" class="navbar-logo-img">
-        </a>
-        <div class="navbar-right">
-            <div class="navbar-titles">
-                <div class="navbar-title">SIGMA JF</div>
-                <div class="navbar-subtitle">Biro SDM - BPS</div>
-            </div>
-
-            <!-- USER ACTIONS -->
-            <div class="user-action-pill">
-                <span class="user-badge-role">ADMIN</span>
-                <span class="user-name-text">{{ Auth::user()->name }}</span>
-                <a href="{{ route('admin.monitoring') }}" class="btn-portal-link" style="background: linear-gradient(135deg, #003B73, #005BAA); color: white; border: none;" title="Buka Panel Monitoring">
-                    📊 Panel Monitoring
-                </a>
-                <a href="{{ route('home') }}" class="btn-portal-link" title="Buka Portal Pegawai">
-                    🌐 Portal Pegawai ↗
-                </a>
-                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit" class="btn-logout" title="Keluar">
-                        🚪 Logout
-                    </button>
-                </form>
-            </div>
-        </div>
-    </header>
-
+@section('content')
     <!-- 2. HERO WELCOME BANNER (ATTACHMENT 1) -->
     <section class="hero-banner">
         <div class="hero-content">
@@ -720,6 +551,9 @@
             <img src="{{ asset('images/bps_staff.jpg') }}" alt="Pegawai BPS RI" class="staff-img">
         </div>
     </section>
+
+    <!-- GRAFIK DASHBOARD (FR-DASH-4, FR-DASH-5) -->
+    @include('dashboard._staf-panel')
 
     <!-- 3. MAIN CARDS CONTAINER (3 COLUMNS: INTERNAL, EKSTERNAL, LAINNYA) -->
     <main class="cards-container">
@@ -874,60 +708,57 @@
                             <th>Jabatan & Jenis Usulan</th>
                             <th>Surat & Berkas</th>
                             <th>Status Alur Saat Ini</th>
-                            <th style="min-width: 250px;">Kelola Status & Catatan</th>
+                            <th style="min-width: 250px;">Kelola Usulan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($daftarUsulan as $index => $item)
                         <tr>
-                            <td style="font-weight: 700; color: #64748B;">{{ $index + 1 }}</td>
+                            <td style="font-weight: 700; color: var(--c-text-muted);">{{ $index + 1 }}</td>
                             <td>
-                                <div style="font-weight: 700; color: #1E293B;">{{ $item->nama_lengkap }}</div>
-                                <div style="font-size: 11px; color: #64748B;">NIP: {{ $item->nip }}</div>
+                                <div style="font-weight: 700; color: var(--c-text);">{{ $item->nama_lengkap }}</div>
+                                <div style="font-size: 11px; color: var(--c-text-muted);">NIP: {{ $item->nip }}</div>
                                 <div style="font-size: 11px; color: #0284C7; font-weight: 600;">{{ $item->satuan_kerja }}</div>
-                                <div style="font-size: 11px; color: #64748B;">{{ $item->email }}</div>
+                                <div style="font-size: 11px; color: var(--c-text-muted);">{{ $item->email }}</div>
                             </td>
                             <td>
-                                <div style="font-weight: 700; color: #003B73;">{{ $item->jabatan_fungsional }}</div>
-                                <div style="font-size: 11px; color: #475569; margin-top: 2px;">{{ $item->jenis_usulan }}</div>
-                                <div style="font-size: 10px; color: #94A3B8; margin-top: 4px;">Diajukan: {{ $item->created_at->format('d/m/Y H:i') }}</div>
+                                <div style="font-weight: 700; color: var(--c-heading);">{{ $item->jabatan_fungsional }}</div>
+                                <div style="font-size: 11px; color: var(--c-text-2); margin-top: 2px;">{{ $item->jenis_usulan }}</div>
+                                <div style="font-size: 10px; color: var(--c-text-faint); margin-top: 4px;">Diajukan: {{ $item->created_at->format('d/m/Y H:i') }}</div>
                             </td>
                             <td>
-                                <div style="font-weight: 600; color: #334155; font-size: 12px;">No: {{ $item->nomor_surat }}</div>
-                                <div style="font-size: 11px; color: #64748B; max-width: 180px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="{{ $item->hal_surat }}">
+                                <div style="font-weight: 600; color: var(--c-text-2); font-size: 12px;">No: {{ $item->nomor_surat }}</div>
+                                <div style="font-size: 11px; color: var(--c-text-muted); max-width: 180px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;" title="{{ $item->hal_surat }}">
                                     Hal: {{ $item->hal_surat }}
                                 </div>
+                                @php
+                                    $safeBerkas = \App\Models\FormUsulan::safeUrl($item->link_berkas);
+                                    $safeUsulan = \App\Models\FormUsulan::safeUrl($item->link_usulan);
+                                @endphp
+                                @if($safeBerkas)
                                 <div style="margin-top: 6px;">
-                                    <a href="{{ $item->link_berkas }}" target="_blank" rel="noopener noreferrer" style="color: #0284C7; font-size: 11px; font-weight: 700; text-decoration: underline;">
+                                    <a href="{{ $safeBerkas }}" target="_blank" rel="noopener noreferrer" style="color: #0284C7; font-size: 11px; font-weight: 700; text-decoration: underline;">
                                         🔗 Buka Berkas (Drive/Laci) ↗
                                     </a>
                                 </div>
-                                @if($item->link_usulan)
+                                @endif
+                                @if($safeUsulan)
                                 <div>
-                                    <a href="{{ $item->link_usulan }}" target="_blank" rel="noopener noreferrer" style="color: #64748B; font-size: 10px; text-decoration: underline;">
+                                    <a href="{{ $safeUsulan }}" target="_blank" rel="noopener noreferrer" style="color: var(--c-text-muted); font-size: 10px; text-decoration: underline;">
                                         Link Usulan ↗
                                     </a>
                                 </div>
                                 @endif
                             </td>
                             <td>
-                                @php
-                                    $stepClass = match($item->status) {
-                                        1 => 'badge-step-1',
-                                        2 => 'badge-step-2',
-                                        3 => 'badge-step-3',
-                                        4 => 'badge-step-4',
-                                        5 => 'badge-step-5',
-                                        default => 'badge-step-1'
-                                    };
-                                    $currTahap = collect($tahapan)->firstWhere('step', $item->status);
-                                @endphp
-                                <span class="badge-step {{ $stepClass }}">
-                                    Tahap {{ $item->status }}: {{ $currTahap['label'] ?? $item->statusLabel() }}
+                                <span class="badge-step {{ $item->statusBadgeClass() }}" data-status-key="{{ $item->status_key }}">
+                                    {{ $item->statusKeyLabel() }}
                                 </span>
-                                <div style="font-size: 11px; color: #64748B; margin-top: 4px;">
-                                    Aktor: <strong>{{ $currTahap['aktor'] ?? '-' }}</strong>
+                                @if($item->hasil_verifikasi)
+                                <div style="font-size: 11px; color: var(--c-text-muted); margin-top: 4px;">
+                                    Hasil verifikasi: <strong>{{ strtoupper($item->hasil_verifikasi) }}</strong>
                                 </div>
+                                @endif
                                 @if($item->catatan)
                                 <div style="margin-top: 6px; font-size: 11px; background: #FFFBEB; border: 1px solid #FDE68A; padding: 4px 8px; border-radius: 6px; color: #92400E;">
                                     <strong>Catatan:</strong> {{ $item->catatan }}
@@ -935,25 +766,20 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ route('admin.usulan.update-status', $item->id) }}" method="POST" class="form-update-status">
-                                    @csrf
-                                    <select name="status" class="select-status" required>
-                                        @foreach($tahapan as $t)
-                                        <option value="{{ $t['step'] }}" {{ $item->status == $t['step'] ? 'selected' : '' }}>
-                                            Tahap {{ $t['step'] }}: {{ $t['label'] }} ({{ $t['aktor'] }})
-                                        </option>
-                                        @endforeach
-                                    </select>
-                                    <input type="text" name="catatan" class="input-catatan" placeholder="Catatan untuk pegawai (opsional)..." value="{{ $item->catatan }}">
-                                    <button type="submit" class="btn-save-status">
-                                        💾 Perbarui Status
-                                    </button>
-                                </form>
+                                {{-- Perubahan status hanya lewat state machine (FR-MON-2) --}}
+                                <div class="form-update-status">
+                                    <a href="{{ route('verifikasi.show', $item->id) }}" class="btn-save-status" style="text-decoration:none; text-align:center;" data-action="buka-verifikasi">
+                                        🔍 Verifikasi
+                                    </a>
+                                    <a href="{{ route('monitoring.index', ['q' => $item->nip]) }}" class="btn-save-status" style="text-decoration:none; text-align:center;" data-action="buka-monitoring">
+                                        ⚙️ Kelola
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" style="text-align: center; padding: 40px; color: #94A3B8;">
+                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--c-text-faint);">
                                 <div style="font-size: 32px; margin-bottom: 8px;">📭</div>
                                 <div style="font-size: 14px; font-weight: 600;">Belum ada berkas usulan dari pegawai</div>
                                 <div style="font-size: 12px; margin-top: 4px;">Usulan yang diajukan melalui portal Form Usulan akan otomatis muncul di sini.</div>
@@ -975,25 +801,12 @@
             </div>
 
             <div class="action-buttons-group">
-                <!-- BUTTON 1: FORM USULAN (Opens in new tab) -->
-                <a href="{{ $aksesCepat['form_usulan'] }}" target="_blank" rel="noopener noreferrer" class="btn-action-pill">
-                    <span>FORM USULAN</span>
-                    <span style="font-size:12px; opacity:0.7;">↗</span>
-                </a>
-
-                <!-- BUTTON 2: RESPONSE (Opens in new tab) -->
+                <!-- RESPONSE (Opens in new tab) -->
                 <a href="{{ $aksesCepat['response'] }}" target="_blank" rel="noopener noreferrer" class="btn-action-pill">
                     <span>RESPONSE</span>
                     <span style="font-size:12px; opacity:0.7;">↗</span>
                 </a>
             </div>
         </div>
-
-        <a href="{{ route('home') }}" class="bottom-right-link">
-            <span>Beralih ke Tampilan Portal Pegawai</span>
-            <span>→</span>
-        </a>
     </footer>
-
-</body>
-</html>
+@endsection

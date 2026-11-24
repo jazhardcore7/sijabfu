@@ -2,10 +2,9 @@
 
 namespace Tests\Feature\Phase4;
 
-use App\Models\FormUsulan;
+use App\Models\User;
 use App\Models\UsulanBerkas;
 use App\Models\UsulanStatusLog;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\Feature\Phase3\UsulanFixtures;
@@ -51,7 +50,7 @@ class VerifikasiTest extends TestCase
             ->assertSee('Andi Wijaya')->assertSee('Andi Saputra')->assertDontSee('Budi Santoso');
 
         $combined = $this->actingAs($this->timJf)->get('/verifikasi?q=Andi&status=verifikasi');
-        $combined->assertSee('data-total="1"', false)->assertSee('data-usulan="' . $andi->id . '"', false);
+        $combined->assertSee('data-total="1"', false)->assertSee('data-usulan="'.$andi->id.'"', false);
 
         $this->actingAs($this->timJf)->get('/verifikasi?q=333')->assertSee('Budi Santoso')->assertDontSee('Andi Wijaya');
 
@@ -174,7 +173,7 @@ class VerifikasiTest extends TestCase
     public function test_decision_outside_verifikasi_returns_422(): void
     {
         foreach (['perbaikan', 'disetujui', 'ditetapkan', 'selesai'] as $i => $status) {
-            $usulan = $this->usulanAt($this->pegawai('P' . $i, (string) $i), $status);
+            $usulan = $this->usulanAt($this->pegawai('P'.$i, (string) $i), $status);
 
             $this->actingAs($this->timJf)->post("/verifikasi/{$usulan->id}", ['aksi' => 'keputusan', 'hasil' => 'ms'])
                 ->assertStatus(422);

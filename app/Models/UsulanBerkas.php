@@ -10,6 +10,7 @@ class UsulanBerkas extends Model
     protected $table = 'usulan_berkas';
 
     public const PEMERIKSAAN_SESUAI = 'sesuai';
+
     public const PEMERIKSAAN_PERLU_PERBAIKAN = 'perlu_perbaikan';
 
     protected $fillable = [

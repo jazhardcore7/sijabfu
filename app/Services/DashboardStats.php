@@ -67,7 +67,7 @@ class DashboardStats
         $keys = [];
         for ($i = 0; $i < 12; $i++) {
             $m = $start->copy()->addMonths($i);
-            $label = $bulan[$m->month - 1] . ' ' . $m->year;
+            $label = $bulan[$m->month - 1].' '.$m->year;
             $keys[$m->format('Y-m')] = $label;
             $result[$label] = 0;
         }
@@ -112,7 +112,7 @@ class DashboardStats
     {
         $usulan = FormUsulan::where('user_id', $user->id)->submitted()->orderByDesc('id')->first();
 
-        if (!$usulan) {
+        if (! $usulan) {
             return ['usulan' => null, 'tahapan' => [], 'persen' => 0];
         }
 

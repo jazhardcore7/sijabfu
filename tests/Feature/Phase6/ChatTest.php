@@ -17,8 +17,11 @@ class ChatTest extends TestCase
     use RefreshDatabase;
 
     private User $pegawai;
+
     private User $timJf;
+
     private User $timJf2;
+
     private User $superAdmin;
 
     protected function setUp(): void

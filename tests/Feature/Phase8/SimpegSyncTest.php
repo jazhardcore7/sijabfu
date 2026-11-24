@@ -68,7 +68,8 @@ class SimpegSyncTest extends TestCase
 
     public function test_service_failure_shows_warning(): void
     {
-        $this->app->bind(SimpegDirectory::class, fn () => new class implements SimpegDirectory {
+        $this->app->bind(SimpegDirectory::class, fn () => new class implements SimpegDirectory
+        {
             public function findByNip(string $nip): ?SsoIdentity
             {
                 throw new RuntimeException('timeout');

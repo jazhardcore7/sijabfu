@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Exceptions\InvalidStatusTransition;
 use App\Models\FormUsulan;
+use App\Models\User;
 use App\Models\UsulanBerkas;
 use App\Models\UsulanStatusLog;
-use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 
@@ -55,14 +55,14 @@ class UsulanStateMachine
     {
         $this->assertStaff($actor);
 
-        if (!in_array($hasil, [FormUsulan::HASIL_MS, FormUsulan::HASIL_TMS], true)) {
+        if (! in_array($hasil, [FormUsulan::HASIL_MS, FormUsulan::HASIL_TMS], true)) {
             throw new InvalidStatusTransition('Hasil verifikasi harus "ms" atau "tms".');
         }
 
         $to = $hasil === FormUsulan::HASIL_MS ? FormUsulan::STATUS_DISETUJUI : FormUsulan::STATUS_PERBAIKAN;
         $catatan = $this->clean($catatan);
 
-        if ($hasil === FormUsulan::HASIL_TMS && $catatan === null && !$this->hasFlaggedBerkas($usulan)) {
+        if ($hasil === FormUsulan::HASIL_TMS && $catatan === null && ! $this->hasFlaggedBerkas($usulan)) {
             throw InvalidStatusTransition::from($usulan->status_key, $to, 'Keputusan TMS wajib disertai catatan atau berkas yang ditandai perlu perbaikan.');
         }
 
@@ -128,7 +128,7 @@ class UsulanStateMachine
      */
     public function rollback(FormUsulan $usulan, User $actor, string $to, ?string $reason): FormUsulan
     {
-        if (!$actor->isSuperAdmin()) {
+        if (! $actor->isSuperAdmin()) {
             throw new AuthorizationException('Hanya Super Admin yang dapat melakukan rollback status.');
         }
 
@@ -139,7 +139,7 @@ class UsulanStateMachine
             throw InvalidStatusTransition::from($from, $to, 'Alasan rollback wajib diisi.');
         }
 
-        if (!isset(self::RANK[$to], self::RANK[$from ?? '']) || self::RANK[$to] >= self::RANK[$from]) {
+        if (! isset(self::RANK[$to], self::RANK[$from ?? '']) || self::RANK[$to] >= self::RANK[$from]) {
             throw InvalidStatusTransition::from($from, $to, 'Rollback hanya boleh ke status sebelumnya.');
         }
 
@@ -179,14 +179,14 @@ class UsulanStateMachine
 
     private function assertStaff(User $actor): void
     {
-        if (!$actor->isAdmin()) {
+        if (! $actor->isAdmin()) {
             throw new AuthorizationException('Hanya Tim Pembinaan JF atau Super Admin yang dapat mengubah status ini.');
         }
     }
 
     private function assertOwner(FormUsulan $usulan, User $actor): void
     {
-        if (!$actor->isPegawai() || (int) $usulan->user_id !== (int) $actor->id) {
+        if (! $actor->isPegawai() || (int) $usulan->user_id !== (int) $actor->id) {
             throw new AuthorizationException('Hanya Pegawai pemilik usulan yang dapat melakukan tindakan ini.');
         }
     }

@@ -3,8 +3,8 @@
 namespace Tests\Feature\Phase4;
 
 use App\Models\FormUsulan;
-use App\Models\UsulanBerkas;
 use App\Models\User;
+use App\Models\UsulanBerkas;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Tests\Feature\Phase3\UsulanFixtures;

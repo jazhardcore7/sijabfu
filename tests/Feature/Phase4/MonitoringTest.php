@@ -3,8 +3,8 @@
 namespace Tests\Feature\Phase4;
 
 use App\Models\FormUsulan;
-use App\Models\UsulanStatusLog;
 use App\Models\User;
+use App\Models\UsulanStatusLog;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -21,6 +21,7 @@ class MonitoringTest extends TestCase
     use UsulanFixtures;
 
     private User $timJf;
+
     private User $superAdmin;
 
     protected function setUp(): void
@@ -53,9 +54,9 @@ class MonitoringTest extends TestCase
 
         foreach ($expected as $status => $n) {
             $this->assertSame(FormUsulan::where('status_key', $status)->count(), $n);
-            $this->assertMatchesRegularExpression('/data-stat="' . $status . '".*?data-count="' . $n . '"/s', $html, $status);
+            $this->assertMatchesRegularExpression('/data-stat="'.$status.'".*?data-count="'.$n.'"/s', $html, $status);
         }
-        $this->assertMatchesRegularExpression('/data-stat="total".*?<div class="stat-count">' . array_sum($expected) . '</s', $html);
+        $this->assertMatchesRegularExpression('/data-stat="total".*?<div class="stat-count">'.array_sum($expected).'</s', $html);
 
         $filtered = $this->actingAs($this->timJf)->get('/monitoring?status=selesai')->getContent();
         $this->assertSame(4, substr_count($filtered, 'class="usulan-item-card"'));
@@ -88,7 +89,7 @@ class MonitoringTest extends TestCase
         $fresh = $usulan->fresh();
         $this->assertSame('ditetapkan', $fresh->status_key);
         Storage::disk('local')->assertExists($fresh->surat_usulan_path);
-        $this->assertStringStartsWith('usulan/' . $usulan->id . '/', $fresh->surat_usulan_path);
+        $this->assertStringStartsWith('usulan/'.$usulan->id.'/', $fresh->surat_usulan_path);
         $this->assertSame(1, UsulanStatusLog::where('form_usulan_id', $usulan->id)->where('to_status', 'ditetapkan')->count());
     }
 
@@ -135,19 +136,19 @@ class MonitoringTest extends TestCase
         ])->assertSessionHasErrors('surat');
 
         $this->assertSame('disetujui', $usulan->fresh()->status_key);
-        $this->assertCount(8, Storage::disk('local')->files('usulan/' . $usulan->id), 'hanya 8 berkas fixture, tidak ada surat tersimpan');
+        $this->assertCount(8, Storage::disk('local')->files('usulan/'.$usulan->id), 'hanya 8 berkas fixture, tidak ada surat tersimpan');
     }
 
     public static function disallowed(): array
     {
         return [
-            'tetapkan saat verifikasi'   => ['verifikasi', 'tetapkan'],
-            'tetapkan saat perbaikan'    => ['perbaikan', 'tetapkan'],
-            'tetapkan saat ditetapkan'   => ['ditetapkan', 'tetapkan'],
-            'tetapkan saat selesai'      => ['selesai', 'tetapkan'],
+            'tetapkan saat verifikasi' => ['verifikasi', 'tetapkan'],
+            'tetapkan saat perbaikan' => ['perbaikan', 'tetapkan'],
+            'tetapkan saat ditetapkan' => ['ditetapkan', 'tetapkan'],
+            'tetapkan saat selesai' => ['selesai', 'tetapkan'],
             'selesaikan saat verifikasi' => ['verifikasi', 'selesaikan'],
-            'selesaikan saat disetujui'  => ['disetujui', 'selesaikan'],
-            'selesaikan saat selesai'    => ['selesai', 'selesaikan'],
+            'selesaikan saat disetujui' => ['disetujui', 'selesaikan'],
+            'selesaikan saat selesai' => ['selesai', 'selesaikan'],
         ];
     }
 
@@ -166,7 +167,7 @@ class MonitoringTest extends TestCase
 
         $this->assertSame($before, $usulan->fresh()->toArray());
         $this->assertSame(0, UsulanStatusLog::count());
-        $this->assertCount(8, Storage::disk('local')->files('usulan/' . $usulan->id), 'tidak ada file baru tersimpan');
+        $this->assertCount(8, Storage::disk('local')->files('usulan/'.$usulan->id), 'tidak ada file baru tersimpan');
     }
 
     // FR-MON-5

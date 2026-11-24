@@ -3,9 +3,9 @@
 namespace Tests\Feature\Phase3;
 
 use App\Models\FormUsulan;
+use App\Models\User;
 use App\Models\UsulanBerkas;
 use App\Models\UsulanStatusLog;
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -42,7 +42,7 @@ class PengajuanTest extends TestCase
         $response->assertSee('Upload Berkas Persyaratan');
         $response->assertSee('Kirim Usulan');
         foreach (config('sijabfu.berkas_persyaratan') as $key => $label) {
-            $response->assertSee('data-slot="' . $key . '"', false);
+            $response->assertSee('data-slot="'.$key.'"', false);
             $response->assertSee($label);
         }
     }
@@ -97,7 +97,7 @@ class PengajuanTest extends TestCase
 
         $berkas = UsulanBerkas::sole();
         $this->assertSame('SKP Saya.pdf', $berkas->original_name);
-        $this->assertStringStartsWith('usulan/' . $berkas->form_usulan_id . '/', $berkas->file_path);
+        $this->assertStringStartsWith('usulan/'.$berkas->form_usulan_id.'/', $berkas->file_path);
         $this->assertStringNotContainsString('SKP Saya', $berkas->file_path);
         Storage::disk('local')->assertExists($berkas->file_path);
         $this->assertSame([], Storage::disk('public')->allFiles(), 'tidak ada file di disk publik');

@@ -18,9 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class VerifikasiController extends Controller
 {
-    public function __construct(private UsulanStateMachine $stateMachine)
-    {
-    }
+    public function __construct(private UsulanStateMachine $stateMachine) {}
 
     /**
      * FR-VB-1: daftar pegawai dengan usulan, filter status, cari NIP/nama, 15 per halaman.
@@ -82,7 +80,7 @@ class VerifikasiController extends Controller
         DB::transaction(function () use ($validated, $berkasList) {
             foreach ($validated['pemeriksaan'] as $berkasId => $input) {
                 $berkas = $berkasList->get((int) $berkasId);
-                if (!$berkas) {
+                if (! $berkas) {
                     continue; // berkas milik usulan lain diabaikan
                 }
 

@@ -11,9 +11,7 @@ use Illuminate\Support\Str;
  */
 class PesanChatBaru extends Notification
 {
-    public function __construct(private ChatMessage $message, private string $url)
-    {
-    }
+    public function __construct(private ChatMessage $message, private string $url) {}
 
     public function via(object $notifiable): array
     {
@@ -27,7 +25,7 @@ class PesanChatBaru extends Notification
             'event' => 'chat',
             'thread_id' => $this->message->thread_id,
             'chat_message_id' => $this->message->id,
-            'judul' => 'Pesan baru dari ' . ($this->message->sender?->name ?? 'pengguna'),
+            'judul' => 'Pesan baru dari '.($this->message->sender?->name ?? 'pengguna'),
             'pesan' => Str::limit($this->message->body, 120),
             'url' => $this->url,
         ];

@@ -19,7 +19,7 @@ class SsoLoginTest extends TestCase
         $this->get('/auth/sso/redirect')->assertOk()->assertSee('data-section="sso-fake"', false);
         $state ??= session('sso_state');
 
-        return $this->get('/auth/sso/callback?' . http_build_query(['state' => $state, 'nip' => $nip]));
+        return $this->get('/auth/sso/callback?'.http_build_query(['state' => $state, 'nip' => $nip]));
     }
 
     // FR-AUTH-1
@@ -90,14 +90,14 @@ class SsoLoginTest extends TestCase
     {
         foreach (File::allFiles(resource_path('views')) as $file) {
             $content = $file->getContents();
-            $this->assertDoesNotMatchRegularExpression('/\b\d{18}\b/', $content, 'NIP hardcoded di ' . $file->getRelativePathname());
+            $this->assertDoesNotMatchRegularExpression('/\b\d{18}\b/', $content, 'NIP hardcoded di '.$file->getRelativePathname());
             $this->assertStringNotContainsString('fillCredentials', $content, $file->getRelativePathname());
             // nilai password demo seperti fillCredentials('...', 'password'); bukan pwd.type === 'password'
             $this->assertDoesNotMatchRegularExpression("/,\\s*'password'\\s*\\)/", $content, $file->getRelativePathname());
         }
 
         $this->get('/login')->assertOk()
-            ->assertSee('href="' . route('sso.redirect') . '"', false)
+            ->assertSee('href="'.route('sso.redirect').'"', false)
             ->assertDontSee('handleSSO', false)
             ->assertDontSee('Akun Demo');
     }

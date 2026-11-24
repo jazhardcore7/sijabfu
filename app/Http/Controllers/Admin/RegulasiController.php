@@ -100,8 +100,8 @@ class RegulasiController extends Controller
             'judul' => ['required', 'string', 'max:300'],
             'kategori' => ['required', Rule::in(Regulasi::KATEGORI)],
             'nomor' => ['required', 'string', 'max:200'],
-            'tahun' => ['required', 'integer', 'min:1945', 'max:' . (now()->year + 1)],
-            'file' => [$fileRequired ? 'required' : 'nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:' . config('sijabfu.regulasi_max_kb')],
+            'tahun' => ['required', 'integer', 'min:1945', 'max:'.(now()->year + 1)],
+            'file' => [$fileRequired ? 'required' : 'nullable', 'file', 'mimes:pdf', 'mimetypes:application/pdf', 'max:'.config('sijabfu.regulasi_max_kb')],
         ];
     }
 

@@ -2,9 +2,8 @@
 
 namespace Tests\Feature\Phase3;
 
-use App\Models\FormUsulan;
-use App\Models\UsulanBerkas;
 use App\Models\User;
+use App\Models\UsulanBerkas;
 use App\Services\UsulanStateMachine;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -33,10 +32,10 @@ class PelacakanStatusTest extends TestCase
         // [status_key, label, stage yang aktif/perbaikan, surat tampil, sertifikat tampil]
         return [
             'verifikasi' => ['verifikasi', 'Verifikasi', 'verifikasi', false, false],
-            'perbaikan'  => ['perbaikan', 'Perbaikan', 'verifikasi', false, false],
-            'disetujui'  => ['disetujui', 'Disetujui (MS)', 'disetujui', false, false],
+            'perbaikan' => ['perbaikan', 'Perbaikan', 'verifikasi', false, false],
+            'disetujui' => ['disetujui', 'Disetujui (MS)', 'disetujui', false, false],
             'ditetapkan' => ['ditetapkan', 'Ditetapkan', 'ditetapkan', true, false],
-            'selesai'    => ['selesai', 'Selesai', null, true, true],
+            'selesai' => ['selesai', 'Selesai', null, true, true],
         ];
     }
 
@@ -53,8 +52,8 @@ class PelacakanStatusTest extends TestCase
         $response = $this->actingAs($this->pegawai)->get('/pelacakan-status')->assertOk();
         $html = $response->getContent();
 
-        $response->assertSee('data-status-key="' . $status . '"', false);
-        $response->assertSee('● ' . $label);
+        $response->assertSee('data-status-key="'.$status.'"', false);
+        $response->assertSee('● '.$label);
         foreach (['Verifikasi (Perbaikan)', 'Disetujui (MS/TMS)', 'Ditetapkan', 'Selesai'] as $stage) {
             $response->assertSee($stage);
         }
@@ -62,7 +61,7 @@ class PelacakanStatusTest extends TestCase
 
         if ($activeStage) {
             $state = $status === 'perbaikan' ? 'perbaikan' : 'active';
-            $this->assertStringContainsString('data-stage="' . $activeStage . '" data-state="' . $state . '"', $html);
+            $this->assertStringContainsString('data-stage="'.$activeStage.'" data-state="'.$state.'"', $html);
         } else {
             $this->assertSame(4, substr_count($html, 'data-state="done"'));
         }
@@ -82,7 +81,7 @@ class PelacakanStatusTest extends TestCase
     {
         $usulan = $this->usulanAt($this->pegawai, null);
         $timJf = User::factory()->timJf()->create();
-        $sm = new UsulanStateMachine();
+        $sm = new UsulanStateMachine;
         $sm->submit($usulan, $this->pegawai);
         $sm->decide($usulan, $timJf, 'tms', 'Perbaiki SKP');
         $sm->resubmit($usulan, $this->pegawai);

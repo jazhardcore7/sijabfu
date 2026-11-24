@@ -3,6 +3,7 @@
 namespace Tests\Feature\Phase7;
 
 use App\Exceptions\InvalidStatusTransition;
+use App\Models\ChatThread;
 use App\Models\FormUsulan;
 use App\Models\User;
 use App\Notifications\PesanChatBaru;
@@ -24,10 +25,15 @@ class NotificationTest extends TestCase
     use UsulanFixtures;
 
     private User $pegawai;
+
     private User $timJf1;
+
     private User $timJf2;
+
     private User $timJfNonaktif;
+
     private User $superAdmin;
+
     private UsulanStateMachine $sm;
 
     protected function setUp(): void
@@ -119,7 +125,7 @@ class NotificationTest extends TestCase
         $this->expectOnly(PesanChatBaru::class, [$this->timJf1, $this->timJf2]);
 
         DB::table('notifications')->delete();
-        $thread = \App\Models\ChatThread::sole();
+        $thread = ChatThread::sole();
         $this->actingAs($this->timJf1)->postJson("/messenger/{$thread->id}", ['body' => 'Halo juga'])->assertCreated();
         $this->expectOnly(PesanChatBaru::class, [$this->pegawai]);
         $this->assertSame(route('chat.index'), $this->pegawai->notifications()->sole()->data['url']);

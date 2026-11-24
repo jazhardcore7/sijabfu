@@ -22,7 +22,7 @@ class UserController extends Controller
         $users = User::query()
             ->when(array_key_exists((string) $role, User::LEVEL_LABELS), fn ($q) => $q->where('role', $role))
             ->when($keyword !== '', function ($q) use ($keyword) {
-                $like = '%' . $keyword . '%';
+                $like = '%'.$keyword.'%';
                 $q->where(fn ($w) => $w->where('name', 'like', $like)->orWhere('nip', 'like', $like)->orWhere('email', 'like', $like));
             })
             ->orderBy('name')
@@ -48,7 +48,7 @@ class UserController extends Controller
 
         // Hanya relevan bila target saat ini Super Admin AKTIF dan perubahan ini mengurangi jumlahnya
         $demotesSuperAdmin = $user->isSuperAdmin() && $user->is_active
-            && ($newRole !== User::ROLE_SUPER_ADMIN || !$newActive);
+            && ($newRole !== User::ROLE_SUPER_ADMIN || ! $newActive);
 
         if ($demotesSuperAdmin && $user->is($actor)) {
             return back()->with('error', 'Anda tidak dapat menurunkan role atau menonaktifkan akun Anda sendiri.');
@@ -58,7 +58,7 @@ class UserController extends Controller
             return back()->with('error', 'Super Admin aktif terakhir tidak dapat diturunkan atau dinonaktifkan.');
         }
 
-        if ($user->is($actor) && !$newActive) {
+        if ($user->is($actor) && ! $newActive) {
             return back()->with('error', 'Anda tidak dapat menonaktifkan akun Anda sendiri.');
         }
 
@@ -72,7 +72,7 @@ class UserController extends Controller
         ], fn ($v) => $v !== null && $v !== '');
 
         return redirect()->route('admin.users', $filters)
-            ->with('success', "Data {$user->name} diperbarui: " . User::LEVEL_LABELS[$newRole] . ', ' . ($newActive ? 'aktif' : 'nonaktif') . '.');
+            ->with('success', "Data {$user->name} diperbarui: ".User::LEVEL_LABELS[$newRole].', '.($newActive ? 'aktif' : 'nonaktif').'.');
     }
 
     private function activeSuperAdminCount(): int

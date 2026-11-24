@@ -15,87 +15,7 @@
             --bg-slate: var(--c-bg);
         }
 
-
-
-
-
-
-
-
-
         /* ===== HEADER ===== */
-        .landing-header {
-            background: linear-gradient(135deg, var(--bps-dark) 0%, #00509D 100%);
-            padding: 0 48px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.2);
-        }
-
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 72px;
-            gap: 20px;
-        }
-
-        .header-brand {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-logo {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--bps-orange), #F59E0B);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 16px;
-            color: white;
-            box-shadow: 0 4px 16px rgba(247,127,0,0.5);
-            flex-shrink: 0;
-        }
-
-        .header-text-main {
-            font-size: 14px;
-            font-weight: 700;
-            color: white;
-            line-height: 1.2;
-        }
-
-        .header-text-sub {
-            font-size: 11px;
-            color: rgba(255,255,255,0.65);
-            font-weight: 400;
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-datetime {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 10px;
-            padding: 8px 16px;
-            color: rgba(255,255,255,0.9);
-            font-size: 13px;
-            font-weight: 500;
-            backdrop-filter: blur(8px);
-        }
 
         /* ===== HERO ===== */
         .hero-section {
@@ -495,8 +415,6 @@
         }
 
         @media (max-width: 640px) {
-            .header-datetime { display: none; }
-            .header-text-main { font-size: 12px; }
             .hero-stats { gap: 20px; }
             .cards-row-top { grid-template-columns: 1fr; }
             .cards-row-bottom { grid-template-columns: 1fr; }

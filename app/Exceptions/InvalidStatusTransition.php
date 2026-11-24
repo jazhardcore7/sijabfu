@@ -18,6 +18,6 @@ class InvalidStatusTransition extends DomainException
             $to
         );
 
-        return new self(trim($message . ' ' . $reason));
+        return new self(trim($message.' '.$reason));
     }
 }

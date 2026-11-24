@@ -28,7 +28,7 @@ class SsoSyncController extends Controller
         // Direktori tidak terbaca sama sekali: tidak ada baris yang diproses
         $nothingProcessed = $log->created_count + $log->updated_count + $log->failed_count === 0;
         if ($log->error && $nothingProcessed) {
-            return redirect()->route('admin.sso-sync')->with('error', 'Sinkronisasi gagal: ' . $log->error);
+            return redirect()->route('admin.sso-sync')->with('error', 'Sinkronisasi gagal: '.$log->error);
         }
 
         return redirect()->route('admin.sso-sync')->with('success',

@@ -1,24 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PortalController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\SsoController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\SsoSyncController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\NotifikasiController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\MessengerController;
-use App\Http\Controllers\TimKerjaController;
-use App\Http\Controllers\RegulasiController;
 use App\Http\Controllers\Admin\RegulasiController as AdminRegulasiController;
+use App\Http\Controllers\Admin\SsoSyncController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\MessengerController;
 use App\Http\Controllers\MonitoringController;
-use App\Http\Controllers\VerifikasiController;
+use App\Http\Controllers\NotifikasiController;
 use App\Http\Controllers\PelacakanController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\PortalController;
+use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\SsoController;
+use App\Http\Controllers\TimKerjaController;
+use App\Http\Controllers\VerifikasiController;
+use Illuminate\Support\Facades\Route;
 
 // 1. Auth Routes (Guest)
 Route::middleware('guest')->group(function () {

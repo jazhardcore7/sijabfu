@@ -14,8 +14,7 @@ final class SsoIdentity
         public readonly ?string $email = null,
         public readonly ?string $jabatan = null,
         public readonly ?string $unitKerja = null,
-    ) {
-    }
+    ) {}
 
     public static function fromArray(array $data): self
     {

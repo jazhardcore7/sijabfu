@@ -30,17 +30,17 @@ class FileController extends Controller
 
         // Pegawai hanya dapat membuka surat/sertifikat pada status yang membukanya (FR-PS-4, FR-PS-5)
         $user = Auth::user();
-        if (!$user->isAdmin()) {
+        if (! $user->isAdmin()) {
             $allowed = match ($type) {
                 'surat' => [FormUsulan::STATUS_DITETAPKAN, FormUsulan::STATUS_SELESAI],
                 'sertifikat' => [FormUsulan::STATUS_SELESAI],
                 default => null,
             };
-            abort_if($allowed !== null && !in_array($usulan->status_key, $allowed, true), 403);
+            abort_if($allowed !== null && ! in_array($usulan->status_key, $allowed, true), 403);
         }
 
         $disk = Storage::disk(config('sijabfu.disk'));
-        abort_if(!$path || !$disk->exists($path), 404, 'Dokumen belum diunggah.');
+        abort_if(! $path || ! $disk->exists($path), 404, 'Dokumen belum diunggah.');
 
         $headers = ['Content-Type' => 'application/pdf', 'X-Content-Type-Options' => 'nosniff'];
 
@@ -60,6 +60,6 @@ class FileController extends Controller
     {
         $usulan = FormUsulan::findOrFail($id);
 
-        return [$usulan, $usulan->{$column}, $prefix . '-' . $usulan->nip . '.pdf'];
+        return [$usulan, $usulan->{$column}, $prefix.'-'.$usulan->nip.'.pdf'];
     }
 }

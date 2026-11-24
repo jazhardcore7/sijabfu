@@ -20,7 +20,7 @@ class NotifikasiController extends Controller
         $url = $notification->data['url'] ?? null;
 
         // hanya alamat internal aplikasi
-        if (!is_string($url) || !str_starts_with($url, url('/'))) {
+        if (! is_string($url) || ! str_starts_with($url, url('/'))) {
             return redirect()->route('dashboard');
         }
 

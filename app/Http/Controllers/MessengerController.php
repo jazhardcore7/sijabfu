@@ -16,9 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MessengerController extends Controller
 {
-    public function __construct(private ChatService $chat)
-    {
-    }
+    public function __construct(private ChatService $chat) {}
 
     public function index(Request $request): Response
     {
@@ -65,10 +63,10 @@ class MessengerController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'body' => ['required', 'string', 'max:' . ChatMessage::MAX_LENGTH],
+            'body' => ['required', 'string', 'max:'.ChatMessage::MAX_LENGTH],
         ], [
             'body.required' => 'Pesan tidak boleh kosong.',
-            'body.max' => 'Pesan maksimal ' . ChatMessage::MAX_LENGTH . ' karakter.',
+            'body.max' => 'Pesan maksimal '.ChatMessage::MAX_LENGTH.' karakter.',
         ]);
 
         $message = $this->chat->send($user, $thread, $validated['body']);

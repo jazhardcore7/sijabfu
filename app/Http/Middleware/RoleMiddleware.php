@@ -17,11 +17,11 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!Auth::check()) {
+        if (! Auth::check()) {
             return redirect()->route('login');
         }
 
-        if (!Auth::user()->hasRole(...$roles)) {
+        if (! Auth::user()->hasRole(...$roles)) {
             abort(403, 'Akses ditolak: halaman ini tidak tersedia untuk role Anda.');
         }
 

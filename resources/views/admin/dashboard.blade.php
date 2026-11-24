@@ -21,116 +21,7 @@
             --dark-bar: #102A43;
         }
 
-
-
-
-
         /* 1. TOP NAVBAR */
-        .top-navbar {
-            background: var(--c-surface);
-            padding: 14px 48px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--c-border-soft);
-        }
-
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-        }
-
-        .navbar-logo-img {
-            height: 44px;
-            width: auto;
-            object-fit: contain;
-        }
-
-        .navbar-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        .navbar-titles {
-            text-align: right;
-        }
-
-        .navbar-title {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--bps-dark);
-            line-height: 1.2;
-        }
-
-        .navbar-subtitle {
-            font-size: 13px;
-            color: var(--c-text-muted);
-            font-weight: 500;
-        }
-
-        .user-action-pill {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--c-surface-2);
-            border: 1px solid var(--c-border);
-            padding: 6px 14px;
-            border-radius: 30px;
-        }
-
-        .user-badge-role {
-            background: #EFF6FF;
-            color: #1D4ED8;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 12px;
-            border: 1px solid #BFDBFE;
-        }
-
-        .user-name-text {
-            font-size: 13px;
-            font-weight: 700;
-            color: var(--c-text);
-        }
-
-        .btn-portal-link {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--bps-mid);
-            text-decoration: none;
-            padding: 4px 10px;
-            border-radius: 8px;
-            background: #F0F9FF;
-            transition: all 0.2s;
-        }
-
-        .btn-portal-link:hover {
-            background: #E0F2FE;
-            color: var(--bps-dark);
-        }
-
-        .btn-logout {
-            background: none;
-            border: none;
-            color: #EF4444;
-            font-size: 12.5px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .btn-logout:hover {
-            background: #FEE2E2;
-        }
 
         /* 2. HERO WELCOME BANNER (ATTACHMENT 1) */
         .hero-banner {
@@ -464,21 +355,6 @@
 
         .btn-action-pill:active {
             transform: translateY(0);
-        }
-
-        .bottom-right-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--c-text-faint);
-            text-decoration: none;
-            font-size: 13.5px;
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .bottom-right-link:hover {
-            color: #FFFFFF;
         }
 
         /* USULAN TABLE STYLES */
@@ -925,23 +801,12 @@
             </div>
 
             <div class="action-buttons-group">
-                <!-- BUTTON 1: FORM USULAN (Opens in new tab) -->
-                <a href="{{ $aksesCepat['form_usulan'] }}" target="_blank" rel="noopener noreferrer" class="btn-action-pill">
-                    <span>FORM USULAN</span>
-                    <span style="font-size:12px; opacity:0.7;">↗</span>
-                </a>
-
-                <!-- BUTTON 2: RESPONSE (Opens in new tab) -->
+                <!-- RESPONSE (Opens in new tab) -->
                 <a href="{{ $aksesCepat['response'] }}" target="_blank" rel="noopener noreferrer" class="btn-action-pill">
                     <span>RESPONSE</span>
                     <span style="font-size:12px; opacity:0.7;">↗</span>
                 </a>
             </div>
         </div>
-
-        <a href="{{ route('home') }}" class="bottom-right-link">
-            <span>Beralih ke Tampilan Portal Pegawai</span>
-            <span>→</span>
-        </a>
     </footer>
 @endsection

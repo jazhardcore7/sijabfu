@@ -36,7 +36,7 @@ trait UsulanFixtures
         $files = [];
         foreach (array_keys(config('sijabfu.berkas_persyaratan')) as $key) {
             if ($only === null || in_array($key, $only, true)) {
-                $files[$key] = $this->pdf($key . '.pdf');
+                $files[$key] = $this->pdf($key.'.pdf');
             }
         }
 
@@ -64,13 +64,13 @@ trait UsulanFixtures
         ]);
 
         foreach (array_keys(config('sijabfu.berkas_persyaratan')) as $key) {
-            $path = 'usulan/' . $usulan->id . '/' . $key . '.pdf';
+            $path = 'usulan/'.$usulan->id.'/'.$key.'.pdf';
             Storage::disk('local')->put($path, '%PDF-1.4 test');
             UsulanBerkas::create([
                 'form_usulan_id' => $usulan->id,
                 'jenis_persyaratan' => $key,
                 'file_path' => $path,
-                'original_name' => $key . '.pdf',
+                'original_name' => $key.'.pdf',
                 'mime' => 'application/pdf',
                 'size' => 14,
             ]);

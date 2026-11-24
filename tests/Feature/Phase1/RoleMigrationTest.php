@@ -22,8 +22,8 @@ class RoleMigrationTest extends TestCase
     {
         DB::table('users')->insert([
             'nip' => $nip,
-            'name' => 'User ' . $nip,
-            'email' => $nip . '@bps.go.id',
+            'name' => 'User '.$nip,
+            'email' => $nip.'@bps.go.id',
             'password' => 'x',
             'role' => $role,
         ]);

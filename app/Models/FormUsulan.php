@@ -12,9 +12,13 @@ class FormUsulan extends Model
      * Status siklus hidup (PRD Revisi bagian 4), disimpan di kolom status_key.
      */
     public const STATUS_VERIFIKASI = 'verifikasi';
+
     public const STATUS_PERBAIKAN = 'perbaikan';
+
     public const STATUS_DISETUJUI = 'disetujui';
+
     public const STATUS_DITETAPKAN = 'ditetapkan';
+
     public const STATUS_SELESAI = 'selesai';
 
     public const STATUS_LABELS = [
@@ -26,6 +30,7 @@ class FormUsulan extends Model
     ];
 
     public const HASIL_MS = 'ms';
+
     public const HASIL_TMS = 'tms';
 
     protected $fillable = [
@@ -83,7 +88,7 @@ class FormUsulan extends Model
         }
 
         if ($keyword !== null && trim($keyword) !== '') {
-            $like = '%' . trim($keyword) . '%';
+            $like = '%'.trim($keyword).'%';
             $query->where(fn ($q) => $q->where('nip', 'like', $like)->orWhere('nama_lengkap', 'like', $like));
         }
 
@@ -145,98 +150,6 @@ class FormUsulan extends Model
         return array_values(array_diff($required, $uploaded));
     }
 
-    /**
-     * 5 tahapan alur (sesuai swimlane diagram)
-     */
-    public static function tahapan(): array
-    {
-        return [
-            [
-                'step'   => 1,
-                'label'  => 'Mengusulkan Peserta',
-                'desc'   => 'Satker/Pejabat Fungsional mengusulkan peserta beserta berkasnya (JF, jenjang, tujuan uji)',
-                'aktor'  => 'Satker / Pejabat Fungsional',
-                'icon'   => '📝',
-                'color'  => '#E76F00',
-            ],
-            [
-                'step'   => 2,
-                'label'  => 'Verifikasi Kelayakan',
-                'desc'   => 'Tim Pembinaan Jabfung melakukan verifikasi kelayakan dan kuota peserta',
-                'aktor'  => 'Tim Pembinaan Jabfung',
-                'icon'   => '🔍',
-                'color'  => '#6895C2',
-            ],
-            [
-                'step'   => 3,
-                'label'  => 'Penetapan Jadwal',
-                'desc'   => 'Unit Kompetensi menetapkan jadwal, metode, dan peserta uji kompetensi',
-                'aktor'  => 'Unit Kompetensi',
-                'icon'   => '📅',
-                'color'  => '#5A9A5A',
-            ],
-            [
-                'step'   => 4,
-                'label'  => 'Undangan & Pemberitahuan',
-                'desc'   => 'Sistem SIGMA mengirim undangan dan pemberitahuan kepada peserta',
-                'aktor'  => 'Sistem / SIGMA',
-                'icon'   => '📨',
-                'color'  => '#4A7C99',
-            ],
-            [
-                'step'   => 5,
-                'label'  => 'Konfirmasi & Unggah Dokumen',
-                'desc'   => 'Satker/Pejabat Fungsional mengkonfirmasi kehadiran dan mengunggah dokumen',
-                'aktor'  => 'Satker / Pejabat Fungsional',
-                'icon'   => '✅',
-                'color'  => '#E76F00',
-            ],
-        ];
-    }
-
-    /**
-     * Hitung persentase progres
-     */
-    public function progressPersen(): int
-    {
-        return intval(($this->status / 5) * 100);
-    }
-
-    /**
-     * Label status teks
-     */
-    public static function labelStatus(int $step, int $currentStatus): string
-    {
-        if ($currentStatus > $step) return 'Selesai';
-        if ($currentStatus === $step) return 'Sedang Diproses';
-        return 'Belum Mulai';
-    }
-
-    /**
-     * CSS badge class
-     */
-    public static function badgeStatus(int $step, int $currentStatus): string
-    {
-        if ($currentStatus > $step) return 'badge-done';
-        if ($currentStatus === $step) return 'badge-process';
-        return 'badge-pending';
-    }
-
-    /**
-     * Label status keseluruhan
-     */
-    public function statusLabel(): string
-    {
-        return match($this->status) {
-            1 => 'Diusulkan',
-            2 => 'Sedang Diverifikasi',
-            3 => 'Jadwal Ditetapkan',
-            4 => 'Undangan Terkirim',
-            5 => 'Selesai',
-            default => 'Tidak Diketahui',
-        };
-    }
-
     public static function listJabfung(): array
     {
         return [
@@ -286,4 +199,3 @@ class FormUsulan extends Model
         ];
     }
 }
-

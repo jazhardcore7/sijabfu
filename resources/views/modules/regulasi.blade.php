@@ -204,6 +204,32 @@
         .regulasi-table { font-size: 12px; }
         .regulasi-table th, .regulasi-table td { padding: 10px 12px; }
     }
+
+    .btn-group-reg { display: flex; gap: 6px; flex-wrap: wrap; }
+    .preview-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 7px 12px; border-radius: 8px;
+        font-size: 12px; font-weight: 600; text-decoration: none; white-space: nowrap;
+        border: 1.5px solid var(--c-border-strong); color: var(--c-text); background: var(--c-surface-2);
+    }
+    .btn-disabled {
+        display: inline-flex; align-items: center; gap: 6px;
+        padding: 7px 12px; border-radius: 8px;
+        font-size: 12px; font-weight: 600; white-space: nowrap;
+        background: var(--c-surface-3); color: var(--c-text-faint); cursor: not-allowed;
+    }
+    .file-missing { font-size: 11.5px; color: #b45309; font-weight: 600; margin-top: 4px; }
+    .search-form-btn {
+        padding: 0 18px; border-radius: 12px; border: none; cursor: pointer;
+        background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); color: #FFFFFF;
+        font-weight: 700; font-size: 13px;
+    }
+    .kelola-link {
+        display: inline-flex; align-items: center; gap: 6px; padding: 0 16px; border-radius: 12px;
+        border: 1.5px solid var(--c-border-strong); color: var(--c-text); background: var(--c-surface);
+        font-weight: 700; font-size: 13px; text-decoration: none;
+    }
+    .empty-group { padding: 18px; background: var(--c-surface); color: var(--c-text-muted); font-size: 13px; border-radius: 0 0 12px 12px; }
 </style>
 @endpush
 
@@ -211,7 +237,7 @@
 <!-- PAGE HEADER -->
 <div class="page-header animate-fade-in">
     <h1 class="page-header-title">📋 Regulasi SIGMA JF</h1>
-    <p class="page-header-desc">Kumpulan peraturan, regulasi, dan kebijakan terkait jabatan fungsional di lingkungan BPS RI</p>
+    <p class="page-header-desc">Daftar peraturan (Peraturan Kepala BPS, MenPAN-RB, Peraturan BKN), download dan preview peraturan</p>
     <div class="page-header-divider"></div>
 </div>
 
@@ -220,25 +246,29 @@
     <div class="disclaimer-box animate-fade-in animate-delay-1">
         <span style="font-size: 18px; flex-shrink:0;">⚠️</span>
         <div>
-            <strong>Catatan:</strong> Dokumen regulasi yang ditampilkan bersifat informatif. Untuk versi resmi dan terbaru, 
-            silakan unduh dari situs resmi BPS RI (<a href="https://www.bps.go.id" target="_blank" style="color: var(--bps-dark); font-weight: 600;">www.bps.go.id</a>) 
+            <strong>Catatan:</strong> Dokumen regulasi yang ditampilkan bersifat informatif. Untuk versi resmi dan terbaru,
+            silakan unduh dari situs resmi BPS RI (<a href="https://www.bps.go.id" target="_blank" rel="noopener noreferrer" style="color: var(--bps-dark); font-weight: 600;">www.bps.go.id</a>)
             atau JDIH BKN. Regulasi dapat berubah sewaktu-waktu mengikuti peraturan perundangan yang berlaku.
         </div>
     </div>
 
     <!-- SEARCH -->
-    <div class="regulasi-search animate-fade-in animate-delay-1">
+    <form action="{{ route('regulasi') }}" method="GET" class="regulasi-search animate-fade-in animate-delay-1">
         <div class="search-input-wrapper">
             <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="searchInput" placeholder="Cari regulasi, nomor peraturan..." oninput="filterRegulasi()">
+            <input type="text" name="q" class="search-input" id="searchInput" placeholder="Cari judul atau nomor peraturan..." value="{{ $keyword }}" oninput="filterRegulasi()">
         </div>
-    </div>
+        <button type="submit" class="search-form-btn">Cari</button>
+        @if(auth()->user()->isAdmin())
+        <a href="{{ route('admin.regulasi.index') }}" class="kelola-link" data-action="kelola-regulasi">⚙️ Kelola Regulasi</a>
+        @endif
+    </form>
 
     <!-- FILTER BUTTONS -->
     <div class="kategori-filter animate-fade-in animate-delay-2">
-        <button class="filter-btn active" onclick="filterByKat(this, 'all')">Semua</button>
+        <button type="button" class="filter-btn active" onclick="filterByKat(this, 'all')">Semua</button>
         @foreach($regulasi as $kat)
-        <button class="filter-btn" onclick="filterByKat(this, '{{ Str::slug($kat['kategori']) }}')">{{ $kat['kategori'] }}</button>
+        <button type="button" class="filter-btn" onclick="filterByKat(this, '{{ Str::slug($kat['kategori']) }}')">{{ $kat['kategori'] }}</button>
         @endforeach
     </div>
 
@@ -251,30 +281,43 @@
             <div class="group-title">{{ $kat['kategori'] }}</div>
             <div class="group-count">{{ count($kat['items']) }} peraturan</div>
         </div>
+        @if(count($kat['items']) === 0)
+        <div class="empty-group">Belum ada peraturan{{ $keyword ? ' yang sesuai pencarian' : '' }}.</div>
+        @else
         <table class="regulasi-table">
             <thead>
                 <tr>
                     <th style="width: 220px;">Nomor Peraturan</th>
                     <th>Tentang / Perihal</th>
                     <th style="width: 90px;">Tahun</th>
-                    <th style="width: 110px;">Unduh</th>
+                    <th style="width: 200px;">Preview / Unduh</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($kat['items'] as $reg)
-                <tr class="regulasi-row">
-                    <td><div class="reg-nomor">{{ $reg['nomor'] }}</div></td>
-                    <td><div class="reg-tentang">{{ $reg['tentang'] }}</div></td>
-                    <td><span class="tahun-badge">{{ $reg['tahun'] }}</span></td>
+                <tr class="regulasi-row" data-regulasi="{{ $reg->id }}">
+                    <td><div class="reg-nomor">{{ $reg->nomor }}</div></td>
+                    <td><div class="reg-tentang">{{ $reg->judul }}</div></td>
+                    <td><span class="tahun-badge">{{ $reg->tahun }}</span></td>
                     <td>
-                        <a href="{{ $reg['file'] }}" class="download-btn" download>
-                            ⬇️ Unduh
-                        </a>
+                        @if($reg->hasFile())
+                        <div class="btn-group-reg">
+                            <a href="{{ route('regulasi.preview', $reg) }}" target="_blank" rel="noopener" class="preview-btn" data-action="preview-regulasi">👁 Preview</a>
+                            <a href="{{ route('regulasi.download', $reg) }}" class="download-btn" data-action="download-regulasi">⬇️ Unduh</a>
+                        </div>
+                        @else
+                        <div class="btn-group-reg">
+                            <span class="btn-disabled" aria-disabled="true">👁 Preview</span>
+                            <span class="btn-disabled" aria-disabled="true">⬇️ Unduh</span>
+                        </div>
+                        <div class="file-missing" data-section="file-belum-tersedia">File belum tersedia</div>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>
     @endforeach
 </div>
@@ -292,18 +335,11 @@ function filterRegulasi() {
 }
 
 function filterByKat(btn, kat) {
-    // Update active button
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 
-    // Show/hide groups
-    const groups = document.querySelectorAll('.regulasi-group');
-    groups.forEach(g => {
-        if (kat === 'all' || g.dataset.kategori === kat) {
-            g.style.display = '';
-        } else {
-            g.style.display = 'none';
-        }
+    document.querySelectorAll('.regulasi-group').forEach(g => {
+        g.style.display = (kat === 'all' || g.dataset.kategori === kat) ? '' : 'none';
     });
 }
 </script>

@@ -28,12 +28,12 @@ class SidebarMenuTest extends TestCase
             'admin.dashboard' => 'Dashboard',
             'verifikasi.index' => 'Verifikasi Berkas Usulan Pegawai',
             'monitoring.index' => 'Monitoring Progress UKOM',
-            'regulasi' => 'Regulasi',
+            'admin.regulasi.index' => 'Regulasi',
         ],
         User::ROLE_SUPER_ADMIN => [
             'admin.dashboard' => 'Dashboard',
             'monitoring.index' => 'Monitoring Progress UKOM',
-            'regulasi' => 'Regulasi',
+            'admin.regulasi.index' => 'Regulasi',
         ],
     ];
 

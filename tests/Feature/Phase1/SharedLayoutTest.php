@@ -28,6 +28,7 @@ class SharedLayoutTest extends TestCase
             'tim jf monitoring'     => [User::ROLE_TIM_JF, '/monitoring', 'Tim Pembinaan JF'],
             'tim jf verifikasi'     => [User::ROLE_TIM_JF, '/verifikasi', 'Tim Pembinaan JF'],
             'tim jf regulasi'       => [User::ROLE_TIM_JF, '/regulasi', 'Tim Pembinaan JF'],
+            'tim jf kelola regulasi'=> [User::ROLE_TIM_JF, '/admin/regulasi', 'Tim Pembinaan JF'],
             'tim jf tim kerja'      => [User::ROLE_TIM_JF, '/tim-kerja', 'Tim Pembinaan JF'],
             'super admin dashboard' => [User::ROLE_SUPER_ADMIN, '/admin', 'Super Admin'],
             'super admin monitoring'=> [User::ROLE_SUPER_ADMIN, '/monitoring', 'Super Admin'],

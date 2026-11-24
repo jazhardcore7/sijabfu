@@ -28,6 +28,7 @@ class RoleAccessMatrixTest extends TestCase
             'progress lama'     => ['/progress-berkas', 302, 403, 403],
             'uji kompetensi'    => ['/uji-kompetensi', 302, 403, 403],
             'regulasi'          => ['/regulasi', 200, 200, 200],
+            'kelola regulasi'   => ['/admin/regulasi', 403, 200, 200],
             'tim kerja'         => ['/tim-kerja', 200, 200, 200],
             'alur layanan'      => ['/alur-layanan', 200, 200, 200],
             'beranda'           => ['/', 200, 302, 302],

@@ -1,12 +1,14 @@
 {{--
     Grafik batang horizontal tanpa dependensi (SVG/CSS dirender server).
-    Variabel: $chartId, $title, $data (label => angka), $color (opsional).
+    Variabel: $chartId, $title, $data (label => angka), $color (opsional),
+    $colors (opsional, label => warna; mis. warna tetap per status).
     Data juga ditulis sebagai JSON agar dapat diuji dan dipakai ulang.
 --}}
 @php
     $chartMax = max(1, ...array_values($data ?: [0]));
     $chartTotal = array_sum($data);
-    $chartColor = $color ?? 'var(--bps-mid)';
+    $chartColor = $color ?? 'var(--c-primary)';
+    $chartColors = $colors ?? [];
 @endphp
 <div class="dash-chart" data-chart="{{ $chartId }}">
     <div class="dash-chart-head">
@@ -18,7 +20,7 @@
         <div class="dash-bar-row">
             <div class="dash-bar-label" title="{{ $label }}">{{ $label }}</div>
             <div class="dash-bar-track">
-                <div class="dash-bar-fill" style="width: {{ round(($value / $chartMax) * 100, 1) }}%; background: {{ $chartColor }};"></div>
+                <div class="dash-bar-fill" style="width: {{ round(($value / $chartMax) * 100, 1) }}%; background: {{ $chartColors[$label] ?? $chartColor }};"></div>
             </div>
             <div class="dash-bar-value">{{ $value }}</div>
         </div>

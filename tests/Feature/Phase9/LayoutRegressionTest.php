@@ -53,10 +53,11 @@ class LayoutRegressionTest extends TestCase
             $this->assertStringContainsString($token.':', $dark, "{$token} (gelap)");
         }
 
+        // UI revamp: sambutan dashboard staf memakai kelas bersama (.hero-inner) di stylesheet
+        $this->assertStringContainsString('background: var(--c-hero-bg);', $theme, 'stylesheet');
+        $this->assertStringContainsString('background: var(--c-hero-bg);', File::get(resource_path('views/auth/login.blade.php')), 'auth/login');
         foreach (['auth/login.blade.php', 'admin/dashboard.blade.php'] as $view) {
-            $content = File::get(resource_path('views/'.$view));
-            $this->assertStringContainsString('background: var(--c-hero-bg);', $content, $view);
-            $this->assertStringNotContainsString('#E0F2FE 0%, #EFF6FF', $content, $view);
+            $this->assertStringNotContainsString('#E0F2FE 0%, #EFF6FF', File::get(resource_path('views/'.$view)), $view);
         }
         $this->assertStringContainsString('background: var(--c-card-muted-bg);', File::get(resource_path('views/auth/login.blade.php')));
     }

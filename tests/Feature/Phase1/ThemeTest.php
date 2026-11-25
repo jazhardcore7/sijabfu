@@ -52,7 +52,9 @@ class ThemeTest extends TestCase
         $this->assertStringContainsString("localStorage.getItem('sijabfu-theme')", $html);
         $this->assertStringContainsString("localStorage.setItem('sijabfu-theme'", $html);
         $this->assertStringContainsString('prefers-color-scheme: dark', $html);
-        $this->assertStringContainsString('[data-theme="dark"]', $html);
+        // UI revamp: token dan tema pindah ke stylesheet bersama public/css/sijabfu.css
+        $this->assertStringContainsString('href="'.asset('css/sijabfu.css').'"', $html);
+        $this->assertStringContainsString('[data-theme="dark"]', File::get(public_path('css/sijabfu.css')));
         $this->assertStringContainsString('onclick="toggleTheme()"', $html);
     }
 
@@ -61,7 +63,9 @@ class ThemeTest extends TestCase
         $html = $this->get('/login')->assertOk()->getContent();
 
         $this->assertStringContainsString("localStorage.getItem('sijabfu-theme')", $html);
-        $this->assertStringContainsString('[data-theme="dark"]', $html);
+        // UI revamp: token dan tema pindah ke stylesheet bersama public/css/sijabfu.css
+        $this->assertStringContainsString('href="'.asset('css/sijabfu.css').'"', $html);
+        $this->assertStringContainsString('[data-theme="dark"]', File::get(public_path('css/sijabfu.css')));
     }
 
     public function test_no_app_view_uses_hardcoded_neutral_background_or_text_color(): void

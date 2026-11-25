@@ -109,9 +109,24 @@
         }
 
         document.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && document.getElementById('sidebar').classList.contains('open')) {
+            if (e.key !== 'Escape') return;
+            // Dropdown navbar (notifikasi, profil): Esc menutup dan fokus kembali ke tombolnya
+            const openDropdown = document.querySelector('details.nav-dropdown[open]');
+            if (openDropdown) {
+                openDropdown.removeAttribute('open');
+                openDropdown.querySelector('summary').focus();
+                return;
+            }
+            if (document.getElementById('sidebar').classList.contains('open')) {
                 toggleSidebar();
             }
+        });
+
+        // Klik di luar dropdown navbar menutupnya; membuka satu menutup yang lain
+        document.addEventListener('click', function (e) {
+            document.querySelectorAll('details.nav-dropdown[open]').forEach(function (d) {
+                if (!d.contains(e.target)) d.removeAttribute('open');
+            });
         });
 
         function updateDatetime() {

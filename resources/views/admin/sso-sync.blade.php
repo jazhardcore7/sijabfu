@@ -3,65 +3,77 @@
 @section('title', 'Sinkronisasi Data SSO')
 @section('breadcrumb', 'Sinkronisasi Data SSO')
 
-@include('verifikasi._styles')
-
 @section('content')
-<div class="page-header animate-fade-in vb-header">
-    <h1 class="page-header-title">🔄 Sinkronisasi Data SSO</h1>
+<div class="page-header">
+    <h1 class="page-header-title"><x-icon name="refresh" /> Sinkronisasi Data SSO</h1>
     <p class="page-header-desc">Perbarui data user (nama, email, jabatan, unit kerja) dari direktori SSO berdasarkan NIP. Role user tidak diubah.</p>
-    <div class="page-header-divider"></div>
 </div>
 
+<div class="stack">
 @if(session('success'))
-<div class="vb-alert success" data-section="sync-success"><span>✅</span><span>{{ session('success') }}</span></div>
+<x-alert type="success" data-section="sync-success">{{ session('success') }}</x-alert>
 @endif
 @if(session('error'))
-<div class="vb-alert error" data-section="sync-error"><span>⚠️</span><span>{{ session('error') }}</span></div>
+<x-alert type="error" data-section="sync-error">{{ session('error') }}</x-alert>
 @endif
 
-<div class="vb-card">
-    <div class="vb-card-header">
-        <span>⚙️ Jalankan Sinkronisasi</span>
-        <span class="vb-muted">Driver: {{ $driver }}</span>
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title"><x-icon name="refresh" /> Jalankan Sinkronisasi</h2>
+        <span class="badge-muted">Driver: {{ $driver }}</span>
     </div>
-    <div class="vb-card-body">
-        <form action="{{ route('admin.sso-sync.run') }}" method="POST" onsubmit="return confirm('Jalankan sinkronisasi data SSO sekarang?');">
+    <div class="card-body">
+        <form action="{{ route('admin.sso-sync.run') }}" method="POST" id="form-sso-sync">
             @csrf
-            <button type="submit" class="vb-btn" data-action="sinkronkan">🔄 Sinkronkan</button>
+            <button type="button" class="btn btn--primary" data-action="sinkronkan" data-modal-open="modal-sso-sync"><x-icon name="refresh" /> Sinkronkan</button>
         </form>
+        <x-modal id="modal-sso-sync" title="Sinkronisasi Data SSO">
+            Jalankan sinkronisasi data SSO sekarang?
+            <x-slot:footer>
+                <button type="button" class="btn btn--secondary" data-modal-close>Batal</button>
+                <button type="submit" form="form-sso-sync" class="btn btn--primary">Sinkronkan</button>
+            </x-slot:footer>
+        </x-modal>
     </div>
 </div>
 
-<div class="vb-card">
-    <div class="vb-card-header"><span>🕒 Riwayat Sinkronisasi</span></div>
-    <table class="vb-table">
-        <thead>
-            <tr>
-                <th>Mulai</th>
-                <th>Selesai</th>
-                <th>Baru</th>
-                <th>Diperbarui</th>
-                <th>Gagal</th>
-                <th>Oleh</th>
-                <th>Error</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($logs as $log)
-            <tr data-log="{{ $log->id }}">
-                <td>{{ $log->started_at?->format('d M Y H:i') ?? '-' }}</td>
-                <td>{{ $log->finished_at?->format('d M Y H:i') ?? 'Belum selesai' }}</td>
-                <td>{{ $log->created_count }}</td>
-                <td>{{ $log->updated_count }}</td>
-                <td>{{ $log->failed_count }}</td>
-                <td class="vb-muted">{{ $log->triggeredBy?->name ?? '-' }}</td>
-                <td class="vb-muted" style="max-width:360px; word-break:break-word;">{{ $log->error ?? '-' }}</td>
-            </tr>
-            @empty
-            <tr><td colspan="7" style="text-align:center; padding:30px; color:var(--c-text-muted);">Belum pernah sinkronisasi.</td></tr>
-            @endforelse
-        </tbody>
-    </table>
-    <div class="vb-pagination">{{ $logs->links() }}</div>
+<div class="card card--flush">
+    <div class="card-header"><h2 class="card-title"><x-icon name="clock" /> Riwayat Sinkronisasi</h2></div>
+    @if($logs->isEmpty())
+    <x-empty-state icon="clock" title="Belum pernah sinkronisasi." />
+    @else
+    <div class="table-wrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Mulai</th>
+                    <th>Selesai</th>
+                    <th class="num">Baru</th>
+                    <th class="num">Diperbarui</th>
+                    <th class="num">Gagal</th>
+                    <th>Oleh</th>
+                    <th>Error</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($logs as $log)
+                <tr data-log="{{ $log->id }}">
+                    <td class="nowrap">{{ $log->started_at?->format('d M Y H:i') ?? '-' }}</td>
+                    <td class="nowrap">{{ $log->finished_at?->format('d M Y H:i') ?? 'Belum selesai' }}</td>
+                    <td class="num">{{ $log->created_count }}</td>
+                    <td class="num">{{ $log->updated_count }}</td>
+                    <td class="num">@if($log->failed_count > 0)<span class="text-danger"><x-icon name="alert-circle" /> {{ $log->failed_count }}</span>@else{{ $log->failed_count }}@endif</td>
+                    <td class="cell-sub">{{ $log->triggeredBy?->name ?? '-' }}</td>
+                    <td class="cell-sub cell-wrap">{{ $log->error ?? '-' }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @endif
+    @if($logs->hasPages())
+    <div class="card-footer pagination-wrap">{{ $logs->links() }}</div>
+    @endif
+</div>
 </div>
 @endsection

@@ -38,7 +38,20 @@
     </div>
 </div>
 
-<div class="dash-grid">
+@php
+    // FR-SATKER-15: grafik usulan per status, hanya usulan yang diajukan Admin ini
+    $chartData = [];
+    $chartColors = [];
+    foreach ($statusLabels as $key => $label) {
+        $chartData[$label] = $ringkasan['perStatus'][$key];
+        $chartColors[$label] = "var(--s-{$key}-bar)";
+    }
+@endphp
+<div class="dash-grid" data-section="dashboard-grafik-satker">
+    @include('dashboard._bar-chart', ['chartId' => 'satker-per-status', 'title' => 'Usulan Anda per Status', 'data' => $chartData, 'colors' => $chartColors])
+</div>
+
+<div class="dash-grid dash-grid--spaced">
     <div class="card card--flush" data-section="usulan-dalam-proses">
         <div class="card-header"><h2 class="card-title"><x-icon name="activity" /> Usulan dalam Proses</h2></div>
         @if($ringkasan['dalamProses']->isEmpty())
@@ -52,7 +65,14 @@
                     <tr class="usulan-item-card" data-usulan="{{ $u->id }}">
                         <td><div class="cell-strong">{{ $u->nama_lengkap }}</div><div class="cell-sub">NIP {{ $u->nip }}</div></td>
                         <td class="cell-sub">{{ $u->jenis_usulan }}</td>
-                        <td><x-status-badge :status="$u->status_key" /></td>
+                        <td>
+                            <x-status-badge :status="$u->status_key" />
+                            @if($u->status_key === \App\Models\FormUsulan::STATUS_PERBAIKAN || $u->isDraft())
+                            <div><a href="{{ route('satker.pengajuan.edit', $u) }}" class="cell-sub" data-action="tindak-lanjut">{{ $u->isDraft() ? 'Lengkapi draf' : 'Perbaiki' }}</a></div>
+                            @else
+                            <div><a href="{{ route('satker.pelacakan.show', $u) }}" class="cell-sub">Lihat status</a></div>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>

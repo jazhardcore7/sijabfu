@@ -6,9 +6,11 @@ use App\Models\FormUsulan;
 use App\Models\User;
 use App\Models\UsulanBerkas;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Modul Pelacakan Status Pegawai (PRD Revisi 5.4).
+ * Pegawai Provinsi/Kabupaten/Kota: read-only, usulan diajukan Admin Satuan Kerja (FR-SATKER-13).
  */
 class PelacakanController extends Controller
 {
@@ -36,6 +38,17 @@ class PelacakanController extends Controller
             return view('modules.progress-berkas', ['usulan' => null, 'hasDraft' => $hasDraft]);
         }
 
+        // Tombol perbaikan hanya untuk pengaju yang boleh mengubah usulannya (FR-SATKER-11, FR-SATKER-13)
+        $perbaikanUrl = $usulan->isSelfSubmitted() && Gate::allows('create', FormUsulan::class) ? route('pengajuan') : null;
+
+        return view('modules.progress-berkas', ['hasDraft' => $hasDraft] + self::detailData($usulan, $perbaikanUrl));
+    }
+
+    /**
+     * Data tracker satu usulan, dipakai Pelacakan Pegawai dan Pelacakan Admin Satuan Kerja (FR-SATKER-14).
+     */
+    public static function detailData(FormUsulan $usulan, ?string $perbaikanUrl): array
+    {
         $currentIndex = 0;
         foreach (self::TAHAPAN as $i => $tahap) {
             if (in_array($usulan->status_key, $tahap['statuses'], true)) {
@@ -45,13 +58,12 @@ class PelacakanController extends Controller
 
         $isSelesai = $usulan->status_key === FormUsulan::STATUS_SELESAI;
 
-        return view('modules.progress-berkas', [
-            'usulan' => $usulan,
-            'hasDraft' => $hasDraft,
+        return [
+            'usulan' => $usulan->loadMissing('submitter'),
             'tahapan' => self::TAHAPAN,
             'currentIndex' => $currentIndex,
             'isSelesai' => $isSelesai,
-            'persen' => $isSelesai ? 100 : (int) round(($currentIndex / count(self::TAHAPAN)) * 100),
+            'persen' => self::persen($usulan),
             'logs' => $usulan->statusLogs()->with('actor')->get(),
             'berkas' => $usulan->berkas()->get(),
             'flaggedBerkas' => $usulan->berkas()->where('pemeriksaan', UsulanBerkas::PEMERIKSAAN_PERLU_PERBAIKAN)->get(),
@@ -59,6 +71,23 @@ class PelacakanController extends Controller
             'showSurat' => in_array($usulan->status_key, [FormUsulan::STATUS_DITETAPKAN, FormUsulan::STATUS_SELESAI], true),
             'showSertifikat' => $isSelesai,
             'levelLabels' => User::LEVEL_LABELS,
-        ]);
+            'perbaikanUrl' => $perbaikanUrl,
+        ];
+    }
+
+    public static function persen(FormUsulan $usulan): int
+    {
+        if ($usulan->status_key === FormUsulan::STATUS_SELESAI) {
+            return 100;
+        }
+
+        $currentIndex = 0;
+        foreach (self::TAHAPAN as $i => $tahap) {
+            if (in_array($usulan->status_key, $tahap['statuses'], true)) {
+                $currentIndex = $i;
+            }
+        }
+
+        return (int) round(($currentIndex / count(self::TAHAPAN)) * 100);
     }
 }

@@ -8,7 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Chat dua arah Pegawai <-> Tim Pembinaan JF (PRD Revisi 5.8).
+ * Chat dua arah Pegawai / Admin Satuan Kerja Provinsi <-> Tim Pembinaan JF (PRD Revisi 5.8, FR-SATKER-17).
+ * Pemilik thread (kolom pegawai_id) adalah Pegawai atau Admin Satuan Kerja Provinsi.
  *
  * Status baca:
  * - Pesan dari staf dianggap terbaca saat Pegawai membuka/polling thread-nya.
@@ -50,7 +51,7 @@ class ChatService
     {
         $query = ChatMessage::where('thread_id', $thread->id)->whereNull('read_at');
 
-        if ($viewer->isPegawai()) {
+        if ((int) $thread->pegawai_id === (int) $viewer->id) {
             $query->where('sender_id', '!=', $viewer->id);
         } else {
             $query->where('sender_id', $thread->pegawai_id);
@@ -64,7 +65,7 @@ class ChatService
      */
     public function unreadCount(User $user): int
     {
-        if ($user->isPegawai()) {
+        if (! $user->isAdmin()) {
             $thread = $this->threadFor($user);
 
             return $thread

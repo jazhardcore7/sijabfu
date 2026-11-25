@@ -115,6 +115,44 @@ class FormUsulan extends Model
     }
 
     /**
+     * FR-SATKER-18: filter satuan kerja pegawai yang diusulkan (satker saat ini, keputusan 15).
+     */
+    public function scopeFilterSatker($query, ?string $satker, ?string $provinsi)
+    {
+        $satker = (string) $satker;
+        $provinsi = (string) $provinsi;
+        $validSatker = array_key_exists($satker, User::SATKER_LABELS);
+        $validProvinsi = array_key_exists($provinsi, config('sijabfu.provinsi', []));
+
+        if (! $validSatker && ! $validProvinsi) {
+            return $query;
+        }
+
+        return $query->whereHas('user', function ($q) use ($satker, $provinsi, $validSatker, $validProvinsi) {
+            if ($validSatker) {
+                $q->where('satker_tipe', $satker);
+            }
+            if ($validProvinsi) {
+                $q->where('provinsi_kode', $provinsi);
+            }
+        });
+    }
+
+    /**
+     * Teks kolom "Diajukan oleh" (FR-SATKER-18): "Mandiri" atau nama dan level pengaju.
+     */
+    public function diajukanOlehLabel(): string
+    {
+        if ($this->isSelfSubmitted()) {
+            return 'Mandiri';
+        }
+
+        $submitter = $this->submitter;
+
+        return $submitter ? $submitter->name.' ('.$submitter->levelLabel().')' : 'Tidak diketahui';
+    }
+
+    /**
      * Diajukan sendiri oleh pegawai yang diusulkan (atau data lama tanpa submitted_by).
      */
     public function isSelfSubmitted(): bool

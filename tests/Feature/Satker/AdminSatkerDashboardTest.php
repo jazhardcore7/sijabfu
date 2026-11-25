@@ -52,6 +52,24 @@ class AdminSatkerDashboardTest extends TestCase
         $this->assertSame(1, $this->statCount($html, 'draf'));
     }
 
+    // FR-SATKER-15: grafik per status sama dengan jumlah di database untuk submitted_by = Admin ini
+    public function test_dashboard_chart_counts_own_usulan_per_status(): void
+    {
+        Storage::fake('local');
+        $admin = User::factory()->adminSatker('32')->create();
+        foreach ([FormUsulan::STATUS_VERIFIKASI, FormUsulan::STATUS_VERIFIKASI, FormUsulan::STATUS_SELESAI] as $status) {
+            $this->usulanAt(User::factory()->pegawai()->provinsi('32')->create(), $status, ['submitted_by' => $admin->id]);
+        }
+        $this->usulanAt(User::factory()->pegawai()->provinsi('32')->create(), FormUsulan::STATUS_PERBAIKAN, ['submitted_by' => User::factory()->adminSatker('32')->create()->id]);
+
+        $html = $this->actingAs($admin)->get('/dashboard')->assertOk()->assertSee('data-chart="satker-per-status"', false)->getContent();
+        $this->assertSame(1, preg_match('/data-chart-json="satker-per-status">(.*?)<\/script>/s', $html, $m));
+        $this->assertSame(
+            ['Verifikasi' => 2, 'Perbaikan' => 0, 'Disetujui (MS)' => 0, 'Ditetapkan' => 0, 'Selesai' => 1],
+            json_decode(html_entity_decode($m[1]), true)
+        );
+    }
+
     public function test_admin_without_provinsi_sees_warning(): void
     {
         $admin = User::factory()->adminSatker('32')->create(['provinsi_kode' => null]);

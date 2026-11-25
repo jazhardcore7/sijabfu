@@ -15,6 +15,7 @@ use App\Http\Controllers\PelacakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\SatkerPelacakanController;
 use App\Http\Controllers\SatkerPengajuanController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\TimKerjaController;
@@ -83,10 +84,6 @@ Route::middleware(['auth', 'role:pegawai'])->group(function () {
         Route::post('/pengajuan/sinkron', [PengajuanController::class, 'sinkron'])->name('pengajuan.sinkron'); // FR-PU-1
     });
 
-    // Chat Box (FR-CHAT-1); JSON untuk polling
-    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
-    Route::post('/chat', [ChatController::class, 'store'])->middleware('throttle:chat')->name('chat.store');
-
     // Pelacakan Status
     Route::get('/pelacakan-status', [PelacakanController::class, 'index'])->name('pelacakan-status');
 
@@ -109,6 +106,16 @@ Route::middleware(['auth', 'role:admin_satker'])->prefix('satker')->name('satker
     Route::post('/pengajuan/{usulan}', [SatkerPengajuanController::class, 'update'])->whereNumber('usulan')->middleware('throttle:uploads')->name('pengajuan.update');
     Route::post('/pengajuan/{usulan}/kirim-ulang', [SatkerPengajuanController::class, 'kirimUlang'])->whereNumber('usulan')->name('pengajuan.kirim-ulang');
     Route::post('/pengajuan/pegawai/{pegawai}/sinkron', [SatkerPengajuanController::class, 'sinkron'])->whereNumber('pegawai')->name('pengajuan.sinkron');
+
+    // Pelacakan Status usulan yang diajukan Admin ini (FR-SATKER-14)
+    Route::get('/pelacakan', [SatkerPelacakanController::class, 'index'])->name('pelacakan.index');
+    Route::get('/pelacakan/{usulan}', [SatkerPelacakanController::class, 'show'])->whereNumber('usulan')->name('pelacakan.show');
+});
+
+// Chat Box: Pegawai dan Admin Satuan Kerja Provinsi, masing-masing satu thread (FR-CHAT-1, FR-SATKER-17); JSON untuk polling
+Route::middleware(['auth', 'role:pegawai,admin_satker'])->group(function () {
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [ChatController::class, 'store'])->middleware('throttle:chat')->name('chat.store');
 });
 
 // 4. Halaman untuk semua role yang sudah login

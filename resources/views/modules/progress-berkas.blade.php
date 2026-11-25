@@ -58,7 +58,9 @@
         @endforeach
     </ul>
     @endif
+    @if($usulan->isSelfSubmitted() && \Illuminate\Support\Facades\Gate::allows('create', \App\Models\FormUsulan::class))
     <a href="{{ route('pengajuan') }}" class="btn btn--primary btn--sm alert-action"><x-icon name="pencil" /> Perbaiki dan Kirim Ulang</a>
+    @endif
 </x-alert>
 @elseif($usulan->catatan)
 <x-alert type="info" title="Catatan dari Tim Pembinaan JF" data-section="catatan-terbaru">
@@ -202,8 +204,12 @@
     </x-empty-state>
     @else
     <x-empty-state icon="inbox" title="Belum Ada Usulan">
+        @can('create', \App\Models\FormUsulan::class)
         Anda belum mengajukan usulan jabatan fungsional. Silakan lakukan Pengajuan Usulan terlebih dahulu.
         <x-slot:action><a href="{{ route('pengajuan') }}" class="btn btn--primary"><x-icon name="file-plus" /> Pengajuan Usulan</a></x-slot:action>
+        @else
+        Belum ada usulan yang diajukan Admin Satuan Kerja untuk Anda.
+        @endcan
     </x-empty-state>
     @endif
 </div>

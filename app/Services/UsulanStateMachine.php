@@ -35,11 +35,11 @@ class UsulanStateMachine
     ];
 
     /**
-     * 1. Usulan baru -> verifikasi (oleh Pegawai pemilik).
+     * 1. Usulan baru -> verifikasi (oleh pengaju: Pegawai sendiri atau Admin Satuan Kerja Provinsi).
      */
     public function submit(FormUsulan $usulan, User $actor): FormUsulan
     {
-        $this->assertOwner($usulan, $actor);
+        $this->assertSubmitter($usulan, $actor);
 
         return $this->transition($usulan, $actor, null, FormUsulan::STATUS_VERIFIKASI, null, [
             'submitted_at' => now(),
@@ -79,11 +79,11 @@ class UsulanStateMachine
     }
 
     /**
-     * 4. Perbaikan -> verifikasi lewat "Kirim ulang" oleh Pegawai pemilik.
+     * 4. Perbaikan -> verifikasi lewat "Kirim ulang" oleh pengaju (FR-SATKER-11).
      */
     public function resubmit(FormUsulan $usulan, User $actor): FormUsulan
     {
-        $this->assertOwner($usulan, $actor);
+        $this->assertSubmitter($usulan, $actor);
 
         return $this->transition($usulan, $actor, FormUsulan::STATUS_PERBAIKAN, FormUsulan::STATUS_VERIFIKASI, null, [
             'submitted_at' => now(),
@@ -184,10 +184,17 @@ class UsulanStateMachine
         }
     }
 
-    private function assertOwner(FormUsulan $usulan, User $actor): void
+    /**
+     * Pengaju usulan (submitted_by; data lama: user_id) yang berupa Pegawai pemilik usulan
+     * atau Admin Satuan Kerja Provinsi (FR-SATKER-11, keputusan 5).
+     */
+    private function assertSubmitter(FormUsulan $usulan, User $actor): void
     {
-        if (! $actor->isPegawai() || (int) $usulan->user_id !== (int) $actor->id) {
-            throw new AuthorizationException('Hanya Pegawai pemilik usulan yang dapat melakukan tindakan ini.');
+        $submitter = (int) ($usulan->submitted_by ?? $usulan->user_id);
+        $isOwnerPegawai = $actor->isPegawai() && (int) $usulan->user_id === (int) $actor->id;
+
+        if ($submitter !== (int) $actor->id || ! ($isOwnerPegawai || $actor->isAdminSatker())) {
+            throw new AuthorizationException('Hanya pengaju usulan yang dapat melakukan tindakan ini.');
         }
     }
 

@@ -15,6 +15,7 @@ use App\Http\Controllers\PelacakanController;
 use App\Http\Controllers\PengajuanController;
 use App\Http\Controllers\PortalController;
 use App\Http\Controllers\RegulasiController;
+use App\Http\Controllers\SatkerPengajuanController;
 use App\Http\Controllers\SsoController;
 use App\Http\Controllers\TimKerjaController;
 use App\Http\Controllers\VerifikasiController;
@@ -74,11 +75,13 @@ Route::middleware(['auth', 'role:tim_jf,super_admin'])->group(function () {
 
 // 3. Menu khusus Pegawai
 Route::middleware(['auth', 'role:pegawai'])->group(function () {
-    // Pengajuan Usulan
-    Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
-    Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store')->middleware('throttle:uploads');
-    Route::post('/pengajuan/kirim-ulang', [PengajuanController::class, 'kirimUlang'])->name('pengajuan.kirim-ulang');
-    Route::post('/pengajuan/sinkron', [PengajuanController::class, 'sinkron'])->name('pengajuan.sinkron'); // FR-PU-1
+    // Pengajuan Usulan: hanya Pegawai Pusat (atau usulan aktif yang diajukan sendiri) - FR-SATKER-6, FR-SATKER-7
+    Route::middleware('can:create,App\Models\FormUsulan')->group(function () {
+        Route::get('/pengajuan', [PengajuanController::class, 'index'])->name('pengajuan');
+        Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store')->middleware('throttle:uploads');
+        Route::post('/pengajuan/kirim-ulang', [PengajuanController::class, 'kirimUlang'])->name('pengajuan.kirim-ulang');
+        Route::post('/pengajuan/sinkron', [PengajuanController::class, 'sinkron'])->name('pengajuan.sinkron'); // FR-PU-1
+    });
 
     // Chat Box (FR-CHAT-1); JSON untuk polling
     Route::get('/chat', [ChatController::class, 'index'])->name('chat.index');
@@ -89,9 +92,23 @@ Route::middleware(['auth', 'role:pegawai'])->group(function () {
 
     // Route lama tetap berfungsi (dialihkan ke route baru)
     Route::redirect('/form-usulan', '/pengajuan')->name('form-usulan');
-    Route::post('/form-usulan', [PengajuanController::class, 'store'])->name('form-usulan.store')->middleware('throttle:uploads');
+    // Didaftarkan setelah redirect (Route::redirect berlaku untuk semua method) agar POST tetap ke store
+    Route::post('/form-usulan', [PengajuanController::class, 'store'])->name('form-usulan.store')
+        ->middleware(['can:create,App\Models\FormUsulan', 'throttle:uploads']);
     Route::redirect('/progress-berkas', '/pelacakan-status')->name('progress-berkas');
     Route::redirect('/uji-kompetensi', '/pelacakan-status');
+});
+
+// 3b. Admin Satuan Kerja Provinsi: Pengajuan Usulan untuk pegawai dalam cakupannya (FR-SATKER-8 s.d. FR-SATKER-12)
+Route::middleware(['auth', 'role:admin_satker'])->prefix('satker')->name('satker.')->group(function () {
+    Route::get('/pengajuan', [SatkerPengajuanController::class, 'index'])->name('pengajuan.index');
+    Route::get('/pengajuan/pilih-pegawai', [SatkerPengajuanController::class, 'pilihPegawai'])->name('pengajuan.pilih-pegawai');
+    Route::get('/pengajuan/baru/{pegawai}', [SatkerPengajuanController::class, 'create'])->whereNumber('pegawai')->name('pengajuan.create');
+    Route::post('/pengajuan', [SatkerPengajuanController::class, 'store'])->middleware('throttle:uploads')->name('pengajuan.store');
+    Route::get('/pengajuan/{usulan}', [SatkerPengajuanController::class, 'edit'])->whereNumber('usulan')->name('pengajuan.edit');
+    Route::post('/pengajuan/{usulan}', [SatkerPengajuanController::class, 'update'])->whereNumber('usulan')->middleware('throttle:uploads')->name('pengajuan.update');
+    Route::post('/pengajuan/{usulan}/kirim-ulang', [SatkerPengajuanController::class, 'kirimUlang'])->whereNumber('usulan')->name('pengajuan.kirim-ulang');
+    Route::post('/pengajuan/pegawai/{pegawai}/sinkron', [SatkerPengajuanController::class, 'sinkron'])->whereNumber('pegawai')->name('pengajuan.sinkron');
 });
 
 // 4. Halaman untuk semua role yang sudah login

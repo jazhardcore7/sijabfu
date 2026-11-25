@@ -95,8 +95,8 @@ class AkunUjiCommand extends Command
         $lines[] = '## Yang dapat diuji per role';
         $lines[] = '';
         $lines[] = '- **Pegawai (Pusat):** Pengajuan Usulan, Pelacakan Status, Regulasi, Tim Kerja, Chat Box.';
-        $lines[] = '- **Pegawai (Provinsi / Kabupaten/Kota):** saat ini sama seperti Pegawai Pusat. Pemblokiran Pengajuan Usulan menyusul di tahap S2, Pelacakan read-only di S3.';
-        $lines[] = '- **Admin Satuan Kerja Provinsi:** Dashboard (hanya usulan yang diajukannya), Regulasi, Tim Kerja. Pengajuan untuk pegawai menyusul di S2; Pelacakan dan Chat Box di S3. Cakupan: pegawai Provinsi dan Kabupaten/Kota di provinsi yang sama.';
+        $lines[] = '- **Pegawai (Provinsi / Kabupaten/Kota):** tidak dapat mengajukan sendiri (menu Pengajuan Usulan tidak ada, route 403). Pelacakan Status, Regulasi, Tim Kerja, Chat Box. Pelacakan read-only lengkap menyusul di S3.';
+        $lines[] = '- **Admin Satuan Kerja Provinsi:** Dashboard (hanya usulan yang diajukannya), Pengajuan Usulan untuk pegawai dalam cakupan (pilih pegawai, beberapa usulan sekaligus, satu usulan aktif per pegawai, perbaikan dan kirim ulang), Regulasi, Tim Kerja. Pelacakan dan Chat Box menyusul di S3. Cakupan: pegawai Provinsi dan Kabupaten/Kota di provinsi yang sama (Contoh Pegawai Fiktif Satu dan Dua; Contoh Pegawai Provinsi Lain di luar cakupan).';
         $lines[] = '- **Tim Pembinaan JF:** Verifikasi Berkas Usulan Pegawai, Monitoring Progress UKOM, Regulasi (kelola), Chat Box (Messenger).';
         $lines[] = '- **Super Admin:** Sinkronisasi Data SSO, Monitoring Progress UKOM, Regulasi (kelola), Daftar User (role dan satuan kerja).';
         $lines[] = '';

@@ -56,17 +56,20 @@ class SsoSimpegSatkerTest extends TestCase
 
     public function test_simpeg_sync_fills_satker_of_user(): void
     {
-        $pegawai = User::factory()->pegawai()->tanpaSatker()->create(['nip' => '200001012024011001']);
+        // Tercatat Pusat (backfill), SIMPEG menyatakan Provinsi 3200
+        $pegawai = User::factory()->pegawai()->create(['nip' => '200001012024011001']);
 
         $this->actingAs($pegawai)->post('/pengajuan/sinkron')->assertSessionHas('success');
 
         $pegawai->refresh();
         $this->assertSame(['provinsi', '3200', '32', 'pegawai'], [$pegawai->satker_tipe, $pegawai->satker_kode, $pegawai->provinsi_kode, $pegawai->role]);
+        // Setelah satker diperbarui, Pengajuan mandiri tertutup (FR-SATKER-6)
+        $this->actingAs($pegawai)->get('/pengajuan')->assertForbidden();
     }
 
     public function test_simpeg_without_satker_data_keeps_stored_values(): void
     {
-        $pegawai = User::factory()->pegawai()->kabkota('32', '73')->create(['nip' => '555']);
+        $pegawai = User::factory()->pegawai()->pusat()->create(['nip' => '555']);
         $this->app->instance(SimpegDirectory::class, new class implements SimpegDirectory
         {
             public function findByNip(string $nip): ?SsoIdentity
@@ -78,6 +81,6 @@ class SsoSimpegSatkerTest extends TestCase
         $this->actingAs($pegawai)->post('/pengajuan/sinkron')->assertSessionHas('success');
 
         $pegawai->refresh();
-        $this->assertSame(['Nama Simpeg', 'kabkota', '3273', '32'], [$pegawai->name, $pegawai->satker_tipe, $pegawai->satker_kode, $pegawai->provinsi_kode]);
+        $this->assertSame(['Nama Simpeg', 'pusat', '0000', null], [$pegawai->name, $pegawai->satker_tipe, $pegawai->satker_kode, $pegawai->provinsi_kode]);
     }
 }

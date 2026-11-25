@@ -27,7 +27,10 @@ class PelacakanController extends Controller
         $user = Auth::user();
 
         $usulan = FormUsulan::where('user_id', $user->id)->submitted()->orderByDesc('id')->first();
-        $hasDraft = FormUsulan::where('user_id', $user->id)->whereNull('status_key')->exists();
+        // Hanya draf yang disiapkan pegawai sendiri; draf Admin Satuan Kerja tidak ditampilkan (keputusan 18)
+        $hasDraft = FormUsulan::where('user_id', $user->id)->whereNull('status_key')
+            ->where(fn ($q) => $q->whereNull('submitted_by')->orWhere('submitted_by', $user->id))
+            ->exists();
 
         if (! $usulan) {
             return view('modules.progress-berkas', ['usulan' => null, 'hasDraft' => $hasDraft]);

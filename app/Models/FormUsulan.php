@@ -103,6 +103,25 @@ class FormUsulan extends Model
         return $query;
     }
 
+    /**
+     * FR-PU-6 / FR-SATKER-9: usulan aktif seorang pegawai = usulan terakhir miliknya
+     * (user_id) yang belum selesai, termasuk draf. Siapa pun pengajunya.
+     */
+    public static function activeFor(User $pegawai): ?self
+    {
+        $latest = self::where('user_id', $pegawai->id)->orderByDesc('id')->first();
+
+        return $latest && $latest->status_key !== self::STATUS_SELESAI ? $latest : null;
+    }
+
+    /**
+     * Diajukan sendiri oleh pegawai yang diusulkan (atau data lama tanpa submitted_by).
+     */
+    public function isSelfSubmitted(): bool
+    {
+        return $this->submitted_by === null || (int) $this->submitted_by === (int) $this->user_id;
+    }
+
     public function statusKeyLabel(): string
     {
         return self::STATUS_LABELS[$this->status_key] ?? 'Draf';

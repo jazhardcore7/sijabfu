@@ -19,13 +19,14 @@
             ['label' => 'Regulasi', 'route' => 'admin.regulasi.index', 'icon' => 'book'],
             ['label' => 'Chat Box (Messenger)', 'route' => 'messenger.index', 'icon' => 'message'],
         ],
-        // FR-SATKER-1: menu Pengajuan, Pelacakan, dan Chat Box ditambahkan bersama route-nya (S2, S3)
+        // FR-SATKER-1: menu Admin Satuan Kerja Provinsi (nama menu sama dengan Pegawai, isi sesuai cakupannya)
         'admin_satker' => [
             ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'dashboard'],
             ['label' => 'Pengajuan Usulan', 'route' => 'satker.pengajuan.index', 'icon' => 'file-plus'],
             ['label' => 'Pelacakan Status', 'route' => 'satker.pelacakan.index', 'icon' => 'activity'],
             ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => 'book'],
             ['label' => 'Tim Kerja', 'route' => 'tim-kerja', 'icon' => 'users'],
+            ['label' => 'Chat Box', 'route' => 'chat.index', 'icon' => 'message'],
         ],
         'super_admin' => [
             ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'dashboard'],
@@ -52,7 +53,7 @@
     <div class="sidebar-nav-label">Menu Utama</div>
     @foreach($items as $item)
         <a href="{{ route($item['route']) }}"
-           class="sidebar-nav-item {{ request()->routeIs($item['route']) || request()->routeIs($item['route'] === 'messenger.index' ? 'messenger.*' : $item['route']) ? 'active' : '' }}"
+           class="sidebar-nav-item {{ request()->routeIs($item['route']) || request()->routeIs($item['route'] === 'messenger.index' ? 'messenger.*' : (str_starts_with($item['route'], 'satker.') ? \Illuminate\Support\Str::beforeLast($item['route'], '.').'.*' : $item['route'])) ? 'active' : '' }}"
            data-menu-route="{{ $item['route'] }}">
             <div class="nav-icon"><x-icon :name="$item['icon']" /></div>
             {{ $item['label'] }}

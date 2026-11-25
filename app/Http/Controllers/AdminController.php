@@ -147,7 +147,7 @@ class AdminController extends Controller
         ];
 
         // 5. Data Pengajuan Usulan Pegawai
-        $daftarUsulan = FormUsulan::submitted()->with('user')->latest()->get();
+        $daftarUsulan = FormUsulan::submitted()->with(['user', 'submitter'])->latest()->get();
 
         return view('admin.dashboard', compact('linkInternal', 'linkEksternal', 'linkLainnya', 'aksesCepat', 'daftarUsulan') + $extra);
     }

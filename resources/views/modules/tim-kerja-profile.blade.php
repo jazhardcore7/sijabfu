@@ -30,7 +30,7 @@
         <div class="tp-full"><dt>Kontak</dt><dd>{{ $anggota->kontak ?? $anggota->email }}</dd></div>
     </dl>
     <div class="card-footer tp-actions">
-        @if(auth()->user()->isPegawai())
+        @if(auth()->user()->isPegawai() || auth()->user()->isAdminSatker())
         <a href="{{ route('chat.index') }}" class="btn btn--primary" data-action="chat-tim"><x-icon name="message" /> Chat dengan Tim Pembinaan</a>
         @endif
         <a href="{{ route('tim-kerja') }}" class="btn btn--secondary"><x-icon name="arrow-left" /> Kembali</a>

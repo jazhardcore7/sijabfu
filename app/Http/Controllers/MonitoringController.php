@@ -97,6 +97,8 @@ class MonitoringController extends Controller
         return redirect()->route('monitoring.index', array_filter([
             'status' => $request->query('status'),
             'q' => $request->query('q'),
+            'satker' => $request->query('satker'),
+            'provinsi' => $request->query('provinsi'),
         ]))->with('success', "{$usulan->nama_lengkap}: {$message}");
     }
 
@@ -115,15 +117,21 @@ class MonitoringController extends Controller
         $statusFilter = $request->query('status');
         $keyword = $request->query('q');
 
+        $satker = $request->query('satker');
+        $provinsi = $request->query('provinsi');
+
         $daftarUsulan = FormUsulan::submitted()
-            ->with('user')
+            ->with(['user', 'submitter'])
             ->filterStaf($statusFilter, $keyword)
+            ->filterSatker($satker, $provinsi) // FR-SATKER-18
             ->orderByDesc('submitted_at')
             ->orderByDesc('id')
             ->paginate(15)
             ->withQueryString();
 
+        // Jumlah per status mengikuti filter satker/provinsi (FR-SATKER-18)
         $counts = FormUsulan::submitted()
+            ->filterSatker($satker, $provinsi)
             ->selectRaw('status_key, count(*) as jumlah')
             ->groupBy('status_key')
             ->pluck('jumlah', 'status_key');

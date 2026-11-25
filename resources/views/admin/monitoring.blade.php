@@ -14,13 +14,13 @@
 
 {{-- STATISTIK PER STATUS (FR-MON-1): setiap kartu juga filter --}}
 <nav class="stats-grid" aria-label="Filter status">
-    <a href="{{ route('monitoring.index', array_filter(['q' => request('q')])) }}" class="stat stat-card {{ !request('status') ? 'active-filter' : '' }}" data-stat="total" @if(!request('status')) aria-current="true" @endif>
+    <a href="{{ route('monitoring.index', array_filter(['q' => request('q'), 'satker' => request('satker'), 'provinsi' => request('provinsi')])) }}" class="stat stat-card {{ !request('status') ? 'active-filter' : '' }}" data-stat="total" @if(!request('status')) aria-current="true" @endif>
         <span class="stat-label">Total Usulan</span>
         <div class="stat-count">{{ $stats['total'] }}</div>
         <span class="stat-sub">Seluruh usulan terkirim</span>
     </a>
     @foreach($statusLabels as $key => $label)
-    <a href="{{ route('monitoring.index', array_filter(['status' => $key, 'q' => request('q')])) }}" class="stat stat-card {{ request('status') === $key ? 'active-filter' : '' }}" data-stat="{{ $key }}" data-status="{{ $key }}" @if(request('status') === $key) aria-current="true" @endif>
+    <a href="{{ route('monitoring.index', array_filter(['status' => $key, 'q' => request('q'), 'satker' => request('satker'), 'provinsi' => request('provinsi')])) }}" class="stat stat-card {{ request('status') === $key ? 'active-filter' : '' }}" data-stat="{{ $key }}" data-status="{{ $key }}" @if(request('status') === $key) aria-current="true" @endif>
         <span class="stat-label"><span class="stat-dot" aria-hidden="true"></span>{{ $label }}</span>
         <div class="stat-count" data-count="{{ $stats[$key] }}">{{ $stats[$key] }}</div>
         <span class="stat-sub">Usulan</span>
@@ -55,8 +55,9 @@
             <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach
         </select>
+        @include('partials.satker-filter', ['prefix' => 'mon'])
         <button type="submit" class="btn btn--primary">Terapkan Filter</button>
-        @if(request('q') || request('status'))
+        @if(request('q') || request('status') || request('satker') || request('provinsi'))
         <a href="{{ route('monitoring.index') }}" class="btn btn--secondary">Reset Filter</a>
         @endif
     </form>
@@ -68,7 +69,7 @@
         $rank = $order[$item->status_key] ?? 1;
         $tahap = ['verifikasi' => 'Verifikasi', 'disetujui' => 'Disetujui', 'ditetapkan' => 'Ditetapkan', 'selesai' => 'Selesai'];
         $persen = $item->status_key === 'selesai' ? 100 : (int) round((($rank - 1) / 4) * 100);
-        $formQuery = array_filter(['status' => request('status'), 'q' => request('q')]);
+        $formQuery = array_filter(['status' => request('status'), 'q' => request('q'), 'satker' => request('satker'), 'provinsi' => request('provinsi')]);
         $steps = [];
         foreach (array_values($tahap) as $i => $label) {
             $s = $i + 1;
@@ -88,6 +89,7 @@
                 <div class="min-w-0">
                     <h2 class="mon-name">{{ $item->nama_lengkap }}</h2>
                     <div class="cell-sub"><strong>NIP:</strong> {{ $item->nip }} · {{ $item->satuan_kerja }}</div>
+                    <div class="cell-sub" data-diajukan-oleh="{{ $item->isSelfSubmitted() ? 'mandiri' : 'admin_satker' }}"><strong>Diajukan oleh:</strong> {{ $item->diajukanOlehLabel() }}</div>
                 </div>
             </div>
             <div class="mon-card-badges">

@@ -92,6 +92,7 @@
                                 <div class="cell-sub">NIP: {{ $item->nip }}</div>
                                 <div class="cell-sub">{{ $item->satuan_kerja }}</div>
                                 <div class="cell-sub">{{ $item->email }}</div>
+                                <div class="cell-sub" data-diajukan-oleh="{{ $item->isSelfSubmitted() ? 'mandiri' : 'admin_satker' }}">Diajukan oleh: {{ $item->diajukanOlehLabel() }}</div>
                             </td>
                             <td>
                                 <div class="cell-strong">{{ $item->jabatan_fungsional }}</div>

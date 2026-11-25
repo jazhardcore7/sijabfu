@@ -28,8 +28,9 @@
             <option value="{{ $key }}" {{ request('status') === $key ? 'selected' : '' }}>{{ $label }}</option>
             @endforeach
         </select>
+        @include('partials.satker-filter', ['prefix' => 'vb'])
         <button type="submit" class="btn btn--primary">Terapkan</button>
-        @if(request('q') || request('status'))
+        @if(request('q') || request('status') || request('satker') || request('provinsi'))
         <a href="{{ route('verifikasi.index') }}" class="btn btn--secondary">Reset</a>
         @endif
     </form>
@@ -43,6 +44,7 @@
                 <tr>
                     <th>Pegawai</th>
                     <th>Jabatan &amp; Jenis Usulan</th>
+                    <th>Diajukan oleh</th>
                     <th>Status</th>
                     <th>Dikirim</th>
                     <th><span class="sr-only">Aksi</span></th>
@@ -60,6 +62,7 @@
                         <div class="cell-strong">{{ $item->jabatan_fungsional }}</div>
                         <div class="cell-sub">{{ $item->jenis_usulan }}</div>
                     </td>
+                    <td class="cell-sub" data-diajukan-oleh="{{ $item->isSelfSubmitted() ? 'mandiri' : 'admin_satker' }}">{{ $item->diajukanOlehLabel() }}</td>
                     <td>
                         <x-status-badge :status="$item->status_key" :label="$item->statusKeyLabel()" />
                         @if($item->hasil_verifikasi)

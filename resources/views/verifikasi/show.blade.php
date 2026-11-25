@@ -41,6 +41,7 @@
         <div class="pb-detail-row"><dt class="pb-detail-label">Jabatan Fungsional</dt><dd class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</dd></div>
         <div class="pb-detail-row"><dt class="pb-detail-label">Jenis Usulan</dt><dd class="pb-detail-value">{{ $usulan->jenis_usulan }}</dd></div>
         <div class="pb-detail-row"><dt class="pb-detail-label">Satuan Kerja</dt><dd class="pb-detail-value">{{ $usulan->satuan_kerja }}</dd></div>
+        <div class="pb-detail-row" data-section="diajukan-oleh"><dt class="pb-detail-label">Diajukan oleh</dt><dd class="pb-detail-value">{{ $usulan->diajukanOlehLabel() }}</dd></div>
         <div class="pb-detail-row"><dt class="pb-detail-label">Email</dt><dd class="pb-detail-value">{{ $usulan->email }}</dd></div>
         <div class="pb-detail-row"><dt class="pb-detail-label">Nomor Surat</dt><dd class="pb-detail-value">{{ $usulan->nomor_surat }}</dd></div>
         <div class="pb-detail-row"><dt class="pb-detail-label">Hal Surat</dt><dd class="pb-detail-value">{{ $usulan->hal_surat }}</dd></div>

@@ -84,6 +84,7 @@ class MessengerController extends Controller
             'id' => $t->id,
             'pegawai' => $t->pegawai?->name,
             'nip' => $t->pegawai?->nip,
+            'level' => $t->pegawai?->levelLabel(),
             'last_body' => Str::limit((string) $t->latestMessage?->body, 80),
             'last_at' => $t->last_message_at?->format('d M Y H:i'),
             'unread' => (int) $t->unread_count,

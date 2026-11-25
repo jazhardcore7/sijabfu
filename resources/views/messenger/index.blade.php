@@ -21,6 +21,7 @@
                     <span class="unread-badge" data-unread="{{ $t->unread_count }}" aria-label="{{ $t->unread_count }} pesan belum dibaca">{{ $t->unread_count }}</span>
                     @endif
                 </div>
+                <div class="cell-sub thread-level" data-level="{{ $t->pegawai?->role }}">{{ $t->pegawai?->levelLabel() }}</div>
                 <div class="thread-snippet">{{ \Illuminate\Support\Str::limit((string) $t->latestMessage?->body, 80) }}</div>
                 <div class="thread-time">{{ $t->last_message_at?->format('d M Y H:i') }}</div>
             </a>
@@ -37,7 +38,7 @@
             <span class="tim-avatar" aria-hidden="true">{{ strtoupper(mb_substr((string) $active->pegawai?->name, 0, 2)) }}</span>
             <div class="min-w-0">
                 <div class="cell-strong">{{ $active->pegawai?->name }}</div>
-                <div class="cell-sub">NIP {{ $active->pegawai?->nip }}</div>
+                <div class="cell-sub">NIP {{ $active->pegawai?->nip }} · {{ $active->pegawai?->levelLabel() }}</div>
             </div>
         </div>
         @include('chat._conversation', [
@@ -80,13 +81,16 @@
             b.textContent = t.unread;
             top.appendChild(b);
         }
+        const level = document.createElement('div');
+        level.className = 'cell-sub thread-level';
+        level.textContent = t.level || '';
         const snip = document.createElement('div');
         snip.className = 'thread-snippet';
         snip.textContent = t.last_body;
         const time = document.createElement('div');
         time.className = 'thread-time';
         time.textContent = t.last_at;
-        a.append(top, snip, time);
+        a.append(top, level, snip, time);
         return a;
     }
 

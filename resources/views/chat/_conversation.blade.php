@@ -3,29 +3,9 @@
     Variabel: $messages, $viewer, $pollUrl, $postUrl, $emptyText
     Isi pesan selalu dirender sebagai teks (Blade escape / textContent).
 --}}
-@push('styles')
-<style>
-    .chat-box { display: flex; flex-direction: column; height: 560px; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 18px; overflow: hidden; }
-    .chat-messages { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 10px; background: var(--c-surface-2); }
-    .chat-msg { max-width: 75%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.5; }
-    .chat-msg.theirs { align-self: flex-start; background: var(--c-surface); border: 1px solid var(--c-border); color: var(--c-text); }
-    .chat-msg.mine { align-self: flex-end; background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); color: #FFFFFF; }
-    .chat-meta { font-size: 11px; opacity: 0.75; margin-bottom: 3px; }
-    .chat-body { white-space: pre-wrap; word-break: break-word; }
-    .chat-empty { margin: auto; color: var(--c-text-muted); font-size: 13px; text-align: center; }
-    .chat-form { display: flex; gap: 10px; padding: 12px; border-top: 1px solid var(--c-border); background: var(--c-surface); }
-    .chat-input {
-        flex: 1; resize: none; height: 46px; border: 1.5px solid var(--c-border-strong); border-radius: 12px;
-        padding: 10px 12px; font-family: inherit; font-size: 13.5px; color: var(--c-text); background: var(--c-surface);
-    }
-    .chat-send { border: none; border-radius: 12px; padding: 0 20px; font-weight: 700; cursor: pointer; color: #FFFFFF; background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); }
-    .chat-error { color: #DC2626; font-size: 12px; padding: 0 12px 8px; background: var(--c-surface); }
-    .chat-counter { font-size: 11px; color: var(--c-text-faint); padding: 0 12px 8px; text-align: right; background: var(--c-surface); }
-</style>
-@endpush
-
+{{-- Gaya: public/css/sijabfu.css (bagian "Chat"). --}}
 <div class="chat-box" data-section="chat-box">
-    <div class="chat-messages" id="chatMessages" data-poll-url="{{ $pollUrl }}">
+    <div class="chat-messages" id="chatMessages" data-poll-url="{{ $pollUrl }}" role="log" aria-live="polite" aria-label="Pesan" tabindex="0">
         @forelse($messages as $m)
         <div class="chat-msg {{ (int) $m->sender_id === (int) $viewer->id ? 'mine' : 'theirs' }}" data-message-id="{{ $m->id }}">
             <div class="chat-meta">{{ $m->sender?->name }} · {{ $m->sender?->levelLabel() }} · {{ $m->created_at->format('d M Y H:i') }}</div>
@@ -35,11 +15,12 @@
         <div class="chat-empty" id="chatEmpty">{{ $emptyText }}</div>
         @endforelse
     </div>
-    @error('body')<div class="chat-error">{{ $message }}</div>@enderror
+    <div class="chat-error" id="chatError" role="alert" @unless($errors->has('body')) hidden @endunless>@error('body'){{ $message }}@enderror</div>
     <form action="{{ $postUrl }}" method="POST" class="chat-form" id="chatForm">
         @csrf
-        <textarea name="body" class="chat-input" id="chatInput" maxlength="{{ \App\Models\ChatMessage::MAX_LENGTH }}" placeholder="Tulis pesan..." required>{{ old('body') }}</textarea>
-        <button type="submit" class="chat-send">Kirim</button>
+        <label for="chatInput" class="sr-only">Tulis pesan</label>
+        <textarea name="body" class="chat-input" id="chatInput" aria-describedby="chatError" maxlength="{{ \App\Models\ChatMessage::MAX_LENGTH }}" placeholder="Tulis pesan..." required>{{ old('body') }}</textarea>
+        <button type="submit" class="btn btn--primary chat-send" id="chatSend"><x-icon name="send" /> Kirim</button>
     </form>
     <div class="chat-counter"><span id="chatCount">0</span>/{{ \App\Models\ChatMessage::MAX_LENGTH }}</div>
 </div>
@@ -51,6 +32,13 @@
     const form = document.getElementById('chatForm');
     const input = document.getElementById('chatInput');
     const counter = document.getElementById('chatCount');
+    const sendBtn = document.getElementById('chatSend');
+    const errorBox = document.getElementById('chatError');
+
+    function showError(text) {
+        errorBox.textContent = text;
+        errorBox.hidden = !text;
+    }
     const pollUrl = box.dataset.pollUrl;
     const token = form.querySelector('input[name=_token]').value;
 
@@ -92,7 +80,10 @@
     form.addEventListener('submit', async function (e) {
         e.preventDefault();
         const text = input.value.trim();
-        if (!text) return;
+        if (!text || sendBtn.getAttribute('aria-busy') === 'true') return;
+        showError('');
+        sendBtn.setAttribute('aria-busy', 'true');
+        sendBtn.setAttribute('aria-disabled', 'true');
         try {
             const res = await fetch(form.action, {
                 method: 'POST',
@@ -106,12 +97,15 @@
                 input.value = '';
                 counter.textContent = '0';
             } else if (res.status === 429) {
-                alert('Terlalu banyak pesan. Coba lagi sebentar lagi.');
+                showError('Terlalu banyak pesan. Coba lagi sebentar lagi.');
             } else {
                 form.submit();
             }
         } catch (err) {
             form.submit();
+        } finally {
+            sendBtn.removeAttribute('aria-busy');
+            sendBtn.removeAttribute('aria-disabled');
         }
     });
 

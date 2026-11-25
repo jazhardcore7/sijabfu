@@ -35,7 +35,7 @@ class DatabaseSeeder extends Seeder
                 'bidang' => 'Biro SDM - Pembinaan Jabatan Fungsional',
                 'kontak' => 'jabatanfungsional@bps.go.id',
                 'unit_kerja' => 'Biro SDM - BPS RI',
-            ]
+            ] + self::PUSAT
         );
 
         // 1b. Akun Super Admin [ASSUMPTION PRD 11.5: NIP placeholder sampai NIP Super Admin asli dikonfirmasi]
@@ -48,7 +48,7 @@ class DatabaseSeeder extends Seeder
                 'role' => User::ROLE_SUPER_ADMIN,
                 'jabatan' => 'Super Admin Pembinaan Jabatan Fungsional',
                 'unit_kerja' => 'Biro SDM - BPS RI',
-            ]
+            ] + self::PUSAT
         );
 
         // 2. Akun Pegawai (Sudah Mengisi Form Usulan)
@@ -61,13 +61,14 @@ class DatabaseSeeder extends Seeder
                 'role' => User::ROLE_PEGAWAI,
                 'jabatan' => 'Statistisi Ahli Pertama',
                 'unit_kerja' => 'BPS RI Pusat',
-            ]
+            ] + self::PUSAT
         );
 
         // Buat usulan jika belum ada
         FormUsulan::firstOrCreate(
             ['user_id' => $pegawaiSudah->id],
             [
+                'submitted_by' => $pegawaiSudah->id,
                 'email' => 'budi.pratama@bps.go.id',
                 'jabatan_fungsional' => 'Statistisi',
                 'jenis_usulan' => 'Uji Kompetensi Kenaikan Jenjang',
@@ -95,6 +96,8 @@ class DatabaseSeeder extends Seeder
                 'role' => User::ROLE_PEGAWAI,
                 'jabatan' => 'Statistisi Ahli Pertama',
                 'unit_kerja' => 'BPS Provinsi DKI Jakarta',
+                // keputusan 13: user lama tetap Pusat sampai data satker diisi
+                'satker_tipe' => User::SATKER_PUSAT,
             ]
         );
         // Pastikan akun Siti bersih dari form_usulan
@@ -102,7 +105,16 @@ class DatabaseSeeder extends Seeder
         if ($pegawaiBelum) {
             FormUsulan::where('user_id', $pegawaiBelum->id)->delete();
         }
+
+        // 4. Admin Satuan Kerja Provinsi dan pegawai daerah (data fiktif, FR-SATKER-1)
+        $this->call(SatkerDemoSeeder::class);
     }
+
+    private const PUSAT = [
+        'satker_tipe' => User::SATKER_PUSAT,
+        'satker_kode' => '0000',
+        'provinsi_kode' => null,
+    ];
 
     /**
      * Password acak yang tidak pernah ditampilkan (bukan kredensial demo yang bisa ditebak).

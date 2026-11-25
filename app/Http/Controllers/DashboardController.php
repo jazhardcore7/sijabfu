@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FormUsulan;
 use App\Services\DashboardStats;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,6 +24,18 @@ class DashboardController extends Controller
                 'latestNotifications' => $user->notifications()->latest()->limit(5)->get(),
             ]);
         }
+
+        // FR-SATKER-5: Admin Satuan Kerja Provinsi hanya melihat usulan yang diajukannya
+        if ($user->isAdminSatker()) {
+            return view('dashboard.admin-satker', [
+                'ringkasan' => $this->stats->adminSatker($user),
+                'statusLabels' => FormUsulan::STATUS_LABELS,
+                'latestNotifications' => $user->notifications()->latest()->limit(5)->get(),
+            ]);
+        }
+
+        // Selain Pegawai dan Admin Satker: hanya staf (Tim JF, Super Admin)
+        abort_unless($user->isAdmin(), 403);
 
         // FR-DASH-4: Tim JF; FR-DASH-5: Super Admin (ditambah kartu SSO dan user per role)
         $extra = [

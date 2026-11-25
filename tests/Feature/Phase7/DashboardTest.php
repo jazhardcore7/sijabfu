@@ -145,7 +145,7 @@ class DashboardTest extends TestCase
         $this->assertStringContainsString('data-chart-json="per-status"', $html);
 
         $this->assertSame(
-            ['Pegawai' => User::where('role', 'pegawai')->count(), 'Tim Pembinaan JF' => 2, 'Super Admin' => 1],
+            ['Pegawai' => User::where('role', 'pegawai')->count(), 'Tim Pembinaan JF' => 2, 'Super Admin' => 1, 'Admin Satuan Kerja Provinsi' => 0],
             $this->chartJson($html, 'user-per-role')
         );
 

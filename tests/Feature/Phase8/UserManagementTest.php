@@ -31,7 +31,11 @@ class UserManagementTest extends TestCase
     {
         User::factory()->pegawai()->create(['name' => 'Andi Cari', 'nip' => '111222333444555666']);
         User::factory()->timJf()->create(['name' => 'Andi Tim']);
-        User::factory()->pegawai()->count(20)->create();
+        // Nama dan email tetap agar pencarian "Andi" tidak pernah cocok dengan data acak faker
+        User::factory()->pegawai()->count(20)->sequence(fn ($seq) => [
+            'name' => 'Pegawai Pengisi '.($seq->index + 1),
+            'email' => 'pengisi'.($seq->index + 1).'@example.test',
+        ])->create();
 
         $this->actingAs($this->superAdmin)->get('/admin/users?q=Andi')
             ->assertSee('Andi Cari')->assertSee('Andi Tim')->assertSee('data-total="2"', false);

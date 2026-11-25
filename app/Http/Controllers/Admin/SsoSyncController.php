@@ -32,6 +32,6 @@ class SsoSyncController extends Controller
         }
 
         return redirect()->route('admin.sso-sync')->with('success',
-            "Sinkronisasi selesai: {$log->created_count} user baru, {$log->updated_count} diperbarui, {$log->failed_count} gagal.");
+            "Sinkronisasi selesai: {$log->created_count} user baru, {$log->updated_count} diperbarui, {$log->failed_count} gagal, {$log->satker_missing_count} user tanpa data satker.");
     }
 }

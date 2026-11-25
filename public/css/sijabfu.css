@@ -1292,6 +1292,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .status-pill.nonaktif { background: var(--s-draf-bg); color: var(--s-draf); }
 .user-form { display: flex; gap: var(--sp-2); flex-wrap: wrap; align-items: center; }
 .user-form .filter-select { min-height: 32px; font-size: var(--fs-xs); }
+.user-form .input-kode { width: 7ch; }
 .table .num { text-align: right; font-variant-numeric: tabular-nums; }
 .cell-wrap { max-width: 360px; overflow-wrap: anywhere; }
 .text-danger { display: inline-flex; align-items: center; gap: var(--sp-1); color: var(--c-danger); font-weight: var(--fw-semibold); }

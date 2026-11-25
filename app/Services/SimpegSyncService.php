@@ -9,7 +9,7 @@ use Throwable;
 
 /**
  * Sinkron data dengan SIMPEG/SIASN untuk Pengajuan Usulan (FR-PU-1).
- * Memperbarui nama, jabatan, dan unit kerja user; NIP tidak pernah diubah.
+ * Memperbarui nama, jabatan, unit kerja, dan satker (FR-SATKER-4); NIP dan role tidak pernah diubah.
  */
 class SimpegSyncService
 {
@@ -38,7 +38,7 @@ class SimpegSyncService
             'name' => $identity->name,
             'jabatan' => $identity->jabatan,
             'unit_kerja' => $identity->unitKerja,
-        ], fn ($v) => $v !== null && $v !== ''))->save();
+        ], fn ($v) => $v !== null && $v !== '') + $identity->satkerAttributes())->save();
 
         return [
             'ok' => true,

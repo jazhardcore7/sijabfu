@@ -148,7 +148,8 @@ class DefinitionOfDoneTest extends TestCase
     {
         $this->seed();
 
-        $this->assertSame(4, User::count());
+        // 4 akun awal + 4 akun satker daerah (FR-SATKER-1, S1)
+        $this->assertSame(8, User::count());
         foreach (User::all() as $user) {
             $this->assertFalse(Hash::check('password', $user->password), $user->nip);
         }

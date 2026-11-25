@@ -3,12 +3,12 @@
 @once
 @push('styles')
 <style>
-    .legacy-card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 16px; overflow: hidden; margin-top: 16px; }
-    .legacy-card-header { background: var(--c-surface-2); border-bottom: 1px solid var(--c-border); padding: 12px 20px; font-size: 13.5px; font-weight: 700; color: var(--c-text); }
-    .legacy-card-row { padding: 12px 20px; border-bottom: 1px solid var(--c-border-soft); }
+    .legacy-card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--r-lg); overflow: hidden; margin-top: var(--sp-4); }
+    .legacy-card-header { display: flex; align-items: center; gap: var(--sp-2); background: var(--c-surface-2); border-bottom: 1px solid var(--c-border); padding: var(--sp-3) var(--sp-5); font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--c-text); }
+    .legacy-card-row { padding: var(--sp-3) var(--sp-5); border-bottom: 1px solid var(--c-border-soft); }
     .legacy-card-row:last-child { border-bottom: none; }
-    .legacy-card-label { font-size: 11px; color: var(--c-text-faint); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
-    .legacy-card-link { font-size: 13px; color: var(--bps-mid); word-break: break-all; }
+    .legacy-card-label { font-size: var(--fs-xs); color: var(--c-text-muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: var(--sp-1); }
+    .legacy-card-link { font-size: var(--fs-sm); color: var(--c-link); word-break: break-all; }
 </style>
 @endpush
 @endonce
@@ -18,7 +18,7 @@
 @endphp
 @if($legacyBerkas || $legacyUsulan)
 <div class="legacy-card" data-section="legacy-links">
-    <div class="legacy-card-header">🔗 Tautan Berkas Lama (hanya baca)</div>
+    <div class="legacy-card-header"><x-icon name="link" /> Tautan Berkas Lama (hanya baca)</div>
     @if($legacyBerkas)
     <div class="legacy-card-row">
         <div class="legacy-card-label">Link Berkas</div>

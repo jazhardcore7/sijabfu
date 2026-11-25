@@ -26,7 +26,7 @@
             <div class="notif-item-time">{{ $n->created_at->format('d M Y H:i') }}</div>
         </a>
         @empty
-        <div class="notif-empty">Belum ada notifikasi</div>
+        <div class="notif-empty"><x-icon name="inbox" /><div>Belum ada notifikasi</div></div>
         @endforelse
     </div>
 </details>

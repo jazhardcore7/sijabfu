@@ -21,7 +21,8 @@ class LayoutRegressionTest extends TestCase
 
     public function test_main_content_can_shrink_and_navbar_adapts_on_small_screens(): void
     {
-        $layout = File::get(resource_path('views/layouts/app.blade.php'));
+        // UI revamp: CSS layout pindah dari layouts/app ke stylesheet bersama
+        $layout = File::get(public_path('css/sijabfu.css'));
 
         $this->assertMatchesRegularExpression('/\.main-content\s*\{[^}]*min-width:\s*0;/s', $layout);
         $this->assertMatchesRegularExpression('/@media \(max-width: 640px\)\s*\{[^@]*\.profile-name\s*\{\s*display:\s*none;/s', $layout);
@@ -43,7 +44,8 @@ class LayoutRegressionTest extends TestCase
 
     public function test_theme_defines_heading_and_hero_tokens_for_both_modes(): void
     {
-        $theme = File::get(resource_path('views/partials/theme.blade.php'));
+        // UI revamp: token tema pindah dari partials/theme ke stylesheet bersama
+        $theme = File::get(public_path('css/sijabfu.css'));
         [$light, $dark] = explode('[data-theme="dark"] {', $theme, 2);
 
         foreach (['--c-heading', '--c-hero-bg', '--c-card-muted-bg'] as $token) {

@@ -101,6 +101,7 @@ class PengajuanController extends Controller
             } else {
                 $usulan = FormUsulan::create($data + [
                     'user_id' => $user->id,
+                    'submitted_by' => $user->id, // FR-SATKER-8: diajukan sendiri
                     'link_berkas' => '', // kolom lama NOT NULL; tidak dipakai untuk usulan baru
                     'status' => 1,
                 ]);

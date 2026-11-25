@@ -19,6 +19,14 @@
             ['label' => 'Regulasi', 'route' => 'admin.regulasi.index', 'icon' => 'book'],
             ['label' => 'Chat Box (Messenger)', 'route' => 'messenger.index', 'icon' => 'message'],
         ],
+        // FR-SATKER-1: menu Pengajuan, Pelacakan, dan Chat Box ditambahkan bersama route-nya (S2, S3)
+        'admin_satker' => [
+            ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'dashboard'],
+            ['label' => 'Pengajuan Usulan', 'route' => 'satker.pengajuan.index', 'icon' => 'file-plus'],
+            ['label' => 'Pelacakan Status', 'route' => 'satker.pelacakan.index', 'icon' => 'activity'],
+            ['label' => 'Regulasi', 'route' => 'regulasi', 'icon' => 'book'],
+            ['label' => 'Tim Kerja', 'route' => 'tim-kerja', 'icon' => 'users'],
+        ],
         'super_admin' => [
             ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'dashboard'],
             ['label' => 'Sinkronisasi Data SSO', 'route' => 'admin.sso-sync', 'icon' => 'refresh'],

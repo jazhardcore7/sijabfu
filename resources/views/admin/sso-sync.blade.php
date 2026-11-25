@@ -6,7 +6,7 @@
 @section('content')
 <div class="page-header">
     <h1 class="page-header-title"><x-icon name="refresh" /> Sinkronisasi Data SSO</h1>
-    <p class="page-header-desc">Perbarui data user (nama, email, jabatan, unit kerja) dari direktori SSO berdasarkan NIP. Role user tidak diubah.</p>
+    <p class="page-header-desc">Perbarui data user (nama, email, jabatan, unit kerja, satuan kerja) dari direktori SSO berdasarkan NIP. Role user tidak diubah.</p>
 </div>
 
 <div class="stack">
@@ -51,6 +51,7 @@
                     <th class="num">Baru</th>
                     <th class="num">Diperbarui</th>
                     <th class="num">Gagal</th>
+                    <th class="num">Tanpa Satker</th>
                     <th>Oleh</th>
                     <th>Error</th>
                 </tr>
@@ -63,6 +64,7 @@
                     <td class="num">{{ $log->created_count }}</td>
                     <td class="num">{{ $log->updated_count }}</td>
                     <td class="num">@if($log->failed_count > 0)<span class="text-danger"><x-icon name="alert-circle" /> {{ $log->failed_count }}</span>@else{{ $log->failed_count }}@endif</td>
+                    <td class="num" data-satker-missing="{{ $log->satker_missing_count }}">@if($log->satker_missing_count > 0)<a href="{{ route('admin.users', ['satker' => 'kosong']) }}">{{ $log->satker_missing_count }}</a>@else{{ $log->satker_missing_count }}@endif</td>
                     <td class="cell-sub">{{ $log->triggeredBy?->name ?? '-' }}</td>
                     <td class="cell-sub cell-wrap">{{ $log->error ?? '-' }}</td>
                 </tr>

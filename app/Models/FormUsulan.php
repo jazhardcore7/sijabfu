@@ -34,7 +34,7 @@ class FormUsulan extends Model
     public const HASIL_TMS = 'tms';
 
     protected $fillable = [
-        'user_id', 'email', 'jabatan_fungsional', 'jenis_usulan',
+        'user_id', 'submitted_by', 'email', 'jabatan_fungsional', 'jenis_usulan',
         'nomor_surat', 'hal_surat', 'nama_lengkap', 'nip',
         'satuan_kerja', 'link_berkas', 'link_usulan',
         'status', 'catatan',
@@ -50,6 +50,14 @@ class FormUsulan extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Pengaju usulan: Pegawai Pusat sendiri atau Admin Satuan Kerja Provinsi (FR-SATKER-8).
+     */
+    public function submitter()
+    {
+        return $this->belongsTo(User::class, 'submitted_by');
     }
 
     public function berkas()

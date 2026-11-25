@@ -14,7 +14,7 @@ class SsoSyncLog extends Model
 
     protected $fillable = [
         'triggered_by', 'started_at', 'finished_at',
-        'created_count', 'updated_count', 'failed_count', 'error',
+        'created_count', 'updated_count', 'failed_count', 'satker_missing_count', 'error',
     ];
 
     protected $casts = [
@@ -23,6 +23,7 @@ class SsoSyncLog extends Model
         'created_count' => 'integer',
         'updated_count' => 'integer',
         'failed_count' => 'integer',
+        'satker_missing_count' => 'integer',
     ];
 
     public function triggeredBy(): BelongsTo

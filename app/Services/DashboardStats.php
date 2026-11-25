@@ -106,6 +106,35 @@ class DashboardStats
     }
 
     /**
+     * FR-SATKER-5: ringkasan usulan yang diajukan oleh Admin Satuan Kerja Provinsi ini saja.
+     */
+    public function adminSatker(User $admin): array
+    {
+        $own = fn () => FormUsulan::where('submitted_by', $admin->id);
+
+        $counts = $own()->submitted()
+            ->selectRaw('status_key, count(*) as jumlah')
+            ->groupBy('status_key')
+            ->pluck('jumlah', 'status_key');
+
+        $perStatus = [];
+        foreach (array_keys(FormUsulan::STATUS_LABELS) as $key) {
+            $perStatus[$key] = (int) ($counts[$key] ?? 0);
+        }
+
+        return [
+            'total' => (int) $counts->sum(),
+            'draf' => $own()->whereNull('status_key')->count(),
+            'perStatus' => $perStatus,
+            'dalamProses' => $own()
+                ->where(fn ($q) => $q->whereNull('status_key')->orWhere('status_key', '!=', FormUsulan::STATUS_SELESAI))
+                ->orderByDesc('updated_at')->orderByDesc('id')
+                ->limit(10)
+                ->get(),
+        ];
+    }
+
+    /**
      * FR-DASH-3: progres usulan terakhir milik Pegawai pada lima status.
      */
     public function pegawai(User $user): array

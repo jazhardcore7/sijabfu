@@ -11,11 +11,12 @@ use App\Models\UsulanBerkas;
 class UsulanBerkasPolicy
 {
     /**
-     * Pemilik usulan, Tim Pembinaan JF, dan Super Admin boleh melihat berkas.
+     * Pemilik usulan, pengaju usulan, Tim Pembinaan JF, dan Super Admin boleh melihat berkas.
      */
     public function view(User $user, UsulanBerkas $berkas): bool
     {
-        return $user->isAdmin() || (int) $berkas->usulan?->user_id === (int) $user->id;
+        // Pemilik, pengaju (FR-SATKER-12), atau staf: sama dengan FormUsulanPolicy::view
+        return $berkas->usulan !== null && (new FormUsulanPolicy)->view($user, $berkas->usulan);
     }
 
     /**

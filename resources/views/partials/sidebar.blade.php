@@ -39,6 +39,10 @@
     $role = Auth::user()->role;
     $items = array_filter($menus[$role] ?? [], fn ($item) => Route::has($item['route']));
 
+    // FR-SATKER-6: Pengajuan Usulan Pegawai hanya bila boleh mengajukan sendiri
+    $items = array_filter($items, fn ($item) => $item['route'] !== 'pengajuan'
+        || \Illuminate\Support\Facades\Gate::allows('create', \App\Models\FormUsulan::class));
+
     // Badge pesan belum dibaca untuk menu chat (FR-CHAT-1, FR-CHAT-2)
     $chatRoutes = ['chat.index', 'messenger.index'];
     $hasChatMenu = collect($items)->contains(fn ($item) => in_array($item['route'], $chatRoutes, true));

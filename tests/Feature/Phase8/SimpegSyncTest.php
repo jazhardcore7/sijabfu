@@ -22,8 +22,9 @@ class SimpegSyncTest extends TestCase
 
     public function test_sync_success_fills_nama_nip_jabatan_and_unit_kerja(): void
     {
+        // Pegawai Pusat di direktori fiktif, agar tetap boleh membuka Pengajuan setelah sinkron (FR-SATKER-6)
         $pegawai = User::factory()->pegawai()->create([
-            'nip' => '200001012024011001',
+            'nip' => '199505152020121002',
             'name' => 'Nama Lama',
             'jabatan' => null,
             'unit_kerja' => 'Unit Lama',
@@ -34,15 +35,15 @@ class SimpegSyncTest extends TestCase
             ->assertSessionHas('success');
 
         $fresh = $pegawai->fresh();
-        $this->assertSame('Contoh Pegawai Fiktif Satu', $fresh->name);
-        $this->assertSame('200001012024011001', $fresh->nip, 'NIP tidak berubah');
-        $this->assertSame('Pranata Komputer Ahli Pertama', $fresh->jabatan);
-        $this->assertSame('BPS Provinsi Contoh', $fresh->unit_kerja);
+        $this->assertSame('Budi Pratama, S.Tr.Stat.', $fresh->name);
+        $this->assertSame('199505152020121002', $fresh->nip, 'NIP tidak berubah');
+        $this->assertSame('Statistisi Ahli Pertama', $fresh->jabatan);
+        $this->assertSame('BPS RI Pusat', $fresh->unit_kerja);
 
         $this->actingAs($fresh)->get('/pengajuan')
-            ->assertSee('value="Contoh Pegawai Fiktif Satu"', false)
-            ->assertSee('value="Pranata Komputer Ahli Pertama"', false)
-            ->assertSee('value="BPS Provinsi Contoh"', false)
+            ->assertSee('value="Budi Pratama, S.Tr.Stat."', false)
+            ->assertSee('value="Statistisi Ahli Pertama"', false)
+            ->assertSee('value="BPS RI Pusat"', false)
             ->assertSee('data-action="sinkron-simpeg"', false);
     }
 

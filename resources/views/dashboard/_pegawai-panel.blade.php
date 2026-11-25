@@ -13,8 +13,12 @@
             <script type="application/json" data-chart-json="progres-pegawai">@json(['status_key' => $dashUsulan->status_key, 'persen' => $dashboard['persen'], 'tahapan' => $dashboard['tahapan']])</script>
             @else
             <x-empty-state icon="file-plus" title="Belum ada usulan" data-section="belum-ada-usulan">
+                @can('create', \App\Models\FormUsulan::class)
                 Belum ada usulan yang dikirim.
                 <x-slot:action><a href="{{ route('pengajuan') }}" class="btn btn--primary btn--sm">Ajukan usulan</a></x-slot:action>
+                @else
+                Usulan Anda diajukan oleh Admin Satuan Kerja.
+                @endcan
             </x-empty-state>
             @endif
         </div>

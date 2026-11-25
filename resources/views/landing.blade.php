@@ -47,6 +47,7 @@
             <div class="card-arrow">Lihat Alur <x-icon name="chevron-right" /></div>
         </a>
 
+        @can('create', \App\Models\FormUsulan::class)
         <a href="{{ route('pengajuan') }}" class="service-card">
             <div class="card-icon-wrapper"><x-icon name="file-plus" /></div>
             <div class="card-content">
@@ -55,6 +56,7 @@
             </div>
             <div class="card-arrow">Isi Formulir <x-icon name="chevron-right" /></div>
         </a>
+        @endcan
 
         <a href="{{ route('pelacakan-status') }}" class="service-card">
             <div class="card-icon-wrapper"><x-icon name="activity" /></div>

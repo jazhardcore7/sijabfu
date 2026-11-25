@@ -34,7 +34,7 @@ class FormUsulan extends Model
     public const HASIL_TMS = 'tms';
 
     protected $fillable = [
-        'user_id', 'email', 'jabatan_fungsional', 'jenis_usulan',
+        'user_id', 'submitted_by', 'email', 'jabatan_fungsional', 'jenis_usulan',
         'nomor_surat', 'hal_surat', 'nama_lengkap', 'nip',
         'satuan_kerja', 'link_berkas', 'link_usulan',
         'status', 'catatan',
@@ -50,6 +50,14 @@ class FormUsulan extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Pengaju usulan: Pegawai Pusat sendiri atau Admin Satuan Kerja Provinsi (FR-SATKER-8).
+     */
+    public function submitter()
+    {
+        return $this->belongsTo(User::class, 'submitted_by');
     }
 
     public function berkas()
@@ -93,6 +101,63 @@ class FormUsulan extends Model
         }
 
         return $query;
+    }
+
+    /**
+     * FR-PU-6 / FR-SATKER-9: usulan aktif seorang pegawai = usulan terakhir miliknya
+     * (user_id) yang belum selesai, termasuk draf. Siapa pun pengajunya.
+     */
+    public static function activeFor(User $pegawai): ?self
+    {
+        $latest = self::where('user_id', $pegawai->id)->orderByDesc('id')->first();
+
+        return $latest && $latest->status_key !== self::STATUS_SELESAI ? $latest : null;
+    }
+
+    /**
+     * FR-SATKER-18: filter satuan kerja pegawai yang diusulkan (satker saat ini, keputusan 15).
+     */
+    public function scopeFilterSatker($query, ?string $satker, ?string $provinsi)
+    {
+        $satker = (string) $satker;
+        $provinsi = (string) $provinsi;
+        $validSatker = array_key_exists($satker, User::SATKER_LABELS);
+        $validProvinsi = array_key_exists($provinsi, config('sijabfu.provinsi', []));
+
+        if (! $validSatker && ! $validProvinsi) {
+            return $query;
+        }
+
+        return $query->whereHas('user', function ($q) use ($satker, $provinsi, $validSatker, $validProvinsi) {
+            if ($validSatker) {
+                $q->where('satker_tipe', $satker);
+            }
+            if ($validProvinsi) {
+                $q->where('provinsi_kode', $provinsi);
+            }
+        });
+    }
+
+    /**
+     * Teks kolom "Diajukan oleh" (FR-SATKER-18): "Mandiri" atau nama dan level pengaju.
+     */
+    public function diajukanOlehLabel(): string
+    {
+        if ($this->isSelfSubmitted()) {
+            return 'Mandiri';
+        }
+
+        $submitter = $this->submitter;
+
+        return $submitter ? $submitter->name.' ('.$submitter->levelLabel().')' : 'Tidak diketahui';
+    }
+
+    /**
+     * Diajukan sendiri oleh pegawai yang diusulkan (atau data lama tanpa submitted_by).
+     */
+    public function isSelfSubmitted(): bool
+    {
+        return $this->submitted_by === null || (int) $this->submitted_by === (int) $this->user_id;
     }
 
     public function statusKeyLabel(): string

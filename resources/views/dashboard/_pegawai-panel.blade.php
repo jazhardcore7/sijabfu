@@ -1,43 +1,47 @@
 {{-- Dashboard Pegawai (FR-DASH-3): progres lima status, ringkasan status, notifikasi terbaru. --}}
-@include('dashboard._styles')
 @php $dashUsulan = $dashboard['usulan']; @endphp
 <section class="dash-wrap" data-section="dashboard-pegawai">
     <div class="dash-grid">
         <div class="dash-card dash-span-2" data-section="progres-usulan">
-            <div class="dash-card-title">📊 Progres Usulan Saya</div>
+            <h2 class="dash-card-title"><x-icon name="activity" /> Progres Usulan Saya</h2>
             @if($dashUsulan)
-            <div class="dash-steps">
-                @foreach($dashboard['tahapan'] as $t)
-                <div class="dash-step {{ $t['state'] }}" data-stage="{{ $t['key'] }}" data-state="{{ $t['state'] }}">{{ $t['label'] }}</div>
-                @endforeach
+            <x-tracker class="dash-tracker" :steps="$dashboard['tahapan']" />
+            <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ $dashboard['persen'] }}" aria-label="Progres usulan">
+                <div class="progress-fill" style="width: {{ $dashboard['persen'] }}%;"></div>
             </div>
-            <div class="dash-progress"><div style="width: {{ $dashboard['persen'] }}%;"></div></div>
-            <div class="dash-muted" style="margin-top:6px;" data-persen="{{ $dashboard['persen'] }}">{{ $dashboard['persen'] }}% selesai</div>
+            <div class="dash-muted dash-persen" data-persen="{{ $dashboard['persen'] }}">{{ $dashboard['persen'] }}% selesai</div>
             <script type="application/json" data-chart-json="progres-pegawai">@json(['status_key' => $dashUsulan->status_key, 'persen' => $dashboard['persen'], 'tahapan' => $dashboard['tahapan']])</script>
             @else
-            <div class="dash-muted" data-section="belum-ada-usulan">Belum ada usulan yang dikirim. <a href="{{ route('pengajuan') }}" style="color:var(--bps-mid); font-weight:700;">Ajukan usulan</a></div>
+            <x-empty-state icon="file-plus" title="Belum ada usulan" data-section="belum-ada-usulan">
+                @can('create', \App\Models\FormUsulan::class)
+                Belum ada usulan yang dikirim.
+                <x-slot:action><a href="{{ route('pengajuan') }}" class="btn btn--primary btn--sm">Ajukan usulan</a></x-slot:action>
+                @else
+                Usulan Anda diajukan oleh Admin Satuan Kerja.
+                @endcan
+            </x-empty-state>
             @endif
         </div>
 
         <div class="dash-card" data-section="ringkasan-status">
-            <div class="dash-card-title">📋 Ringkasan Status</div>
+            <h2 class="dash-card-title"><x-icon name="file-text" /> Ringkasan Status</h2>
             @if($dashUsulan)
-            <div class="dash-kv">
-                <span>Status</span><strong data-status-key="{{ $dashUsulan->status_key }}">{{ $dashUsulan->statusKeyLabel() }}</strong>
-                <span>Hasil verifikasi</span><strong>{{ $dashUsulan->hasil_verifikasi ? strtoupper($dashUsulan->hasil_verifikasi) : '-' }}</strong>
-                <span>Jenis usulan</span><strong>{{ $dashUsulan->jenis_usulan }}</strong>
-            </div>
+            <dl class="dash-kv">
+                <dt>Status</dt><dd><span class="status-badge" data-status="{{ $dashUsulan->status_key ?: 'draf' }}" data-status-key="{{ $dashUsulan->status_key }}">{{ $dashUsulan->statusKeyLabel() }}</span></dd>
+                <dt>Hasil verifikasi</dt><dd><strong>{{ $dashUsulan->hasil_verifikasi ? strtoupper($dashUsulan->hasil_verifikasi) : '-' }}</strong></dd>
+                <dt>Jenis usulan</dt><dd><strong>{{ $dashUsulan->jenis_usulan }}</strong></dd>
+            </dl>
             @if($dashUsulan->catatan)
-            <div class="dash-muted" style="margin-top:8px;">Catatan: {{ $dashUsulan->catatan }}</div>
+            <div class="dash-note">Catatan: {{ $dashUsulan->catatan }}</div>
             @endif
-            <a href="{{ route('pelacakan-status') }}" style="display:inline-block; margin-top:10px; font-size:12.5px; font-weight:700; color:var(--bps-mid); text-decoration:none;">Lihat Pelacakan Status →</a>
+            <a href="{{ route('pelacakan-status') }}" class="link-arrow">Lihat Pelacakan Status <x-icon name="chevron-right" /></a>
             @else
             <div class="dash-muted">-</div>
             @endif
         </div>
 
         <div class="dash-card" data-section="notifikasi-terbaru">
-            <div class="dash-card-title">🔔 Notifikasi Terbaru</div>
+            <h2 class="dash-card-title"><x-icon name="bell" /> Notifikasi Terbaru</h2>
             @forelse($latestNotifications as $n)
             <div class="dash-notif-item">
                 <a href="{{ route('notifikasi.open', $n->id) }}">{{ $n->data['judul'] ?? 'Notifikasi' }}</a>

@@ -3,44 +3,25 @@
 @section('title', 'Messenger')
 @section('breadcrumb', 'Chat Box (Messenger)')
 
-@push('styles')
-<style>
-    .messenger { display: grid; grid-template-columns: 320px 1fr; gap: 18px; align-items: start; }
-    .thread-list { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 18px; overflow: hidden; }
-    .thread-list-header { padding: 14px 18px; font-size: 14px; font-weight: 700; color: var(--c-text); background: var(--c-surface-2); border-bottom: 1px solid var(--c-border); }
-    .thread-item { display: block; padding: 12px 18px; border-bottom: 1px solid var(--c-border-soft); text-decoration: none; color: var(--c-text); }
-    .thread-item.active { background: var(--c-surface-3); }
-    .thread-top { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
-    .thread-name { font-weight: 700; font-size: 13.5px; }
-    .thread-snippet { font-size: 12px; color: var(--c-text-muted); margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .thread-time { font-size: 11px; color: var(--c-text-faint); }
-    .unread-badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: #EF4444; color: #FFFFFF; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
-    .thread-empty, .messenger-empty { padding: 24px 18px; color: var(--c-text-muted); font-size: 13px; text-align: center; }
-    .messenger-empty { background: var(--c-surface); border: 2px dashed var(--c-border-strong); border-radius: 18px; padding: 60px 20px; }
-    .active-header { font-size: 15px; font-weight: 800; color: var(--c-text); margin-bottom: 10px; }
-    @media (max-width: 900px) { .messenger { grid-template-columns: 1fr; } }
-</style>
-@endpush
-
 @section('content')
-<div class="page-header animate-fade-in">
-    <h1 class="page-header-title">💬 Messenger</h1>
+<div class="page-header">
+    <h1 class="page-header-title"><x-icon name="message" /> Messenger</h1>
     <p class="page-header-desc">Daftar pesan dari pegawai untuk berkomunikasi. Inbox dipakai bersama seluruh Tim Pembinaan JF.</p>
-    <div class="page-header-divider"></div>
 </div>
 
-<div class="messenger">
-    <div class="thread-list">
-        <div class="thread-list-header">📥 Daftar Pesan dari Pegawai</div>
+<div class="messenger {{ $active ? 'has-active' : '' }}">
+    <nav class="thread-list" aria-labelledby="thread-list-title">
+        <h2 class="thread-list-header" id="thread-list-title"><x-icon name="inbox" /> Daftar Pesan dari Pegawai</h2>
         <div id="threadList" data-poll-url="{{ route('messenger.index') }}" data-active="{{ $active?->id }}">
             @forelse($threads as $t)
-            <a href="{{ route('messenger.show', $t) }}" class="thread-item {{ $active && $active->id === $t->id ? 'active' : '' }}" data-thread="{{ $t->id }}">
+            <a href="{{ route('messenger.show', $t) }}" class="thread-item {{ $active && $active->id === $t->id ? 'active' : '' }}" data-thread="{{ $t->id }}" @if($active && $active->id === $t->id) aria-current="page" @endif>
                 <div class="thread-top">
                     <span class="thread-name">{{ $t->pegawai?->name }}</span>
                     @if($t->unread_count > 0)
-                    <span class="unread-badge" data-unread="{{ $t->unread_count }}">{{ $t->unread_count }}</span>
+                    <span class="unread-badge" data-unread="{{ $t->unread_count }}" aria-label="{{ $t->unread_count }} pesan belum dibaca">{{ $t->unread_count }}</span>
                     @endif
                 </div>
+                <div class="cell-sub thread-level" data-level="{{ $t->pegawai?->role }}">{{ $t->pegawai?->levelLabel() }}</div>
                 <div class="thread-snippet">{{ \Illuminate\Support\Str::limit((string) $t->latestMessage?->body, 80) }}</div>
                 <div class="thread-time">{{ $t->last_message_at?->format('d M Y H:i') }}</div>
             </a>
@@ -48,12 +29,17 @@
             <div class="thread-empty">Belum ada pesan dari pegawai.</div>
             @endforelse
         </div>
-    </div>
+    </nav>
 
-    <div>
+    <div class="messenger-main">
         @if($active)
         <div class="active-header" data-active-thread="{{ $active->id }}">
-            {{ $active->pegawai?->name }} <span style="font-weight:500; color:var(--c-text-muted); font-size:13px;">NIP {{ $active->pegawai?->nip }}</span>
+            <a href="{{ route('messenger.index') }}" class="btn btn--ghost btn--sm messenger-back"><x-icon name="arrow-left" /><span class="sr-only">Daftar Pesan dari Pegawai</span></a>
+            <span class="tim-avatar" aria-hidden="true">{{ strtoupper(mb_substr((string) $active->pegawai?->name, 0, 2)) }}</span>
+            <div class="min-w-0">
+                <div class="cell-strong">{{ $active->pegawai?->name }}</div>
+                <div class="cell-sub">NIP {{ $active->pegawai?->nip }} · {{ $active->pegawai?->levelLabel() }}</div>
+            </div>
         </div>
         @include('chat._conversation', [
             'messages' => $messages,
@@ -63,7 +49,9 @@
             'emptyText' => 'Belum ada pesan.',
         ])
         @else
-        <div class="messenger-empty">Pilih pesan dari daftar untuk membuka percakapan.</div>
+        <div class="card messenger-empty">
+            <x-empty-state icon="message" title="Pilih pesan dari daftar untuk membuka percakapan." />
+        </div>
         @endif
     </div>
 </div>
@@ -93,13 +81,16 @@
             b.textContent = t.unread;
             top.appendChild(b);
         }
+        const level = document.createElement('div');
+        level.className = 'cell-sub thread-level';
+        level.textContent = t.level || '';
         const snip = document.createElement('div');
         snip.className = 'thread-snippet';
         snip.textContent = t.last_body;
         const time = document.createElement('div');
         time.className = 'thread-time';
         time.textContent = t.last_at;
-        a.append(top, snip, time);
+        a.append(top, level, snip, time);
         return a;
     }
 

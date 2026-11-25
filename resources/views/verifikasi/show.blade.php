@@ -3,52 +3,51 @@
 @section('title', 'Verifikasi Berkas Usulan Pegawai')
 @section('breadcrumb', 'Verifikasi Berkas Usulan Pegawai')
 
-@include('verifikasi._styles')
-
 @section('content')
 @php
     $bisaDiperiksa = $usulan->status_key === \App\Models\FormUsulan::STATUS_VERIFIKASI;
     $levelLabels = \App\Models\User::LEVEL_LABELS;
 @endphp
 
-<div class="page-header animate-fade-in vb-header">
-    <h1 class="page-header-title">🔍 Pemeriksaan Berkas</h1>
+<div class="page-header">
+    <h1 class="page-header-title"><x-icon name="search-check" /> Pemeriksaan Berkas</h1>
     <p class="page-header-desc">
-        <a href="{{ route('verifikasi.index') }}" style="color:var(--bps-mid); font-weight:600; text-decoration:none;">← Daftar Pegawai</a>
+        <a href="{{ route('verifikasi.index') }}" class="link-back"><x-icon name="arrow-left" /> Daftar Pegawai</a>
     </p>
-    <div class="page-header-divider"></div>
 </div>
 
+<div class="stack">
 @if(session('success'))
-<div class="vb-alert success"><span>✅</span><span>{{ session('success') }}</span></div>
+<x-alert type="success">{{ session('success') }}</x-alert>
 @endif
 
 @if($transitionError)
-<div class="vb-alert error" data-section="transition-error"><span>⚠️</span><span>{{ $transitionError }}</span></div>
+<x-alert type="error" data-section="transition-error">{{ $transitionError }}</x-alert>
 @endif
 
 @if($errors->any())
-<div class="vb-alert error" data-section="validation-errors"><span>⚠️</span><span>{{ implode(' ', $errors->all()) }}</span></div>
+<x-alert type="error" data-section="validation-errors">{{ implode(' ', $errors->all()) }}</x-alert>
 @endif
 
 {{-- DATA USULAN (FR-VB-2) --}}
-<div class="vb-card">
-    <div class="vb-card-header">
-        <span>📄 Data Usulan</span>
-        <span class="vb-badge {{ $usulan->statusBadgeClass() }}" data-status-key="{{ $usulan->status_key }}">{{ $usulan->statusKeyLabel() }}</span>
+<div class="card card--flush">
+    <div class="card-header">
+        <h2 class="card-title"><x-icon name="file-text" /> Data Usulan</h2>
+        <span class="status-badge" data-status="{{ $usulan->status_key ?: 'draf' }}" data-status-key="{{ $usulan->status_key }}">{{ $usulan->statusKeyLabel() }}</span>
     </div>
-    <div class="vb-grid">
-        <div><div class="vb-label">Nama Lengkap</div><div class="vb-value">{{ $usulan->nama_lengkap }}</div></div>
-        <div><div class="vb-label">NIP</div><div class="vb-value">{{ $usulan->nip }}</div></div>
-        <div><div class="vb-label">Jabatan Fungsional</div><div class="vb-value">{{ $usulan->jabatan_fungsional }}</div></div>
-        <div><div class="vb-label">Jenis Usulan</div><div class="vb-value">{{ $usulan->jenis_usulan }}</div></div>
-        <div><div class="vb-label">Satuan Kerja</div><div class="vb-value">{{ $usulan->satuan_kerja }}</div></div>
-        <div><div class="vb-label">Email</div><div class="vb-value">{{ $usulan->email }}</div></div>
-        <div><div class="vb-label">Nomor Surat</div><div class="vb-value">{{ $usulan->nomor_surat }}</div></div>
-        <div><div class="vb-label">Hal Surat</div><div class="vb-value">{{ $usulan->hal_surat }}</div></div>
-        <div><div class="vb-label">Hasil Verifikasi</div><div class="vb-value">{{ $usulan->hasil_verifikasi ? strtoupper($usulan->hasil_verifikasi) : '-' }}</div></div>
-        <div><div class="vb-label">Catatan Terbaru</div><div class="vb-value">{{ $usulan->catatan ?: '-' }}</div></div>
-    </div>
+    <dl class="pb-detail-grid">
+        <div class="pb-detail-row"><dt class="pb-detail-label">Nama Lengkap</dt><dd class="pb-detail-value">{{ $usulan->nama_lengkap }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">NIP</dt><dd class="pb-detail-value">{{ $usulan->nip }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Jabatan Fungsional</dt><dd class="pb-detail-value">{{ $usulan->jabatan_fungsional }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Jenis Usulan</dt><dd class="pb-detail-value">{{ $usulan->jenis_usulan }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Satuan Kerja</dt><dd class="pb-detail-value">{{ $usulan->satuan_kerja }}</dd></div>
+        <div class="pb-detail-row" data-section="diajukan-oleh"><dt class="pb-detail-label">Diajukan oleh</dt><dd class="pb-detail-value">{{ $usulan->diajukanOlehLabel() }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Email</dt><dd class="pb-detail-value">{{ $usulan->email }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Nomor Surat</dt><dd class="pb-detail-value">{{ $usulan->nomor_surat }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Hal Surat</dt><dd class="pb-detail-value">{{ $usulan->hal_surat }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Hasil Verifikasi</dt><dd class="pb-detail-value">{{ $usulan->hasil_verifikasi ? strtoupper($usulan->hasil_verifikasi) : '-' }}</dd></div>
+        <div class="pb-detail-row"><dt class="pb-detail-label">Catatan Terbaru</dt><dd class="pb-detail-value">{{ $usulan->catatan ?: '-' }}</dd></div>
+    </dl>
     @include('modules.partials.legacy-links', ['usulan' => $usulan])
 </div>
 
@@ -56,85 +55,107 @@
 <form action="{{ route('verifikasi.update', $usulan->id) }}" method="POST">
     @csrf
     <input type="hidden" name="aksi" value="periksa">
-    <div class="vb-card">
-        <div class="vb-card-header">
-            <span>📎 Berkas Pegawai & Pemeriksaan</span>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title"><x-icon name="file-text" /> Berkas Pegawai &amp; Pemeriksaan</h2>
             @unless($bisaDiperiksa)
-            <span class="vb-muted">Pemeriksaan hanya dapat diubah saat status Verifikasi</span>
+            <span class="card-subtitle">Pemeriksaan hanya dapat diubah saat status Verifikasi</span>
             @endunless
         </div>
-        <div class="vb-card-body">
+        <ul class="vb-berkas-list">
             @foreach($persyaratan as $key => $label)
                 @php $file = $berkas->get($key); @endphp
-                <div class="vb-berkas-row" data-berkas="{{ $key }}">
-                    <div>
+                <li class="vb-berkas-row" data-berkas="{{ $key }}">
+                    <div class="vb-berkas-main">
                         <div class="vb-berkas-title">{{ $loop->iteration }}. {{ $label }}</div>
                         @if($file)
-                        <div class="vb-muted">{{ $file->original_name }}</div>
+                        <div class="cell-sub">{{ $file->original_name }}</div>
                         <div class="vb-links">
-                            <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener" data-action="preview-berkas">👁 Preview</a>
-                            <a href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id]) }}" data-action="download-berkas">⬇ Unduh</a>
+                            <a class="btn btn--secondary btn--sm" href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id, 'mode' => 'preview']) }}" target="_blank" rel="noopener" data-action="preview-berkas"><x-icon name="eye" /> Preview</a>
+                            <a class="btn btn--secondary btn--sm" href="{{ route('files.show', ['type' => 'berkas', 'id' => $file->id]) }}" data-action="download-berkas"><x-icon name="download" /> Unduh</a>
                         </div>
                         @else
-                        <div class="vb-muted">Belum diunggah</div>
+                        <span class="badge-muted">Belum diunggah</span>
                         @endif
                     </div>
                     @if($file)
-                    <div class="vb-radio">
-                        <label><input type="radio" name="pemeriksaan[{{ $file->id }}][hasil]" value="sesuai" {{ $file->pemeriksaan === 'sesuai' ? 'checked' : '' }} {{ $bisaDiperiksa ? '' : 'disabled' }}> Sesuai</label>
-                        <label><input type="radio" name="pemeriksaan[{{ $file->id }}][hasil]" value="perlu_perbaikan" {{ $file->pemeriksaan === 'perlu_perbaikan' ? 'checked' : '' }} {{ $bisaDiperiksa ? '' : 'disabled' }}> Perlu perbaikan</label>
+                    <fieldset class="segmented" {{ $bisaDiperiksa ? '' : 'disabled' }}>
+                        <legend class="sr-only">Hasil pemeriksaan {{ $label }}</legend>
+                        <label><input type="radio" name="pemeriksaan[{{ $file->id }}][hasil]" value="sesuai" {{ $file->pemeriksaan === 'sesuai' ? 'checked' : '' }}><span><x-icon name="check" /> Sesuai</span></label>
+                        <label><input type="radio" name="pemeriksaan[{{ $file->id }}][hasil]" value="perlu_perbaikan" {{ $file->pemeriksaan === 'perlu_perbaikan' ? 'checked' : '' }}><span><x-icon name="alert-triangle" /> Perlu perbaikan</span></label>
+                    </fieldset>
+                    <div class="vb-catatan">
+                        <label for="catatan-berkas-{{ $file->id }}" class="sr-only">Catatan berkas {{ $label }}</label>
+                        <input type="text" id="catatan-berkas-{{ $file->id }}" name="pemeriksaan[{{ $file->id }}][catatan]" class="vb-input" placeholder="Catatan berkas (opsional)" value="{{ $file->catatan }}" {{ $bisaDiperiksa ? '' : 'disabled' }}>
                     </div>
-                    <div>
-                        <input type="text" name="pemeriksaan[{{ $file->id }}][catatan]" class="vb-input" style="width:100%; min-width:0;" placeholder="Catatan berkas (opsional)" value="{{ $file->catatan }}" {{ $bisaDiperiksa ? '' : 'disabled' }}>
-                    </div>
-                    @else
-                    <div></div><div></div>
                     @endif
-                </div>
+                </li>
             @endforeach
-
-            @if($bisaDiperiksa && $berkas->isNotEmpty())
-            <div style="display:flex; justify-content:flex-end; margin-top:14px;">
-                <button type="submit" class="vb-btn secondary" data-action="simpan-pemeriksaan">💾 Simpan Pemeriksaan</button>
-            </div>
-            @endif
+        </ul>
+        @if($bisaDiperiksa && $berkas->isNotEmpty())
+        <div class="card-footer form-actions">
+            <button type="submit" class="btn btn--secondary" data-action="simpan-pemeriksaan"><x-icon name="save" /> Simpan Pemeriksaan</button>
         </div>
+        @endif
     </div>
 </form>
 
 {{-- KEPUTUSAN MS/TMS (FR-VB-4, FR-VB-5) --}}
 @if($bisaDiperiksa)
-<form action="{{ route('verifikasi.update', $usulan->id) }}" method="POST">
+<form action="{{ route('verifikasi.update', $usulan->id) }}" method="POST" id="form-keputusan">
     @csrf
     <input type="hidden" name="aksi" value="keputusan">
-    <div class="vb-card">
-        <div class="vb-card-header"><span>⚖️ Keputusan MS/TMS</span></div>
-        <div class="vb-card-body">
-            <label class="vb-label" for="catatanKeputusan">Catatan untuk pegawai (wajib untuk TMS, kecuali ada berkas yang ditandai "Perlu perbaikan")</label>
-            <textarea id="catatanKeputusan" name="catatan" class="vb-textarea">{{ old('catatan') }}</textarea>
-            <div class="vb-decision">
-                <button type="submit" name="hasil" value="ms" class="vb-btn ms" data-action="keputusan-ms">✅ MS — Memenuhi Syarat</button>
-                <button type="submit" name="hasil" value="tms" class="vb-btn tms" data-action="keputusan-tms">🛠️ TMS — Perbaikan</button>
+    <div class="card">
+        <div class="card-header"><h2 class="card-title"><x-icon name="shield" /> Keputusan MS/TMS</h2></div>
+        <div class="card-body">
+            <div class="field">
+                <label class="field-label" for="catatanKeputusan">Catatan untuk pegawai (wajib untuk TMS, kecuali ada berkas yang ditandai "Perlu perbaikan")</label>
+                <textarea id="catatanKeputusan" name="catatan" class="vb-textarea">{{ old('catatan') }}</textarea>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn--primary" data-action="keputusan-ms" data-modal-open="modal-ms"><x-icon name="check-circle" /> MS — Memenuhi Syarat</button>
+                <button type="button" class="btn btn--danger" data-action="keputusan-tms" data-modal-open="modal-tms"><x-icon name="alert-triangle" /> TMS — Perbaikan</button>
             </div>
         </div>
     </div>
 </form>
+<x-modal id="modal-ms" title="MS — Memenuhi Syarat">
+    <strong>{{ $usulan->nama_lengkap }}</strong> — {{ $usulan->jenis_usulan }}
+    <x-slot:footer>
+        <button type="button" class="btn btn--secondary" data-modal-close>Batal</button>
+        <button type="submit" form="form-keputusan" name="hasil" value="ms" class="btn btn--primary"><x-icon name="check-circle" /> MS — Memenuhi Syarat</button>
+    </x-slot:footer>
+</x-modal>
+<x-modal id="modal-tms" title="TMS — Perbaikan">
+    <strong>{{ $usulan->nama_lengkap }}</strong> — {{ $usulan->jenis_usulan }}
+    <x-slot:footer>
+        <button type="button" class="btn btn--secondary" data-modal-close>Batal</button>
+        <button type="submit" form="form-keputusan" name="hasil" value="tms" class="btn btn--danger"><x-icon name="alert-triangle" /> TMS — Perbaikan</button>
+    </x-slot:footer>
+</x-modal>
 @endif
 
 {{-- RIWAYAT STATUS --}}
-<div class="vb-card">
-    <div class="vb-card-header"><span>🕒 Riwayat Status</span></div>
-    <div class="vb-card-body">
-        @forelse($logs as $log)
-        <div style="padding:8px 0; border-bottom:1px dashed var(--c-border); font-size:13px;">
-            <span class="vb-muted">{{ $log->created_at->format('d M Y H:i') }}</span> —
-            {{ $log->from_status ? (\App\Models\FormUsulan::STATUS_LABELS[$log->from_status] ?? $log->from_status) . ' → ' : 'Dikirim → ' }}<strong>{{ \App\Models\FormUsulan::STATUS_LABELS[$log->to_status] ?? $log->to_status }}</strong>
-            <span class="vb-muted">oleh {{ $levelLabels[$log->actor?->role] ?? 'Sistem' }}</span>
-            @if($log->catatan)<div class="vb-muted">{{ $log->catatan }}</div>@endif
-        </div>
-        @empty
-        <div class="vb-muted">Belum ada riwayat.</div>
-        @endforelse
-    </div>
+<div class="card">
+    <div class="card-header"><h2 class="card-title"><x-icon name="clock" /> Riwayat Status</h2></div>
+    @if($logs->isEmpty())
+    <div class="card-body dash-muted">Belum ada riwayat.</div>
+    @else
+    <ul class="timeline">
+        @foreach($logs as $log)
+        <li>
+            <div class="timeline-date">{{ $log->created_at->format('d M Y H:i') }}</div>
+            <div>
+                <div class="timeline-main">
+                    {{ $log->from_status ? (\App\Models\FormUsulan::STATUS_LABELS[$log->from_status] ?? $log->from_status) . ' → ' : 'Dikirim → ' }}<strong>{{ \App\Models\FormUsulan::STATUS_LABELS[$log->to_status] ?? $log->to_status }}</strong>
+                </div>
+                <div class="timeline-actor">oleh {{ $levelLabels[$log->actor?->role] ?? 'Sistem' }}</div>
+                @if($log->catatan)<div class="timeline-note">{{ $log->catatan }}</div>@endif
+            </div>
+        </li>
+        @endforeach
+    </ul>
+    @endif
+</div>
 </div>
 @endsection

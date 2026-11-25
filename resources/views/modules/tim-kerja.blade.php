@@ -3,292 +3,62 @@
 @section('title', 'Tim Kerja')
 @section('breadcrumb', 'Tim Kerja')
 
-@push('styles')
-<style>
-    .tim-header-card {
-        background: linear-gradient(135deg, var(--bps-dark) 0%, #00509D 60%, var(--bps-mid) 100%);
-        border-radius: 20px;
-        padding: 36px;
-        color: white;
-        margin-bottom: 32px;
-        display: flex;
-        align-items: center;
-        gap: 28px;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .tim-header-card::before {
-        content: '';
-        position: absolute;
-        top: -40%;
-        right: -10%;
-        width: 250px;
-        height: 250px;
-        background: radial-gradient(circle, rgba(144,224,239,0.12) 0%, transparent 70%);
-        pointer-events: none;
-    }
-
-    .tim-header-icon {
-        width: 80px;
-        height: 80px;
-        background: rgba(255,255,255,0.15);
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-        flex-shrink: 0;
-        backdrop-filter: blur(8px);
-        border: 1px solid rgba(255,255,255,0.2);
-    }
-
-    .tim-header-content { flex: 1; }
-    .tim-header-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
-    .tim-header-desc { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.6; max-width: 600px; }
-
-    .tim-stats {
-        display: flex;
-        gap: 24px;
-        margin-top: 16px;
-    }
-
-    .tim-stat { text-align: center; }
-    .tim-stat-num { font-size: 24px; font-weight: 900; }
-    .tim-stat-label { font-size: 11px; color: rgba(255,255,255,0.6); font-weight: 500; }
-
-    /* TEAM GRID */
-    .tim-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 24px;
-    }
-
-    .tim-card {
-        background: var(--c-surface);
-        border-radius: 20px;
-        border: 1px solid var(--c-border);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .tim-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        border-color: transparent;
-    }
-
-    .tim-card-top {
-        height: 8px;
-    }
-
-    .bg-blue { background: linear-gradient(90deg, var(--bps-dark), var(--bps-mid)); }
-    .bg-indigo { background: linear-gradient(90deg, #4F46E5, #7C3AED); }
-    .bg-orange { background: linear-gradient(90deg, var(--bps-orange), #F59E0B); }
-    .bg-teal { background: linear-gradient(90deg, #0D9488, #0891B2); }
-    .bg-purple { background: linear-gradient(90deg, #7C3AED, #EC4899); }
-    .bg-rose { background: linear-gradient(90deg, #E11D48, #F43F5E); }
-
-    .tim-card-body {
-        padding: 28px 24px 24px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .tim-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 28px;
-        font-weight: 900;
-        color: white;
-        margin-bottom: 16px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .avatar-blue { background: linear-gradient(135deg, var(--bps-dark), var(--bps-mid)); }
-    .avatar-indigo { background: linear-gradient(135deg, #4F46E5, #7C3AED); }
-    .avatar-orange { background: linear-gradient(135deg, var(--bps-orange), #F59E0B); }
-    .avatar-teal { background: linear-gradient(135deg, #0D9488, #0891B2); }
-    .avatar-purple { background: linear-gradient(135deg, #7C3AED, #EC4899); }
-    .avatar-rose { background: linear-gradient(135deg, #E11D48, #F43F5E); }
-
-    .tim-nama {
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--c-heading);
-        margin-bottom: 4px;
-        line-height: 1.3;
-    }
-
-    .tim-nip {
-        font-size: 11px;
-        color: var(--c-text-faint);
-        font-weight: 500;
-        letter-spacing: 0.5px;
-        margin-bottom: 12px;
-        font-family: 'Inter', monospace;
-    }
-
-    .tim-jabatan {
-        display: inline-flex;
-        padding: 5px 14px;
-        border-radius: 50px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-bottom: 12px;
-    }
-
-    .jabatan-ketua {
-        background: linear-gradient(135deg, rgba(247,127,0,0.1), rgba(245,158,11,0.1));
-        color: var(--bps-orange);
-        border: 1px solid rgba(247,127,0,0.3);
-    }
-
-    .jabatan-anggota {
-        background: rgba(0,59,115,0.08);
-        color: var(--c-heading);
-        border: 1px solid rgba(0,59,115,0.15);
-    }
-
-    .jabatan-staf {
-        background: rgba(13,148,136,0.08);
-        color: #0D9488;
-        border: 1px solid rgba(13,148,136,0.2);
-    }
-
-    .tim-bidang {
-        font-size: 12.5px;
-        color: var(--c-text-muted);
-        line-height: 1.5;
-        background: var(--c-surface-2);
-        border-radius: 10px;
-        padding: 10px 14px;
-        width: 100%;
-        border: 1px solid var(--c-border-soft);
-    }
-
-    @media (max-width: 1024px) {
-        .tim-grid { grid-template-columns: repeat(2, 1fr); }
-        .tim-header-card { flex-direction: column; text-align: center; }
-        .tim-stats { justify-content: center; }
-    }
-
-    @media (max-width: 640px) {
-        .tim-grid { grid-template-columns: 1fr; }
-    }
-</style>
-@endpush
-
-@push('styles')
-<style>
-    .tim-card-link { text-decoration: none; color: inherit; display: block; }
-    .tim-card-link:hover .tim-card { transform: translateY(-3px); }
-    .tim-profile-link { margin-top: 12px; font-size: 12.5px; font-weight: 700; color: var(--bps-mid); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 640px) { .contact-grid { grid-template-columns: 1fr; } }
-    .tim-empty {
-        background: var(--c-surface); border: 2px dashed var(--c-border-strong); border-radius: 16px;
-        padding: 40px 20px; text-align: center; color: var(--c-text-muted); font-size: 14px;
-    }
-</style>
-@endpush
-
 @section('content')
-<!-- PAGE HEADER -->
-<div class="page-header animate-fade-in">
-    <h1 class="page-header-title">👥 Tim Kerja Pembinaan JF</h1>
+<div class="page-header">
+    <h1 class="page-header-title"><x-icon name="users" /> Tim Kerja Pembinaan JF</h1>
     <p class="page-header-desc">Daftar Tim Pembinaan, profile Tim Pembinaan, dan Chat Box untuk komunikasi 2 arah</p>
-    <div class="page-header-divider"></div>
 </div>
 
-<!-- TIM HEADER BANNER -->
-<div class="tim-header-card animate-fade-in animate-delay-1">
-    <div class="tim-header-icon">👥</div>
+<div class="tim-header-card">
     <div class="tim-header-content">
-        <div class="tim-header-title">Tim Pembinaan JF BPS RI</div>
-        <div class="tim-header-desc">
+        <h2 class="tim-header-title">Tim Pembinaan JF BPS RI</h2>
+        <p class="tim-header-desc">
             Tim Pembinaan JF BPS RI Pusat bertugas untuk melakukan pembinaan, pengawasan,
             dan fasilitasi pengusulan serta pengembangan seluruh Jabatan Fungsional di
             seluruh satuan kerja BPS.
-        </div>
-        <div class="tim-stats">
-            <div class="tim-stat">
-                <div class="tim-stat-num" data-jumlah-anggota="{{ $tim->count() }}">{{ $tim->count() }}</div>
-                <div class="tim-stat-label">Anggota Tim</div>
-            </div>
-        </div>
+        </p>
+    </div>
+    <div class="stat tim-stat">
+        <div class="stat-value tim-stat-num" data-jumlah-anggota="{{ $tim->count() }}">{{ $tim->count() }}</div>
+        <div class="stat-label tim-stat-label">Anggota Tim</div>
     </div>
 </div>
 
-<!-- TIM GRID -->
-@php $colors = ['blue', 'indigo', 'orange', 'teal', 'purple', 'rose']; @endphp
 @if($tim->isEmpty())
-<div class="tim-empty">Belum ada anggota Tim Pembinaan JF yang terdaftar.</div>
+<div class="card">
+    <x-empty-state icon="users" title="Belum ada anggota Tim Pembinaan JF yang terdaftar." class="tim-empty" />
+</div>
 @else
-<div class="tim-grid">
+<ul class="tim-grid">
     @foreach($tim as $i => $anggota)
     @php
-        $color = $colors[$i % count($colors)];
         $inisial = collect(preg_split('/\s+/', trim(preg_replace('/,.*$/', '', $anggota->name))))->filter()->take(2)->map(fn ($w) => mb_strtoupper(mb_substr($w, 0, 1)))->implode('');
     @endphp
-    <a href="{{ route('tim-kerja.show', $anggota) }}" class="tim-card-link" data-anggota="{{ $anggota->id }}">
-        <div class="tim-card animate-fade-in animate-delay-{{ ($i % 5) + 1 }}">
-            <div class="tim-card-top bg-{{ $color }}"></div>
-            <div class="tim-card-body">
-                <div class="tim-avatar avatar-{{ $color }}">{{ $inisial }}</div>
-                <div class="tim-nama">{{ $anggota->name }}</div>
-                <div class="tim-nip">NIP. {{ $anggota->nip ?? '-' }}</div>
-                <div class="tim-jabatan jabatan-anggota">👤 {{ $anggota->jabatan ?? 'Tim Pembinaan JF' }}</div>
+    <li>
+        <a href="{{ route('tim-kerja.show', $anggota) }}" class="tim-card" data-anggota="{{ $anggota->id }}">
+            <span class="tim-avatar" aria-hidden="true">{{ $inisial }}</span>
+            <span class="tim-card-body">
+                <span class="tim-nama">{{ $anggota->name }}</span>
+                <span class="tim-nip">NIP. {{ $anggota->nip ?? '-' }}</span>
+                <span class="tim-jabatan jabatan-anggota"><x-icon name="user" /> {{ $anggota->jabatan ?? 'Tim Pembinaan JF' }}</span>
                 @if($anggota->bidang)
-                <div class="tim-bidang">📌 {{ $anggota->bidang }}</div>
+                <span class="tim-bidang"><x-icon name="dashboard" /> {{ $anggota->bidang }}</span>
                 @endif
-                <div class="tim-profile-link">Lihat Profile →</div>
-            </div>
-        </div>
-    </a>
+                <span class="tim-profile-link">Lihat Profile <x-icon name="chevron-right" /></span>
+            </span>
+        </a>
+    </li>
     @endforeach
-</div>
+</ul>
 @endif
 
-<!-- CONTACT SECTION -->
-<div style="margin-top: 40px; background: var(--c-surface); border-radius: 16px; padding: 28px; border: 1px solid var(--c-border); max-width: 700px;" class="animate-fade-in">
-    <div style="font-size: 16px; font-weight: 700; color: var(--c-heading); margin-bottom: 16px;">📮 Hubungi Tim Kami</div>
-    <div class="contact-grid">
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
-            <span style="font-size: 20px;">✉️</span>
-            <div>
-                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">jabatanfungsional@bps.go.id</div>
-            </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
-            <span style="font-size: 20px;">📞</span>
-            <div>
-                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Telepon</div>
-                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">(021) 3841195 ext. 3xxxx</div>
-            </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
-            <span style="font-size: 20px;">🏢</span>
-            <div>
-                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Alamat</div>
-                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Gedung 3 Lt. 2, BPS RI, Jakarta</div>
-            </div>
-        </div>
-        <div style="display: flex; align-items: center; gap: 12px; padding: 14px; background: var(--c-surface-2); border-radius: 10px; border: 1px solid var(--c-border);">
-            <span style="font-size: 20px;">⏰</span>
-            <div>
-                <div style="font-size: 11px; color: var(--c-text-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Jam Operasional</div>
-                <div style="font-size: 13px; color: var(--c-text-2); font-weight: 600;">Senin–Jumat, 08.00–16.00 WIB</div>
-            </div>
-        </div>
-    </div>
-</div>
+<section class="card contact-card">
+    <div class="card-header"><h2 class="card-title"><x-icon name="send" /> Hubungi Tim Kami</h2></div>
+    <dl class="contact-grid card-body">
+        <div class="contact-item"><x-icon name="message" /><div><dt>Email</dt><dd>jabatanfungsional@bps.go.id</dd></div></div>
+        <div class="contact-item"><x-icon name="bell" /><div><dt>Telepon</dt><dd>(021) 3841195 ext. 3xxxx</dd></div></div>
+        <div class="contact-item"><x-icon name="home" /><div><dt>Alamat</dt><dd>Gedung 3 Lt. 2, BPS RI, Jakarta</dd></div></div>
+        <div class="contact-item"><x-icon name="clock" /><div><dt>Jam Operasional</dt><dd>Senin–Jumat, 08.00–16.00 WIB</dd></div></div>
+    </dl>
+</section>
 @endsection

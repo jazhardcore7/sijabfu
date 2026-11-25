@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\SsoProvider;
 use App\Models\SsoSyncLog;
 use App\Models\User;
+use App\Sso\SsoIdentity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -13,7 +14,8 @@ use Throwable;
 
 /**
  * Sinkronisasi Data SSO (FR-USR-2): upsert user berdasarkan NIP
- * (nama, email, jabatan, unit kerja). Role user yang sudah ada tidak pernah diubah.
+ * (nama, email, jabatan, unit kerja, satker). Role user yang sudah ada tidak pernah diubah.
+ * Satker hanya diisi bila direktori mengirim nilai; nilai kosong tidak menghapus (FR-SATKER-4).
  * User baru dibuat sebagai pegawai aktif dengan password acak yang tidak dipakai.
  * Setiap proses menulis satu baris sso_sync_logs.
  */
@@ -48,6 +50,8 @@ class SsoSyncService
             'created_count' => $created,
             'updated_count' => $updated,
             'failed_count' => $failed,
+            // FR-SATKER-4: user yang belum punya data satker (tidak dapat mengajukan)
+            'satker_missing_count' => User::whereNull('satker_tipe')->count(),
             'error' => $errors ? Str::limit(implode(' | ', $errors), 2000) : null,
         ]);
 
@@ -66,6 +70,7 @@ class SsoSyncService
             'jabatan' => $row['jabatan'] ?? null,
             'unit_kerja' => $row['unit_kerja'] ?? null,
         ];
+        $satker = SsoIdentity::fromArray($row)->satkerAttributes();
 
         $validator = Validator::make(['nip' => $nip] + $data, [
             'nip' => ['required', 'string', 'max:25'],
@@ -76,7 +81,7 @@ class SsoSyncService
             throw new \RuntimeException('Data NIP '.($nip ?: '(kosong)').' tidak valid: '.implode(', ', $validator->errors()->all()));
         }
 
-        return DB::transaction(function () use ($nip, $data, $row) {
+        return DB::transaction(function () use ($nip, $data, $row, $satker) {
             $user = User::where('nip', $nip)->first();
 
             $emailOwner = User::where('email', $data['email'])->value('nip');
@@ -87,7 +92,7 @@ class SsoSyncService
             $ssoId = $row['sso_id'] ?? null;
 
             if (! $user) {
-                $attrs = $data + [
+                $attrs = $data + $satker + [
                     'nip' => $nip,
                     'role' => User::ROLE_PEGAWAI,
                     'is_active' => true,
@@ -102,7 +107,7 @@ class SsoSyncService
             }
 
             // Role tidak pernah diubah oleh sinkronisasi
-            $user->fill($data);
+            $user->fill($data + $satker);
             if (! $user->sso_id && $ssoId && ! User::where('sso_id', $ssoId)->exists()) {
                 $user->sso_id = $ssoId;
             }

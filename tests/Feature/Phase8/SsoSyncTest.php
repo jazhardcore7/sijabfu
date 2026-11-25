@@ -44,8 +44,9 @@ class SsoSyncTest extends TestCase
         $this->assertSame($this->superAdmin->id, (int) $log->triggered_by);
         $this->assertNotNull($log->started_at);
         $this->assertNotNull($log->finished_at);
-        // direktori fiktif: 6 orang; Budi dan Super Admin diperbarui (Super Admin: sso_id ditautkan); 4 orang baru
-        $this->assertSame(4, $log->created_count);
+        // direktori fiktif: 9 orang (S1 menambah 3 orang satker daerah); Budi dan Super Admin diperbarui
+        // (Super Admin: sso_id ditautkan); 7 orang baru
+        $this->assertSame(7, $log->created_count);
         $this->assertSame(2, $log->updated_count);
         $this->assertSame('fake-sso-0002', $this->superAdmin->fresh()->sso_id);
         $this->assertSame(0, $log->failed_count);
@@ -130,7 +131,7 @@ class SsoSyncTest extends TestCase
 
         $this->actingAs($this->superAdmin)->get('/dashboard')
             ->assertSee('action="'.route('admin.sso-sync.run').'"', false)
-            ->assertSee('data-sso="created">5<', false);
+            ->assertSee('data-sso="created">8<', false);
     }
 
     public function test_only_super_admin_can_sync(): void

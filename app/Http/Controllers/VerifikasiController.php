@@ -26,8 +26,9 @@ class VerifikasiController extends Controller
     public function index(Request $request)
     {
         $daftarUsulan = FormUsulan::submitted()
-            ->with('user')
+            ->with(['user', 'submitter'])
             ->filterStaf($request->query('status'), $request->query('q'))
+            ->filterSatker($request->query('satker'), $request->query('provinsi')) // FR-SATKER-18
             ->orderByDesc('submitted_at')
             ->orderByDesc('id')
             ->paginate(15)

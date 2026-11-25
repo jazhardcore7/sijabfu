@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Notification;
 /**
  * Menentukan penerima notifikasi database (FR-NOT-1).
  * - Usulan dikirim / dikirim ulang      -> semua user tim_jf aktif
- * - Perubahan status, surat, sertifikat -> Pegawai pemilik usulan
+ * - Perubahan status, surat, sertifikat -> Pegawai yang diusulkan dan pengaju usulan, masing-masing sekali (FR-SATKER-16)
  * - Pesan chat baru                     -> pihak penerima (tim_jf aktif atau Pegawai)
  */
 class NotificationDispatcher
@@ -23,7 +23,7 @@ class NotificationDispatcher
         match ($event) {
             'submit' => Notification::send($this->timJf(), new UsulanDikirim($usulan, false)),
             'resubmit' => Notification::send($this->timJf(), new UsulanDikirim($usulan, true)),
-            'decide', 'issueSurat', 'complete', 'rollback' => $this->toOwner($usulan, new StatusUsulanBerubah($usulan, $event, $catatan)),
+            'decide', 'issueSurat', 'complete', 'rollback' => $this->toRecipients($usulan, new StatusUsulanBerubah($usulan, $event, $catatan)),
             default => null,
         };
     }
@@ -44,12 +44,11 @@ class NotificationDispatcher
         }
     }
 
-    private function toOwner(FormUsulan $usulan, StatusUsulanBerubah $notification): void
+    private function toRecipients(FormUsulan $usulan, StatusUsulanBerubah $notification): void
     {
-        $owner = $usulan->user()->first();
-        if ($owner) {
-            $owner->notify($notification);
-        }
+        $ids = array_values(array_unique(array_filter([(int) $usulan->user_id, (int) $usulan->submitted_by])));
+
+        Notification::send(User::whereIn('id', $ids)->orderBy('id')->get(), $notification);
     }
 
     private function timJf()
